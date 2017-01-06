@@ -5,6 +5,7 @@
 \usepackage{color}
 \usepackage{fancyhdr}
 \usepackage{url}
+\usepackage{subfig}
 \usepackage{amsmath,bm}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -190,6 +191,16 @@ regardless of the exploration policy being followed, under the assumption that e
 pair is visited an infinite number of times, and the learning parameter $\alpha$ is decreased
 appropriately~\citep{Watkins1992Q}.
 
+\subsubsection{Self-play}
+
+Self-play is by far the most popular training method. It is a single policy $\pi(s,a)$ that is used
+by both players in a two-player game, $\pi_1(s,a) = \pi_2(s,a) = \pi(s,a)$. The first reason for its
+popularity is that training is quickest if the learner's opponent is roughly equally strong, and
+that definitely holds for self-play. As a second reason for popularity, there is no need to
+implement or access a different agent with roughly equal playing strength. However, self-play has
+several drawbacks, with the main one being that a single opponent does not provide sufficient
+exploration~\citep{Szita2011RLGames}.
+
 \subsection{Benchmark}
 
 Content.
@@ -204,11 +215,56 @@ Content.
 
 \subsection{Implementation}
 
-Content.
+- Two games were implemented: Tic Tac Toe and Connect 4.
+- Converting a to an MDP by using a fixed agent.
+- Show that q-learning learns to play against a fixed opponent using Tic-Tac-Toe.
+- Show that q-learning learns to play against a fixed opponent using Connect 4.
 
 \subsection{Refinement}
 
 Content.
+
+%%%%%%%%%%%%%%%%%%
+\subsection{Games}
+%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Tic Tac Toe}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Content.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Connect 4}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Connect 4 is a two-player board game of perfect information where pieces are dropped into the
+columns of a vertical $6 \times 7$ grid with the goal of forming a straight line of 4 connected
+pieces. There are at most 7 actions per state, since placing a piece in a column is a legal action
+only if that column has at least one empty location. \hyperref[fig:c4-game]{Figure~\ref*{fig:c4-game}}
+shows three Connect 4 game positions. 
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \subfloat[Win for \textsc{Player 1}]{
+        \label{fig:c4-game-1}
+        \includegraphics[width=0.25\textwidth]{figures/c4/c4-win-blue-c5f2.pdf}
+    } \hspace{0.2in}
+    \subfloat[Win for \textsc{Player 2}]{
+        \label{fig:c4-game-2}
+        \includegraphics[width=0.25\textwidth]{figures/c4/c4-win-red-b3e6.pdf}
+    } \hspace{0.2in}
+    \subfloat[Draw]{
+        \label{fig:c4-game-3}
+        \includegraphics[width=0.25\textwidth]{figures/c4/c4-draw.pdf}
+    }
+    \caption{Examples of wins, losses and draws in Connect Four}
+    \label{fig:c4-game}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
