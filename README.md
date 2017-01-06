@@ -1,8 +1,8 @@
 # Capstone Project Report - Udacity ML Nanodegree
 
-Template: [capstone-report-template.md](../master/capstone-report-template.md)
+The Capstone Project Report in PDF:
 
-Report: [report.pdf](../master/report.pdf)
+[report.pdf](../master/report.pdf)
 
 The Capstone Project Proposal is in this repo:
 
