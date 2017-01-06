@@ -96,7 +96,9 @@ showstringspaces=false            %
 \section{Definition}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Project Overview}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Content.
 
@@ -178,7 +180,31 @@ Content.
 \subsubsection{Alpha-beta pruning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Content.
+\newcommand{\URLalphabeta}{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/player/alphabeta.py}
+
+% In this project, we will use reinforcement learning with deep learning to make an agent learn to
+% play the game of {Connect 4}\footnote{\url{\URLcf}} by playing games against itself. In other words,
+% using the formalism used by \cite{Mitchell1997Book} to define a machine learning problem:
+
+\emph{Alpha-beta pruning}~\citep{Knuth1975AB} is the most common game tree search algorithm for
+two-player games of perfect information. It extends the minimax algorithm to reduce the number of
+nodes that are evaluated in the game tree. Instead of calculating the exact minimax values for all
+the nodes in the game tree, alpha-beta prunes away branches that will not have any effect in the
+selection of the best move.
+
+% \hyperref[fig:ab-game-tree]{Figure~\ref*{fig:ab-game-tree}} illustrates
+% the prunning process in the Alpha-Beta algorithm. This tree has a total of 28 nodes, however, 10
+% nodes of the tree were pruned (crossed branches) because those branches do not have any effect in
+% the selection of the best move.
+
+% The algorithm works by imposing a \emph{search window} $\left[ \alpha, \beta \right] $ at each
+% \textsc{Min} or \textsc{Max} node in the game tree. $\alpha$ represents the value of the best (i.e.
+% highest-value) node found so far for \textsc{Max}, while $\beta$ is the best value (i.e.
+% lowest-value) for \textsc{Min}. The search through successor nodes can be terminated as soon as the
+% current node's value is proven to fall outside the search window. The functionality of Alpha-Beta
+% is detailed in \hyperref[alg:alpha-beta]{Algorithm~\ref*{alg:alpha-beta}}.
+
+\href{\URLalphabeta}{Implementation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Q-learning}
@@ -306,15 +332,21 @@ Content.
 \section{Conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Free-Form Visualization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Content.
 
+%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reflection}
+%%%%%%%%%%%%%%%%%%%%%%%
 
 Content.
 
+%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Improvement}
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 Content.
 
