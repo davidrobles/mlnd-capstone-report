@@ -95,19 +95,63 @@ showstringspaces=false            %
 \section{Definition}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Content.
-
 \subsection{Project Overview}
 
 Content.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem Statement}
+\label{sec:problem-statement}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Content.
+\newcommand{\URLcf}{https://en.wikipedia.org/wiki/Connect_Four}
 
+In this project, we will use reinforcement learning with deep learning to make an agent learn to
+play the game of {Connect 4}\footnote{\url{\URLcf}} by playing games against itself. In other words,
+using the formalism used by \cite{Mitchell1997Book} to define a machine learning problem:
+
+\begin{itemize}
+
+    \item \textbf{Task:} Playing Connect 4.
+
+    \item \textbf{Performance:} Percent of games won against other agents, and accuracy of the
+        predictions on a Connect 4 dataset.
+
+    \item \textbf{Experience:} Games played against itself.
+
+    \item \textbf{Target function:} $Q^\pi : \mathcal{S} \times \mathcal{A} \to \mathbb{R}$, where
+        $\mathcal{S}$ is the set of \emph{states} (board positions) and $\mathcal{A}$ is the set of
+        \emph{actions} (moves), and $\mathbb{R}$ represents the value of being in a state $s \in
+        \mathcal{S}$, applying a action $a \in \mathcal{A}$, and following policy $\pi$ thereafter.
+
+    \item \textbf{Target function representation:} Deep neural network.
+
+\end{itemize}
+
+Therefore, I seek to build a Q-learning agent trained via a deep convolutional neural network to
+approximate the optimal action-value function:
+
+\begin{equation}
+Q^*(s,a) = \max\limits_\pi Q^\pi(s,a), \forall s \in \mathcal{S}, a \in \mathcal{A}
+\end{equation}
+
+\noindent which is the maximum sum of rewards achievable by a behaviour policy $\pi$.
+
+%%%%%%%%%%%%%%%%%%%%
 \subsection{Metrics}
+%%%%%%%%%%%%%%%%%%%%
 
-Content.
+\begin{itemize}
+
+    \item \textbf{Winning percentage.} This metric consists in playing a high number of games (e.g.
+        100,000) against another agent (e.g. a random agent), and calculating the average of games
+        won by the agent that uses the learned value function.
+        
+    \item \textbf{Prediction accuracy.} The learned value function will be used to predict the
+        game-theoretic outcomes (win, loss or draw) of the board positions in the Connect 4 Data
+        Set.
+
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analysis}
