@@ -170,7 +170,7 @@ Content.
 \subsubsection{Q-learning}
 
 One of the most basic and popular methods to estimate action-value functions is the
-\emph{Q-learning} algorithm. It is model-free online off-policy algorithm,
+\emph{Q-learning} algorithm~\citep{Watkins1989PhD}. It is model-free online off-policy algorithm,
 whose main strength is that it is able to compare the expected utility of the available actions
 without requiring a model of the environment. Q-learning works by learning an action-value function
 that gives the expected utility of taking a given action in a given state and following a fixed
@@ -188,7 +188,7 @@ which this action was executed.
 Q-learning is exploration-intensive, which means that it will converge to the optimal policy
 regardless of the exploration policy being followed, under the assumption that each state-action
 pair is visited an infinite number of times, and the learning parameter $\alpha$ is decreased
-appropriately.
+appropriately~\citep{Watkins1992Q}.
 
 \subsection{Benchmark}
 
