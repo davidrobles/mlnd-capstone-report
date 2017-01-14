@@ -180,6 +180,11 @@ Content.
 \subsubsection{Alpha-beta pruning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/player/alphabeta.py}
+     {Implementation}
+\break
+
 % In this project, we will use reinforcement learning with deep learning to make an agent learn to
 % play the game of {Connect 4}\footnote{\url{\URLcf}} by playing games against itself. In other words,
 % using the formalism used by \cite{Mitchell1997Book} to define a machine learning problem:
@@ -203,10 +208,6 @@ selection of the best move.
 % is detailed in \hyperref[alg:alpha-beta]{Algorithm~\ref*{alg:alpha-beta}}.
 
 % \newcommand{\URLab}{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/player/alphabeta.py}
-
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/player/alphabeta.py}
-     {Implementation}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Q-learning}
@@ -247,9 +248,26 @@ implement or access a different agent with roughly equal playing strength. Howev
 several drawbacks, with the main one being that a single opponent does not provide sufficient
 exploration~\citep{Szita2011RLGames}.
 
+%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Benchmark}
+\label{sec:benchmark}
+%%%%%%%%%%%%%%%%%%%%%%
 
-Content.
+\begin{itemize}
+
+    \item \textbf{Random agent}. This benchmark consists in playing against an agent that takes
+        uniformly random moves. This is the most basic benchmark, but first we have to be sure that
+        our learned evaluation function can play better than a random agent before moving into a
+        harder benchmark. Also, this will help us to detect bugs in the code and algorithms: if a
+        learned value function does not play significantly better than a random agent, is not
+        learning. The idea is to test against this benchmark using Alpha-beta pruning at 1, 2 and
+        4-ply search.
+
+    \item \textbf{Connect 4 Data Set}. This dataset will be used as the main benchmark. The learned
+        value function will be used to predict the game-theoretic outcomes (win, loss or draw) for
+        the first player in the 67,557 instances of the dataset.
+
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
@@ -265,10 +283,14 @@ Content.
 \subsection{Implementation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Two games were implemented: Tic Tac Toe and Connect 4.
-- Converting a to an MDP by using a fixed agent.
-- Show that q-learning learns to play against a fixed opponent using Tic-Tac-Toe.
-- Show that q-learning learns to play against a fixed opponent using Connect 4.
+\begin{itemize}
+
+    \item Two games were implemented: Tic Tac Toe and Connect 4.
+    \item Converting a to an MDP by using a fixed agent.
+    \item Show that q-learning learns to play against a fixed opponent using Tic-Tac-Toe.
+    \item Show that q-learning learns to play against a fixed opponent using Connect 4.
+
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Refinement}
@@ -312,15 +334,15 @@ shows three Connect 4 game positions.
     \centering
     \subfloat[Win for \textsc{Player 1}]{
         \label{fig:c4-game-1}
-        \includegraphics[width=0.25\textwidth]{figures/c4/c4-win-blue-c5f2.pdf}
-    } \hspace{0.2in}
+        \includegraphics[width=0.3\textwidth]{figures/c4/c4-win-blue-c5f2.pdf}
+    } \hspace{0.1in}
     \subfloat[Win for \textsc{Player 2}]{
         \label{fig:c4-game-2}
-        \includegraphics[width=0.25\textwidth]{figures/c4/c4-win-red-b3e6.pdf}
-    } \hspace{0.2in}
+        \includegraphics[width=0.3\textwidth]{figures/c4/c4-win-red-b3e6.pdf}
+    } \hspace{0.1in}
     \subfloat[Draw]{
         \label{fig:c4-game-3}
-        \includegraphics[width=0.25\textwidth]{figures/c4/c4-draw.pdf}
+        \includegraphics[width=0.3\textwidth]{figures/c4/c4-draw.pdf}
     }
     \caption{Examples of wins, losses and draws in Connect Four}
     \label{fig:c4-game}
