@@ -348,6 +348,74 @@ shows three Connect 4 game positions.
     \label{fig:c4-game}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Learn Tic-Tac-Toe state-action values using Q-learning}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+First, we will test our q-learning algorithm by learning the state action values
+for an agent that plays against a fixed tic tac toe player. this fixed tic tac toe
+player will be an AlphaBeta player, which means it will always make an optimal
+move. An optimal move means that is the best possible move in that situation.
+
+We created a custom board position that is small but that it can demonstrate
+the idea of learning the q-learning values.
+
+The situation consists where we are in the following position:
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/c4/c4-win-blue-c5f2.pdf}
+    \caption{The starting board}
+    \label{fig:tic-play32}
+\end{figure}
+
+In this position the player X is next, and it has 5 available moves: 1, 3, 6, 9.
+
+% show the index nubmers of the board
+
+We ran the Q-learning algorithm with the following parameters and these are the results:
+
+% add link to script here.
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \subfloat[Win for \textsc{Player 1}]{
+        \label{fig:tic-game-1}
+        \includegraphics[width=0.3\textwidth]{figures/c4/c4-win-blue-c5f2.pdf}
+    } \hspace{0.1in}
+    \subfloat[Win for \textsc{Player 2}]{
+        \label{fig:tic-game-2}
+        \includegraphics[width=0.3\textwidth]{figures/c4/c4-win-red-b3e6.pdf}
+    } \hspace{0.1in}
+    \subfloat[Draw]{
+        \label{fig:tic-game-3}
+        \includegraphics[width=0.3\textwidth]{figures/c4/c4-draw.pdf}
+    }
+    \caption{Examples of wins, losses and draws in Connect Four}
+    \label{fig:tic-play}
+\end{figure}
+
+As we can see we were able to learn the state-action values for each board position. It
+is clear that the best board is the one that leads to a direct win, and the other boards
+lead to either draws (like in...) or a loss.
+
+Now we will run the same algorithm but starting from the initial position. 
+
+% add link, and add random_state to algorithms
+
+As we can see it learned to play perfectly against an alpha-beta player.
+
+With this example we can confirm that the implementation of our q-learning algorithm
+is working fine, and now we can move into our next step.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
