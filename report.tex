@@ -348,17 +348,22 @@ shows three Connect 4 game positions.
     \label{fig:c4-game}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Learn Tic-Tac-Toe state-action values using Q-learning}
-%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-First, we will test our q-learning algorithm by learning the state action values
-for an agent that plays against a fixed tic tac toe player. this fixed tic tac toe
-player will be an AlphaBeta player, which means it will always make an optimal
-move. An optimal move means that is the best possible move in that situation.
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/examples/tictactoe-qlearning.py}
+     {Implementation}
+\break
 
-We created a custom board position that is small but that it can demonstrate
-the idea of learning the q-learning values.
+First, we will test our q-learning algorithm by learning the state action values for an agent that
+plays against a fixed tic tac toe player. this fixed tic tac toe player will be an AlphaBeta player,
+which means it will always make an optimal move. An optimal move means that is the best possible
+move in that situation.
+
+We created a custom board position that is small but that it can demonstrate the idea of learning
+the q-learning values.
 
 The situation consists where we are in the following position:
 
@@ -368,7 +373,7 @@ The situation consists where we are in the following position:
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=0.3\textwidth]{figures/c4/c4-win-blue-c5f2.pdf}
+    \includegraphics[width=0.2\textwidth]{figures/tic/tic-1.pdf}
     \caption{The starting board}
     \label{fig:tic-play32}
 \end{figure}
@@ -387,17 +392,25 @@ We ran the Q-learning algorithm with the following parameters and these are the 
 
 \begin{figure}[!h]
     \centering
-    \subfloat[Win for \textsc{Player 1}]{
+    \subfloat[0.9895]{
         \label{fig:tic-game-1}
-        \includegraphics[width=0.3\textwidth]{figures/c4/c4-win-blue-c5f2.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic/tic-1.pdf}
     } \hspace{0.1in}
-    \subfloat[Win for \textsc{Player 2}]{
+    \subfloat[0.9897]{
         \label{fig:tic-game-2}
-        \includegraphics[width=0.3\textwidth]{figures/c4/c4-win-red-b3e6.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic/tic-2.pdf}
     } \hspace{0.1in}
-    \subfloat[Draw]{
+    \subfloat[-0.0009]{
         \label{fig:tic-game-3}
-        \includegraphics[width=0.3\textwidth]{figures/c4/c4-draw.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic/tic-3.pdf}
+    } \hspace{0.1in}
+    \subfloat[0.9890]{
+        \label{fig:tic-game-4}
+        \includegraphics[width=0.15\textwidth]{figures/tic/tic-4.pdf}
+    } \hspace{0.1in}
+    \subfloat[0.9999]{
+        \label{fig:tic-game-4}
+        \includegraphics[width=0.15\textwidth]{figures/tic/tic-5.pdf}
     }
     \caption{Examples of wins, losses and draws in Connect Four}
     \label{fig:tic-play}
