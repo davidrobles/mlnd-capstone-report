@@ -373,8 +373,8 @@ The situation consists where we are in the following position:
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=0.2\textwidth]{figures/tic/tic-1.pdf}
-    \caption{The starting board}
+    \includegraphics[width=0.15\textwidth]{figures/tic/tic-1.pdf}
+    \caption{Tic-Tac-Toe board, $s$, with five legal moves: $\{2, 3, 6, 7, 9\}$.}
     \label{fig:tic-play32}
 \end{figure}
 
@@ -392,27 +392,27 @@ We ran the Q-learning algorithm with the following parameters and these are the 
 
 \begin{figure}[!h]
     \centering
-    \subfloat[0.9895]{
+    \subfloat[$Q(s, 2) = 0.9895$]{
         \label{fig:tic-game-1}
         \includegraphics[width=0.15\textwidth]{figures/tic/tic-1.pdf}
     } \hspace{0.1in}
-    \subfloat[0.9897]{
+    \subfloat[$Q(s, 3) = 0.9897$]{
         \label{fig:tic-game-2}
         \includegraphics[width=0.15\textwidth]{figures/tic/tic-2.pdf}
     } \hspace{0.1in}
-    \subfloat[-0.0009]{
+    \subfloat[$Q(s, 6) = 0.0$]{
         \label{fig:tic-game-3}
         \includegraphics[width=0.15\textwidth]{figures/tic/tic-3.pdf}
     } \hspace{0.1in}
-    \subfloat[0.9890]{
+    \subfloat[$Q(s, 7) = 0.9890$]{
         \label{fig:tic-game-4}
         \includegraphics[width=0.15\textwidth]{figures/tic/tic-4.pdf}
     } \hspace{0.1in}
-    \subfloat[0.9999]{
+    \subfloat[$Q(s, 9) = 0.9999$]{
         \label{fig:tic-game-4}
         \includegraphics[width=0.15\textwidth]{figures/tic/tic-5.pdf}
     }
-    \caption{Examples of wins, losses and draws in Connect Four}
+    \caption{}
     \label{fig:tic-play}
 \end{figure}
 
