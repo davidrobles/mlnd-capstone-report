@@ -329,7 +329,22 @@ Implementation
      {Implementation}
 \break
 
-Implementation
+In an MDP, the agent acts according to a policy $\pi$, which maps each state $s \in \mathcal{S}$ to
+an action $a \in \mathcal{A}(s)$. A policy that specifies a unique action to be performed is called
+a \emph{deterministic} policy, and is defined as $\pi : \mathcal{S} \rightarrow \mathcal{A}$. On the
+other hand, a \emph{stochastic} policy $\pi : \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$
+selects actions according to a probability distribution, such that for each state $s \in
+\mathcal{S}$, it holds that $\pi(s,a) \geq 0$ and $\sum_{a\in\mathcal{A}(s)} \pi(s,a) = 1$.
+
+The interaction between the policy used by the agent and the environment works as follows. First, it
+starts at an \emph{initial state} $s_0$. Then, the policy $\pi$ selects an action $a_0 = \pi(s_0)$
+from the set of available actions $\mathcal{A}(s_0)$, and the action is executed. The environment
+transitions to a new state $s_1$ based on the transition function $T$ with probability
+$T(s_0,a_0,s_1)$, and a reward $r_0 = R(s_0, a_0, s_1)$ is received. This process continues,
+producing a \emph{trajectory} of experience $s_0, a_0, s_1, r_1, a_1, s_2, r_2, a_2, \dots$. If the
+task is \emph{episodic}, the process ends in a \emph{terminal state} $s_T$ and is restarted in the
+initial state. If the task is \emph{continiuing}, the sequence of states can be extended
+indefinitely.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
