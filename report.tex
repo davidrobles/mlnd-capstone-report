@@ -270,6 +270,68 @@ exploration~\citep{Szita2011RLGames}.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Markov Decision Process}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/mdp/mdp.py}
+     {Implementation}
+\break
+
+A \emph{Markov decision process} (MDP) consist of a set of states, a set of actions, a transition
+function and a reward function.
+
+\begin{itemize}
+
+    \item $\mathcal{S}$ is the set of \emph{states} (state space).
+
+    \item $\mathcal{A}$ is the set of \emph{actions} (action space). The set of actions that are
+      available in some particular state $s_t \in \mathcal{S}$ is denoted $\mathcal{A}(s_t)$, such
+      that $\mathcal{A}(s_t) \in \mathcal{P}(\mathcal{A})$, where $\mathcal{P}(\cdot)$ denotes the
+      power set.
+
+    \item $ T : \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to \mathbb{R}$ is the
+      \emph{transition function}, which is the probability given we are in state $s_t \in
+      \mathcal{S}$, take action $a_t \in \mathcal{A}(s_t)$ and we will transition to state $s_{t+1}
+      \in \mathcal{S}$.
+
+    \item $ R : \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to \mathbb{R}$ is the
+      \emph{reward function}, which is the immediate reward received when in state $s_t \in
+      \mathcal{S}$ action $a_t \in \mathcal{A}$ is taken and the MDP transitions to state $s_{t+1}
+      \in \mathcal{S}$. However, it is also possible to define it either as $ R : \mathcal{S} \times
+      \mathcal{A} \to \mathbb{R}$ or $R : \mathcal{S} \to \mathbb{R}$. The first one gives rewards
+      for performing an action $a_t$ in a particular state $s_t$, and the second gives rewards when
+      transitioning to state $s_{t+1}$.
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Environment}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/environment/environment.py}
+     {Implementation}
+\break
+
+Implementation
+
+%%%%%%%%%%%%%%%%%%%
+\subsection{Policy}
+%%%%%%%%%%%%%%%%%%%
+
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/policy.py}
+     {Implementation}
+\break
+
+Implementation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -348,9 +410,19 @@ shows three Connect 4 game positions.
     \label{fig:c4-game}
 \end{figure}
 
+
+\subsubsection{GameMDP converter}
+
+Converting an MDP
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Learn Tic-Tac-Toe state-action values using Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% - Implement Q-learning
+% - GameMDP converter
+% - Generate a Tic-Tac-Toe board that is easier to analyze
+% - Run Q-learning and show that the values are correct.
 
 \noindent
 \href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/examples/tictactoe-qlearning.py}
