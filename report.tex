@@ -38,6 +38,16 @@
 \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{8} % for bold
 \DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{8}  % for normal
 
+%%%%%%%%%%%%%
+% EQUATIONS %
+%%%%%%%%%%%%%
+
+% ArgMin
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+
+% ArgMax
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+
 % Custom colors
 \usepackage{color}
 \definecolor{deepblue}{rgb}{0,0,0.5}
@@ -349,6 +359,63 @@ producing a \emph{trajectory} of experience $s_0, a_0, s_1, r_1, a_1, s_2, r_2, 
 task is \emph{episodic}, the process ends in a \emph{terminal state} $s_T$ and is restarted in the
 initial state. If the task is \emph{continiuing}, the sequence of states can be extended
 indefinitely.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Random policy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/greedy.py}
+     {Implementation}
+\break
+
+Selects:
+%
+\begin{equation}
+    \pi_{\textrm{rand}}(s) = \argmax_{a \in \mathcal{A}(s_t)} Q(s, a)
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Greedy policy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/greedy.py}
+     {Implementation}
+\break
+
+The greedy tree policy selects the \emph{max action}, which is the greedy action with the highest
+value.
+%
+\begin{equation}
+    \pi_{\textrm{greedy}}(s) = \argmax_{a \in \mathcal{A}(s_t)} Q(s, a)
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{$\epsilon$-greedy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/egreedy.py}
+     {Implementation}
+\break
+
+The $\epsilon$-greedy tree policy selects the best action for a proportion $1 - \epsilon$ of the
+trials, and another action is randomly selected (with uniform probability) for a proportion
+$\epsilon$,
+%
+\begin{equation}
+    \pi_{\epsilon}(s) = \left\{
+     \begin{array}{lr}
+         \pi_{\textrm{rand}}(s,a) & \text{if } rand() < \epsilon\\
+         \pi_{\textrm{greedy}}(s,a) & \text{otherwise}
+     \end{array}
+   \right.
+\end{equation}
+%
+where $\epsilon \in [0, 1]$ and $rand()$ returns a random number from a uniform distribution $\in
+[0, 1]$.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
