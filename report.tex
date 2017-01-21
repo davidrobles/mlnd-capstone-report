@@ -166,6 +166,15 @@ Q^*(s,a) = \max\limits_\pi Q^\pi(s,a), \forall s \in \mathcal{S}, a \in \mathcal
 
 \end{itemize}
 
+% from wiki
+
+Accuracy is not a reliable metric for the real performance of a classifier, because it will yield
+misleading results if the data set is unbalanced (that is, when the number of samples in different
+classes vary greatly). For example, if there were 95 cats and only 5 dogs in the data set, the
+classifier could easily be biased into classifying all the samples as cats. The overall accuracy
+would be 95\%, but in practice the classifier would have a 100\% recognition rate for the cat class
+but a 0\% recognition rate for the dog class.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -416,6 +425,48 @@ $\epsilon$,
 where $\epsilon \in [0, 1]$ and $rand()$ returns a random number from a uniform distribution $\in
 [0, 1]$.
 
+%%%%%%%%%%%%%%%%%
+\subsection{Game}
+%%%%%%%%%%%%%%%%%
+
+Informally speaking, a perfect-information game in extensive form is a tree in the sense of graph
+theory, in which each node represents the current state of the game, each edge represents a
+possible action, and the leaves represent the terminal states, which contains final outcomes
+through a utility function. In the field of AI these are known simply as \emph{game trees}.
+
+A \textbf{perfect-information extensive-form game} is defined as a tuple $G = (n, \mathcal{S},
+\mathcal{S_T}, \mathcal{A}, \rho, T, U)$, where:
+
+
+\begin{itemize}
+
+    \item $n$ is the \emph{number of players};
+
+    \item $\mathcal{S}$ is the set of \emph{states};
+
+    \item $\mathcal{S}_T \subset \mathcal{S}$ is the set of \emph{terminal states};
+
+    \item $\mathcal{A}$ is the set of \emph{actions}. The set of actions that are available in some
+    particular state $s_t \in \mathcal{S}$ for the player in turn $\rho(s_t)$ is denoted
+    $\mathcal{A}(s_t)$, such that $\mathcal{A}(s_t) \in \mathcal{P}(\mathcal{A})$, where
+    $\mathcal{P}(\cdot)$ denotes the power set.
+
+    \item $\rho : \overline{\mathcal{S}_T} \to \{i \in \mathbb{N} : 1 \leq i \leq n \} $ is the
+    \emph{player function}, which assigns to each non-terminal state $s_t \in \overline{S_T}$ a
+    player $i$ who chooses an action at that state;
+
+    \item $T : \overline{\mathcal{S}_T} \times \mathcal{A} \to \mathcal{S}$ is the \emph{transition
+    function}, which maps a non-terminal state and an action to a new state;
+
+    \item $U : S_T \to \mathbb{R}^n $ is the \emph{utility function}, which returns a vector of
+    payoffs $U(s_T) = (u_1, \dots, u_n)$ for each of the $n$ players of the game. We will use the
+    notation $U_i(s_T)$ to represent the payoff for the $i$th player when the game is over at state
+    $s_T \in S_T$.
+
+\end{itemize}
+
+In two-player perfect-information extensive-form games, a \emph{ply} refers to one turn taken by one
+of the players.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
