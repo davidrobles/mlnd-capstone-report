@@ -638,6 +638,50 @@ As we can see it learned to play perfectly against an alpha-beta player.
 With this example we can confirm that the implementation of our q-learning algorithm
 is working fine, and now we can move into our next step.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Learn Connect 4 state-action values using Q-learning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/examples/connect4\_qlearning\_values.py}
+     {Implementation}
+\break
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.2\textwidth]{figures/c4_ql_current.pdf}
+    \caption{Connect 4 board, $s$, with three legal moves: $\{e, f, g\}$.}
+    \label{fig:c4_ql_current}
+\end{figure}
+
+asd fas dfasd fas dfasd 
+
+%%%%%%%%%%%
+% Figures %
+%%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \subfloat[$Q(s, e) = 0.9895$]{
+        \label{fig:c4_ql_move_e}
+        \includegraphics[width=0.2\textwidth]{figures/c4_ql_move_e.pdf}
+    } \hspace{0.1in}
+    \subfloat[$Q(s, f) = 0.9897$]{
+        \label{fig:c4_ql_move_f}
+        \includegraphics[width=0.2\textwidth]{figures/c4_ql_move_f.pdf}
+    } \hspace{0.1in}
+    \subfloat[$Q(s, g) = 0.0$]{
+        \label{fig:c4_ql_move_g}
+        \includegraphics[width=0.2\textwidth]{figures/c4_ql_move_g.pdf}
+    }
+    \caption{All the next states and their q values.}
+    \label{fig:c4_ql_moves}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
