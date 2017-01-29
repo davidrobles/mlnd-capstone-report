@@ -94,6 +94,13 @@ showstringspaces=false            %
 % Python for inline
 \newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
 
+% Github URL
+\newcommand{\GithubURL}[2]{
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/#1}{#2}
+\break
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Machine Learning Nanodegree \\ Capstone Report}
 \author{David A. Robles}
@@ -199,10 +206,7 @@ Content.
 \subsubsection{Alpha-beta pruning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/player/alphabeta.py}
-     {Implementation}
-\break
+\GithubURL{capstone/player/alphabeta.py}{Implementation}
 
 % In this project, we will use reinforcement learning with deep learning to make an agent learn to
 % play the game of {Connect 4}\footnote{\url{\URLcf}} by playing games against itself. In other words,
@@ -232,9 +236,7 @@ selection of the best move.
 \subsubsection{Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\noindent \href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/algorithms/qlearning.py}
-     {Implementation}
-\break
+\GithubURL{capstone/algorithms/qlearning.py}{Implementation}
 
 One of the most basic and popular methods to estimate action-value functions is the
 \emph{Q-learning} algorithm~\citep{Watkins1989PhD}. It is model-free online off-policy algorithm,
@@ -296,10 +298,7 @@ exploration~\citep{Szita2011RLGames}.
 \subsection{Markov Decision Process}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/mdp/mdp.py}
-     {Implementation}
-\break
+\GithubURL{capstone/mdp/mdp.py}{Implementation}
 
 A \emph{Markov decision process} (MDP) consist of a set of states, a set of actions, a transition
 function and a reward function.
@@ -332,10 +331,7 @@ function and a reward function.
 \subsection{Environment}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/environment/environment.py}
-     {Implementation}
-\break
+\GithubURL{capstone/environment/environment.py}{Implementation}
 
 An agent does not have access to the dynamics (reward and transition function) of the MDP. However,
 it interacts with an \emph{environment} by way of three signals: a \emph{state}, which describes the
@@ -347,10 +343,7 @@ performance.
 \subsection{Policy}
 %%%%%%%%%%%%%%%%%%%
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/policy.py}
-     {Implementation}
-\break
+\GithubURL{capstone/policy/policy.py}{Implementation}
 
 In an MDP, the agent acts according to a policy $\pi$, which maps each state $s \in \mathcal{S}$ to
 an action $a \in \mathcal{A}(s)$. A policy that specifies a unique action to be performed is called
@@ -373,10 +366,7 @@ indefinitely.
 \subsubsection{Random policy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/greedy.py}
-     {Implementation}
-\break
+\GithubURL{capstone/policy/random_policy.py}{Implementation}
 
 Selects:
 %
@@ -387,6 +377,8 @@ Selects:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Greedy policy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\GithubURL{capstone/policy/greedy.py}{Implementation}
 
 \noindent
 \href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/greedy.py}
@@ -404,10 +396,7 @@ value.
 \subsubsection{$\epsilon$-greedy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/egreedy.py}
-     {Implementation}
-\break
+\GithubURL{capstone/policy/egreedy.py}{Implementation}
 
 The $\epsilon$-greedy tree policy selects the best action for a proportion $1 - \epsilon$ of the
 trials, and another action is randomly selected (with uniform probability) for a proportion
@@ -505,19 +494,13 @@ Content.
 \subsubsection{Tic Tac Toe}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/game/tictactoe.py}
-     {Implementation}
-\break
+\GithubURL{capstone/game/tictactoe.py}{Implementation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Connect 4}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/game/connect4.py}
-     {Implementation}
-\break
+\GithubURL{capstone/game/connect4.py}{Implementation}
 
 Connect 4 is a two-player board game of perfect information where pieces are dropped into the
 columns of a vertical $6 \times 7$ grid with the goal of forming a straight line of 4 connected
@@ -561,10 +544,7 @@ Converting an MDP
 % - Generate a Tic-Tac-Toe board that is easier to analyze
 % - Run Q-learning and show that the values are correct.
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/examples/tictactoe-qlearning.py}
-     {Implementation}
-\break
+\GithubURL{examples/tictactoe_qlearning_values.py}{Implementation}
 
 First, we will test our q-learning algorithm by learning the state action values for an agent that
 plays against a fixed tic tac toe player. this fixed tic tac toe player will be an AlphaBeta player,
@@ -642,10 +622,7 @@ is working fine, and now we can move into our next step.
 \subsubsection{Learn Connect 4 state-action values using Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/examples/connect4\_qlearning\_values.py}
-     {Implementation}
-\break
+\GithubURL{examples/connect4_qlearning_values.py}{Implementation}
 
 %%%%%%%%%%
 % Figure %
