@@ -693,8 +693,8 @@ The situation consists where we are in the following position:
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=0.15\textwidth]{figures/tic/tic-1.pdf}
-    \caption{Tic-Tac-Toe board, $s$, with five legal moves: $\{2, 3, 6, 7, 9\}$.}
+    \includegraphics[width=0.15\textwidth]{figures/tic_ql_current.pdf}
+    \caption{Tic-Tac-Toe board, $s$, with five legal moves, $\mathcal{A}(s) = \{2, 3, 6, 7, 9\}$.}
     \label{fig:tic-play32}
 \end{figure}
 
@@ -712,25 +712,25 @@ We ran the Q-learning algorithm with the following parameters and these are the 
 
 \begin{figure}[!h]
     \centering
-    \subfloat[$Q(s, 2) = 0.9895$]{
+    \subfloat[$Q(s, 2) = 0.9886$]{
         \label{fig:tic-game-1}
-        \includegraphics[width=0.15\textwidth]{figures/tic/tic-1.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_2_value_0_9886.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s, 3) = 0.9897$]{
+    \subfloat[$Q(s, 3) = 0.9884$]{
         \label{fig:tic-game-2}
-        \includegraphics[width=0.15\textwidth]{figures/tic/tic-2.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_3_value_0_9884.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s, 6) = 0.0$]{
+    \subfloat[$Q(s, 6) = 0.0014$]{
         \label{fig:tic-game-3}
-        \includegraphics[width=0.15\textwidth]{figures/tic/tic-3.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_6_value_0_0014.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s, 7) = 0.9890$]{
+    \subfloat[$Q(s, 7) = 0.9888$]{
         \label{fig:tic-game-4}
-        \includegraphics[width=0.15\textwidth]{figures/tic/tic-4.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_7_value_0_9888.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s, 9) = 0.9999$]{
+    \subfloat[$Q(s, 9) = 1.0$]{
         \label{fig:tic-game-4}
-        \includegraphics[width=0.15\textwidth]{figures/tic/tic-5.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_9_value_1_0.pdf}
     }
     \caption{}
     \label{fig:tic-play}
