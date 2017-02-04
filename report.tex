@@ -6,6 +6,7 @@
 \usepackage{fancyhdr}
 \usepackage{url}
 \usepackage{subfig}
+\usepackage{multirow}
 \usepackage{amsmath,bm}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -294,19 +295,44 @@ There are 44,473 wins, 16,635 losses and 6,449 draws.
 \subsubsection{UCI Connect 4 Data Set}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As an example, here are ten instances selected randomly:\\
+As an example, here are ten instances selected randomly:
 
-\noindent
-b,b,b,b,b,b,b,b,b,b,b,b,o,x,b,b,b,b,x,o,x,o,x,b,b,b,b,b,b,b,b,b,b,b,b,b,o,b,b,b,b,b,win\break
-b,b,b,b,b,b,b,b,b,b,b,b,o,o,b,b,b,b,x,o,x,o,x,b,x,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,loss\break
-b,b,b,b,b,b,b,b,b,b,b,b,o,b,b,b,b,b,x,o,x,o,x,b,x,o,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,draw\break
-b,b,b,b,b,b,o,b,b,b,b,b,o,b,b,b,b,b,x,o,x,o,x,b,x,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,win\break
-b,b,b,b,b,b,b,b,b,b,b,b,o,x,b,b,b,b,x,o,x,o,x,b,b,b,b,b,b,b,b,b,b,b,b,b,o,b,b,b,b,b,win\break
-b,b,b,b,b,b,b,b,b,b,b,b,o,o,b,b,b,b,x,o,x,o,x,b,x,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,loss\break
-b,b,b,b,b,b,b,b,b,b,b,b,o,b,b,b,b,b,x,o,x,o,x,b,x,o,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,draw\break
-b,b,b,b,b,b,o,b,b,b,b,b,o,b,b,b,b,b,x,o,x,o,x,b,x,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,win\break
-b,b,b,b,b,b,b,b,b,b,b,b,o,b,b,b,b,b,x,o,x,o,x,b,x,o,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,draw\break
-b,b,b,b,b,b,o,b,b,b,b,b,o,b,b,b,b,b,x,o,x,o,x,b,x,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,win\break
+\begin{table}[h!]
+\centering
+\begin{tabular}{ | c | c c c c c c c c c c c c c c c c c | c | }
+
+\hline
+\multirow{2}{*}{No.}       & \multicolumn{17}{c|}{Features}                                    &  Target \\
+\cline{2-19}
+       & a1 & a2 & a3 & a4 & a5 & a6 & b1 & b2 & ... & f5 & f6 & g1 & g2 & g3 & g4 & g5 & g6 & outcome \\
+\hline
+0      &  b &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
+1      &  b &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
+2      &  b &  b &  b &  b &  b &  b &  o &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
+3      &  b &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
+4      &  o &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
+5      &  b &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  o &  b &  b &  b &  b &  b &     win \\
+6      &  b &  b &  b &  b &  b &  b &  x &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &    draw \\
+7      &  b &  b &  b &  b &  b &  b &  x &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
+8      &  b &  b &  b &  b &  b &  b &  x &  o & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
+9      &  b &  b &  b &  b &  b &  b &  x &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
+...    & .. & .. & .. & .. & .. & .. & .. & .. & ... & .. & .. & .. & .. & .. & .. & .. & .. &     ... \\
+67547  &  x &  x &  o &  o &  x &  b &  b &  b & ... &  b &  b &  o &  b &  b &  b &  b &  b &    draw \\
+67548  &  x &  o &  b &  b &  b &  b &  b &  b & ... &  b &  b &  o &  x &  x &  x &  o &  b &    draw \\
+67549  &  x &  x &  o &  x &  b &  b &  o &  b & ... &  b &  b &  o &  o &  x &  b &  b &  b &    loss \\
+67550  &  x &  b &  b &  b &  b &  b &  o &  o & ... &  b &  b &  x &  b &  b &  b &  b &  b &    loss \\
+67551  &  x &  x &  o &  b &  b &  b &  o &  o & ... &  b &  b &  x &  o &  b &  b &  b &  b &    loss \\
+67552  &  x &  x &  b &  b &  b &  b &  o &  x & ... &  b &  b &  o &  o &  x &  b &  b &  b &    loss \\
+67553  &  x &  x &  b &  b &  b &  b &  o &  b & ... &  b &  b &  o &  x &  o &  o &  x &  b &    draw \\
+67554  &  x &  x &  b &  b &  b &  b &  o &  o & ... &  b &  b &  o &  x &  x &  o &  b &  b &    loss \\
+67555  &  x &  o &  b &  b &  b &  b &  o &  b & ... &  b &  b &  o &  x &  o &  x &  x &  b &    draw \\
+67556  &  x &  o &  o &  o &  x &  b &  o &  b & ... &  b &  b &  x &  b &  b &  b &  b &  b &    draw \\
+\hline
+
+\end{tabular}
+\caption{UCI Connect 4 Dataset}
+\label{table:uci-dataset}
+\end{table}
 
 \hyperref[fig:c4-exp]{Figure~\ref*{fig:c4-exp}} shows a visual representation of the 10 instances of
 the data set.
