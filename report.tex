@@ -301,33 +301,25 @@ As an example, here are ten instances selected randomly:
 \definecolor{even}{RGB}{205,222,231}
 \definecolor{odd}{RGB}{240,249,254}
 \definecolor{header}{RGB}{128,169,188}
+% \newcolumntype{R}{@{\extracolsep{13cm}}r@{\extracolsep{10pt}}}%
 
 \begin{table}[h!]
 \small
 \centering
-\renewcommand{\arraystretch}{1.5}
-{\rowcolors{4}{even}{odd}
+\renewcommand{\arraystretch}{1.2}
+{\rowcolors{3}{even}{odd}
 \begin{tabular}{ c | c c c c c c c c c c c c c c c c c | c }
-\hline
 \rowcolor{header}
- & \multicolumn{17}{c|}{Features}                                        &  Target \\  \cline{2-19} \rowcolor{header}
- \multirow{-2}{*}{No.}      & a1 & a2 & a3 & a4 & a5 & a6 & b1 & b2 & ... & f5 & f6 & g1 & g2 & g3 & g4 & g5 & g6 & outcome \\ \hline
+ & \multicolumn{17}{c|}{\textbf{Features}} &  \textbf{Target} \\ \rowcolor{header}
+\textbf{No.} & \textbf{a1} & \textbf{a2} & \textbf{a3} & \textbf{a4} & \textbf{a5} &
+    \textbf{a6} & \textbf{b1} & \textbf{b2} & \textbf{...} & \textbf{f5} & \textbf{f6} &
+    \textbf{g1} & \textbf{g2} & \textbf{g3} & \textbf{g4} & \textbf{g5} & \textbf{g6} & \textbf{outcome} \\ 
 0      &  b &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
 1      &  b &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
 2      &  b &  b &  b &  b &  b &  b &  o &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
 3      &  b &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
 4      &  o &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
-5      &  b &  b &  b &  b &  b &  b &  b &  b & ... &  b &  b &  o &  b &  b &  b &  b &  b &     win \\
-6      &  b &  b &  b &  b &  b &  b &  x &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &    draw \\
-7      &  b &  b &  b &  b &  b &  b &  x &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
-8      &  b &  b &  b &  b &  b &  b &  x &  o & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
-9      &  b &  b &  b &  b &  b &  b &  x &  b & ... &  b &  b &  b &  b &  b &  b &  b &  b &     win \\
 ...    & .. & .. & .. & .. & .. & .. & .. & .. & ... & .. & .. & .. & .. & .. & .. & .. & .. &     ... \\
-67547  &  x &  x &  o &  o &  x &  b &  b &  b & ... &  b &  b &  o &  b &  b &  b &  b &  b &    draw \\
-67548  &  x &  o &  b &  b &  b &  b &  b &  b & ... &  b &  b &  o &  x &  x &  x &  o &  b &    draw \\
-67549  &  x &  x &  o &  x &  b &  b &  o &  b & ... &  b &  b &  o &  o &  x &  b &  b &  b &    loss \\
-67550  &  x &  b &  b &  b &  b &  b &  o &  o & ... &  b &  b &  x &  b &  b &  b &  b &  b &    loss \\
-67551  &  x &  x &  o &  b &  b &  b &  o &  o & ... &  b &  b &  x &  o &  b &  b &  b &  b &    loss \\
 67552  &  x &  x &  b &  b &  b &  b &  o &  x & ... &  b &  b &  o &  o &  x &  b &  b &  b &    loss \\
 67553  &  x &  x &  b &  b &  b &  b &  o &  b & ... &  b &  b &  o &  x &  o &  o &  x &  b &    draw \\
 67554  &  x &  x &  b &  b &  b &  b &  o &  o & ... &  b &  b &  o &  x &  x &  o &  b &  b &    loss \\
