@@ -691,8 +691,12 @@ Content.
 
 Converting an MDP
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Examples}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Learn Tic-Tac-Toe state-action values using Q-learning}
+\subsection{Learn Tic-Tac-Toe state-action values using Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % - Implement Q-learning
@@ -718,8 +722,8 @@ The situation consists where we are in the following position:
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=0.15\textwidth]{figures/tic_ql_current.pdf}
-    \caption{Tic-Tac-Toe board, $s$, with five legal moves, $\mathcal{A}(s) = \{2, 3, 6, 7, 9\}$.}
+    \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_current.pdf}
+    \caption{Tic-Tac-Toe board, $s$, with five legal moves, $\mathcal{A}(s) = \{1, 2, 4, 6, 9\}$.}
     \label{fig:tic-play32}
 \end{figure}
 
@@ -737,25 +741,25 @@ We ran the Q-learning algorithm with the following parameters and these are the 
 
 \begin{figure}[!h]
     \centering
-    \subfloat[$Q(s, 2) = 0.9886$]{
+    \subfloat[$Q(s, 1) = -1.0$]{
         \label{fig:tic-game-1}
-        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_2_value_0_9886.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_1.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s, 3) = 0.9884$]{
+    \subfloat[$Q(s, 2) = -1.0$]{
         \label{fig:tic-game-2}
-        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_3_value_0_9884.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_2.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s, 6) = 0.0014$]{
+    \subfloat[$Q(s, 4) = -1.0$]{
         \label{fig:tic-game-3}
-        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_6_value_0_0014.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_4.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s, 7) = 0.9888$]{
+    \subfloat[$Q(s, 6) = -1.0$]{
         \label{fig:tic-game-4}
-        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_7_value_0_9888.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_6.pdf}
     } \hspace{0.1in}
     \subfloat[$Q(s, 9) = 1.0$]{
         \label{fig:tic-game-4}
-        \includegraphics[width=0.15\textwidth]{figures/tic_ql_move_9_value_1_0.pdf}
+        \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_9.pdf}
     }
     \caption{}
     \label{fig:tic-play}
@@ -775,7 +779,7 @@ With this example we can confirm that the implementation of our q-learning algor
 is working fine, and now we can move into our next step.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Learn Connect 4 state-action values using Q-learning}
+\subsection{Learn Connect 4 state-action values using Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \GithubURL{examples/connect4_qlearning_values.py}{Implementation}
