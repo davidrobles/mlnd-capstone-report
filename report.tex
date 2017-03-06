@@ -699,6 +699,8 @@ Converting an MDP
 \subsection{Estimate state-action values using tabular Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsubsection{Tic-Tac-toe}
+
 % - Implement Q-learning
 % - GameMDP converter
 % - Generate a Tic-Tac-Toe board that is easier to analyze
@@ -801,9 +803,9 @@ is working fine, and now we can move into our next step.
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=0.2\textwidth]{figures/c4_ql_current.pdf}
-    \caption{Connect 4 board, $s$, with three legal moves: $\{e, f, g\}$.}
-    \label{fig:c4_ql_current}
+    \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_current.pdf}
+    \caption{Connect 4 board, $s$, with three legal moves: $\{d, f, g\}$.}
+    \label{fig:c4-ql-tab-current}
 \end{figure}
 
 asd fas dfasd fas dfasd 
@@ -814,20 +816,31 @@ asd fas dfasd fas dfasd
 
 \begin{figure}[!h]
     \centering
-    \subfloat[$Q(s, e) = 0.9895$]{
+    \subfloat[$Q(s, d) = 0.9895$]{
         \label{fig:c4_ql_move_e}
-        \includegraphics[width=0.2\textwidth]{figures/c4_ql_move_e.pdf}
+        \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_move_d.pdf}
     } \hspace{0.1in}
     \subfloat[$Q(s, f) = 0.9897$]{
         \label{fig:c4_ql_move_f}
-        \includegraphics[width=0.2\textwidth]{figures/c4_ql_move_f.pdf}
+        \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_move_f.pdf}
     } \hspace{0.1in}
     \subfloat[$Q(s, g) = 0.0$]{
         \label{fig:c4_ql_move_g}
-        \includegraphics[width=0.2\textwidth]{figures/c4_ql_move_g.pdf}
+        \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_move_g.pdf}
     }
     \caption{All the next states and their q values.}
-    \label{fig:c4_ql_moves}
+    \label{fig:c4_ql_tab_action_values}
+\end{figure}
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.50\textwidth]{figures/c4_ql_tab_action_values.pdf}
+    \caption{The predicted state-action value during training.}
+    \label{fig:c4-ql-tab-action-values-2}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
