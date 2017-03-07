@@ -862,6 +862,32 @@ the predicted q-values for each available action.
     \label{fig:c4-ql-tab-qvalues-progress}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estimate q-values using Q-learning via self-play}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the previous example we estimated the q-values for Tic-Tac-toe and Connect 4 positions against a
+fixed Alpha-Beta opponent. While this works very well sometimes we don't have that algorithm. An
+alternative is to use self-play, which consists in making playing games against itself.
+
+%%%%%%%%%%%
+% Figures %
+%%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \subfloat[$Q(s_0, \texttt{d}) = -1.0$]{
+        \label{fig:tic-ql-tab-simple-selfplay-progress}
+        \includegraphics[width=0.4\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
+    } \hspace{0.1in}
+    \subfloat[$Q(s_0, \texttt{g}) = -1.0$]{
+        \label{fig:c4-ql-tab-simple-selfplay-progress}
+        \includegraphics[width=0.4\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
+    }
+    \caption{All the next states and their q values.}
+    \label{fig:ql-tab-simple-selfplay-progress}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
