@@ -870,23 +870,33 @@ In the previous example we estimated the q-values for Tic-Tac-toe and Connect 4 
 fixed Alpha-Beta opponent. While this works very well sometimes we don't have that algorithm. An
 alternative is to use self-play, which consists in making playing games against itself.
 
+% examples/tic_ql_tab_simple_selfplay.py 
+
 %%%%%%%%%%%
 % Figures %
 %%%%%%%%%%%
 
 \begin{figure}[!h]
     \centering
-    \subfloat[$Q(s_0, \texttt{d}) = -1.0$]{
+    \subfloat[Tic-Tac-Toe]{
         \label{fig:tic-ql-tab-simple-selfplay-progress}
         \includegraphics[width=0.4\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s_0, \texttt{g}) = -1.0$]{
+    \subfloat[Connect 4]{
         \label{fig:c4-ql-tab-simple-selfplay-progress}
-        \includegraphics[width=0.4\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
+        \includegraphics[width=0.4\textwidth]{figures/c4_ql_tab_simple_selfplay_progress.pdf}
     }
     \caption{All the next states and their q values.}
     \label{fig:ql-tab-simple-selfplay-progress}
 \end{figure}
+
+% This converged to examples/tic_ql_tab_simple_selfplay.py
+
+In both examples we can see that it took longer to learn the episodes because it didn't have a
+perfect guidance on what was good and bad, it had to learn it by itself. This is a powerful
+technique that will be used in the next sections to learn a value function for Connect 4. The values
+are the same as the ones shown in Figures \hyperref[fig:tic-ql-qvalues]{\ref*{fig:tic-ql-qvalues}}
+and \hyperref[fig:c4-ql-qvalues]{\ref*{fig:c4-ql-qvalues}}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
