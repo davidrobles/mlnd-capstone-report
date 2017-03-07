@@ -713,14 +713,16 @@ won't be necessary.
 The rewards given by the Tic-Tac-Toe environment are $+1$ for a win for the first player, $-1$ for a
 win for the first player, and $0$ for a draw.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Tic-Tac-toe}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % - Implement Q-learning
 % - GameMDP converter
 % - Generate a Tic-Tac-Toe board that is easier to analyze
 % - Run Q-learning and show that the values are correct.
 
-\GithubURL{examples/tic_ql_tabular_fixed.py}{Implementation}
+% \GithubURL{examples/tic_ql_tabular_fixed.py}{Implementation}
 
 For Tic-Tac-Toe we used the board position in \hyperref[fig:tic-ql-tab-cur]
 {Figure~\ref*{fig:tic-ql-tab-cur}} as the starting state, $s_0$. It has five available actions,
@@ -796,7 +798,7 @@ making another move (either 1 or 6) to win.
 \subsubsection{Connect 4}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-\GithubURL{examples/c4_ql_tabular_fixed.py}{Implementation}
+% \GithubURL{examples/c4_ql_tabular_fixed.py}{Implementation}
 
 For Connect 4 we used the board position in \hyperref[fig:c4-ql-tab-cur]
 {Figure~\ref*{fig:c4-ql-tab-cur}} as the starting state, $s_0$. It has three available actions,
@@ -817,24 +819,21 @@ loss, assuming perfect play from the opponent.
 \end{figure}
 
 We ran the same tabular version of the Q-learning algorithm with the same parameters as the used for
-Tic-Tac-toe $\alpha = 0.1$ (learning rate), $\gamma=1.0$ (discount factor), and a uniformly random
+Tic-Tac-Toe $\alpha=0.1$ (learning rate), $\gamma=1.0$ (discount factor), and a uniformly random
 behavior policy. The Q-values also converged to the expected values after around 800 episodes of
-training, and are shown in \hyperref[fig:c4-ql-qvalues] {Figure~\ref*{fig:c4-ql-qvalues}}.
-
-As we can see in \hyperref[fig:tic-ql-tab-move-9] {Figure~\ref*{fig:tic-ql-tab-move-9}}, the
-expected future reward of taking action 9 is correctly estimated as 1.0, since that would lead to a
-win. At the same time, the q-values for all the other actions was -1.0. This makes sense, since any
-action not being 9 would lead to an immediate loss. Also, we can see in
-\hyperref[fig:tic-ql-tab-qvalues-progress] {Figure~\ref*{fig:tic-ql-tab-qvalues-progress}} we can
-see the predicted q-values for each available action. It is interesting to see how the q-value for
-$Q(s_0, 9)$ takes some time to converge. This is probably because taking action 9 leads to an
-eventual win, but not immediately. It requires making another move (either 1 or 6) to win.
+training, and are shown in \hyperref[fig:c4-ql-qvalues] {Figure~\ref*{fig:c4-ql-qvalues}}. As we can
+see in \hyperref[fig:c4-ql-move-f] {Figure~\ref*{fig:c4-ql-move-f}}, the expected future reward of
+taking action \texttt{f} is correctly estimated as 1.0, since that would lead to a win. At the same
+time, the q-values for all the other actions was -1.0. This makes sense, since any action not being
+\texttt{f} would lead to an immediate loss. Also, we can see in
+\hyperref[fig:c4-ql-tab-qvalues-progress] {Figure~\ref*{fig:c4-ql-tab-qvalues-progress}} we can see
+the predicted q-values for each available action. 
 
 %%%%%%%%%%%
 % Figures %
 %%%%%%%%%%%
 
-\begin{figure}[!h]
+\begin{figure}[!b]
     \centering
     \subfloat[$Q(s_0, \texttt{d}) = -1.0$]{
         \label{fig:c4-ql-move-e}
@@ -843,7 +842,7 @@ eventual win, but not immediately. It requires making another move (either 1 or 
     \subfloat[$Q(s_0, \texttt{f}) = 1.0$]{
         \label{fig:c4-ql-move-f}
         \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_move_f.pdf}
-    } \hspace{0.1in}
+    } \hspace{0.1in}0
     \subfloat[$Q(s_0, \texttt{g}) = -1.0$]{
         \label{fig:c4-ql-move-g}
         \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_move_g.pdf}
@@ -860,7 +859,7 @@ eventual win, but not immediately. It requires making another move (either 1 or 
     \centering
     \includegraphics[width=0.50\textwidth]{figures/c4_ql_tab_action_values.pdf}
     \caption{The predicted state-action value during training.}
-    \label{fig:c4-ql-tab-action-values-progress}
+    \label{fig:c4-ql-tab-qvalues-progress}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
