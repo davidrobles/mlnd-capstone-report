@@ -395,7 +395,7 @@ the data set.
 \subsubsection{Alpha-beta pruning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\GithubURL{capstone/player/alphabeta.py}{Implementation}
+\GithubURL{capstone/game/players/alphabeta.py}{Implementation}
 
 % In this project, we will use reinforcement learning with deep learning to make an agent learn to
 % play the game of {Connect 4}\footnote{\url{\URLcf}} by playing games against itself. In other words,
@@ -425,7 +425,7 @@ selection of the best move.
 \subsubsection{Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\GithubURL{capstone/algorithms/qlearning.py}{Implementation}
+\GithubURL{capstone/rl/learners/qlearning.py}{Implementation}
 
 One of the most basic and popular methods to estimate action-value functions is the
 \emph{Q-learning} algorithm~\citep{Watkins1989PhD}. It is model-free online off-policy algorithm,
@@ -449,6 +449,8 @@ pair is visited an infinite number of times, and the learning parameter $\alpha$
 appropriately~\citep{Watkins1992Q}.
 
 \subsubsection{Self-play}
+
+\GithubURL{capstone/rl/learners/qlearning_selfplay.py}{Implementation}
 
 Self-play is by far the most popular training method. It is a single policy $\pi(s,a)$ that is used
 by both players in a two-player game, $\pi_1(s,a) = \pi_2(s,a) = \pi(s,a)$. The first reason for its
@@ -487,7 +489,7 @@ exploration~\citep{Szita2011RLGames}.
 \subsection{Markov Decision Process}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\GithubURL{capstone/mdp/mdp.py}{Implementation}
+\GithubURL{capstone/rl/mdp.py}{Implementation}
 
 A \emph{Markov decision process} (MDP) consist of a set of states, a set of actions, a transition
 function and a reward function.
@@ -520,7 +522,7 @@ function and a reward function.
 \subsection{Environment}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-\GithubURL{capstone/environment/environment.py}{Implementation}
+\GithubURL{capstone/rl/environment.py}{Implementation}
 
 An agent does not have access to the dynamics (reward and transition function) of the MDP. However,
 it interacts with an \emph{environment} by way of three signals: a \emph{state}, which describes the
