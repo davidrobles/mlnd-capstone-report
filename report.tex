@@ -835,7 +835,7 @@ the predicted q-values for each available action.
 % Figures %
 %%%%%%%%%%%
 
-\begin{figure}[!b]
+\begin{figure}[!h]
     \centering
     \subfloat[$Q(s_0, \texttt{d}) = -1.0$]{
         \label{fig:c4-ql-move-e}
@@ -916,9 +916,11 @@ q-values were found correctly.
 In \hyperref[fig:tic-ql-tab-full-wld-plot]{Figure~\ref*{fig:tic-ql-tab-full-wld-plot}} we can see
 how after 65,000 episodes it learned the values.
 
-%%%%%%%%%%
-% Figure %
-%%%%%%%%%%
+We were able to do that because the full game-tree of Tic-Tac-Toe is around 888888 game states. And
+based on the results we can assume that the majority of the states were visited. But the problem now
+is that Connect 4 has INSERT game states. That makes it impossible to run the Q-learning algorithm
+with a tabular Q-function to save the exact value for every single state of the game. The solution
+to this is now to use a function approximator.
 
 \begin{figure}[!h]
     \centering
@@ -927,11 +929,19 @@ how after 65,000 episodes it learned the values.
     \label{fig:tic-ql-tab-full-wld-plot}
 \end{figure}
 
-We were able to do that because the full game-tree of Tic-Tac-Toe is around 888888 game states. And
-based on the results we can assume that the majority of the states were visited. But the problem now
-is that Connect 4 has INSERT game states. That makes it impossible to run the Q-learning algorithm
-with a tabular Q-function to save the exact value for every single state of the game. The solution
-to this is now to use a function approximator.
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s.
+
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
+sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Estimate all q-values using tabular Q-learning via Self-Play}
