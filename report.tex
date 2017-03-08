@@ -722,7 +722,7 @@ win for the first player, and $0$ for a draw.
 % - Generate a Tic-Tac-Toe board that is easier to analyze
 % - Run Q-learning and show that the values are correct.
 
-% \GithubURL{examples/tic_ql_tabular_fixed.py}{Implementation}
+\GithubURL{examples/tic_ql_tab_full.py}{Implementation}
 
 For Tic-Tac-Toe we used the board position in \hyperref[fig:tic-ql-tab-cur]
 {Figure~\ref*{fig:tic-ql-tab-cur}} as the starting state, $s_0$. It has five available actions,
@@ -800,7 +800,7 @@ making another move (either 1 or 6) to win.
 
 %%% MERGE THIS WITH PREVIOSU CHAPTER< SUBFIGURES
 
-% \GithubURL{examples/c4_ql_tabular_fixed.py}{Implementation}
+\GithubURL{examples/c4_ql_tabular_fixed.py}{Implementation}
 
 For Connect 4 we used the board position in \hyperref[fig:c4-ql-tab-cur]
 {Figure~\ref*{fig:c4-ql-tab-cur}} as the starting state, $s_0$. It has three available actions,
@@ -904,7 +904,7 @@ and \hyperref[fig:c4-ql-qvalues]{\ref*{fig:c4-ql-qvalues}}.
 \subsection{Estimate all q-values using tabular Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% examples/tic_ql_tab_full_fixed.py
+\GithubURL{examples/tic_ql_tab_full.py}{Implementation}
 
 Now the idea is to learn to play the games in general starting from the same position. This means
 that we will use Q-learning to estimate the q-values from the empty board of the game. We will do it
@@ -926,6 +926,35 @@ how after 65,000 episodes it learned the values.
     \caption{Results after playing 1,000 games every 1,000 episodes against a Random player.}
     \label{fig:tic-ql-tab-full-wld-plot}
 \end{figure}
+
+We were able to do that because the full game-tree of Tic-Tac-Toe is around 888888 game states. And
+based on the results we can assume that the majority of the states were visited. But the problem now
+is that Connect 4 has INSERT game states. That makes it impossible to run the Q-learning algorithm
+with a tabular Q-function to save the exact value for every single state of the game. The solution
+to this is now to use a function approximator.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estimate all q-values using tabular Q-learning via Self-Play}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\GithubURL{examples/tic_ql_tab_full_selfplay.py}{Implementation}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.50\textwidth]{figures/tic_ql_tab_full_selfplay_wld_plot.pdf}
+    \caption{Results after playing 1,000 games every 1,000 episodes against a Random player.}
+    \label{fig:tic-ql-tab-full-selfplay-wld-plot}
+\end{figure}
+
+In \hyperref[fig:tic-ql-tab-full-selfplay-wld-plot]
+{Figure~\ref*{fig:tic-ql-tab-full-selfplay-wld-plot}} we can see how after 70,000 episodes it
+learned the values.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estimate Q-values Using Approximate Q-learning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Content.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
