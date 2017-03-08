@@ -798,6 +798,8 @@ making another move (either 1 or 6) to win.
 \subsubsection{Connect 4}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%% MERGE THIS WITH PREVIOSU CHAPTER< SUBFIGURES
+
 % \GithubURL{examples/c4_ql_tabular_fixed.py}{Implementation}
 
 For Connect 4 we used the board position in \hyperref[fig:c4-ql-tab-cur]
@@ -897,6 +899,33 @@ perfect guidance on what was good and bad, it had to learn it by itself. This is
 technique that will be used in the next sections to learn a value function for Connect 4. The values
 are the same as the ones shown in Figures \hyperref[fig:tic-ql-qvalues]{\ref*{fig:tic-ql-qvalues}}
 and \hyperref[fig:c4-ql-qvalues]{\ref*{fig:c4-ql-qvalues}}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estimate all q-values using tabular Q-learning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% examples/tic_ql_tab_full_fixed.py
+
+Now the idea is to learn to play the games in general starting from the same position. This means
+that we will use Q-learning to estimate the q-values from the empty board of the game. We will do it
+for Tic-Tac-Toe. We ran the experiment using similar parameters, and after 65,000 episodes the
+q-values were found correctly.
+
+% IDEA, Juntar ambos tic tac toe and connect 4 en uno!
+
+In \hyperref[fig:tic-ql-tab-full-wld-plot]{Figure~\ref*{fig:tic-ql-tab-full-wld-plot}} we can see
+how after 65,000 episodes it learned the values.
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.50\textwidth]{figures/tic_ql_tab_full_wld_plot.pdf}
+    \caption{Results after playing 1,000 games every 1,000 episodes against a Random player.}
+    \label{fig:tic-ql-tab-full-wld-plot}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
