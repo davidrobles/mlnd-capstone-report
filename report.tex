@@ -3,11 +3,14 @@
 \usepackage{fullpage}
 \usepackage{graphicx}
 \usepackage{color}
+% \usepackage{tcolorbox}
+\usepackage[usestackEOL]{stackengine}
 \usepackage{fancyhdr}
 \usepackage{url}
 \usepackage{subfig}
 \usepackage{multirow}
 \usepackage[table]{xcolor}
+\usepackage{wrapfig}
 \usepackage{amsmath,bm}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -232,18 +235,26 @@ Tic-Tac-Toe and Connect 4, and the dataset is the UCI Connect 4 dataset.
 \subsubsection{Tic-Tac-Toe Environment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\GithubURL{capstone/game/games/tictactoe.py}{Implementation}
+\begin{wrapfigure}{r}{.1\textwidth}
+\vspace{-12pt}
+\framebox{\Longstack[c]{\GithubURL{capstone/game/games/tictactoe.py}{Source}\\Code}}
+\vspace{-12pt}
+\end{wrapfigure}
 
 Tic-Tac-Toe is a paper-and-pencil game for two players, X and O, who take turns marking the spaces
 in a 3x3 grid. The player who succeeds in placing three of their marks in a horizontal, vertical, or
-diagonal row wins the game. \hyperref[fig:tic-env]{Figure~\ref*{fig:tic-env}} shows three
-Tic-Tac-Toe game positions.
+diagonal row wins the game.  \hyperref[fig:tic-env]{Figure~\ref*{fig:tic-env}} shows three
+Tic-Tac-Toe game positions: a win, a draw and a loss.
+
+Tic-Tac-Toe is an extremely simple game, but is very useful to analyze simple concepts and to test
+that the implementation of the learning algorithms are behaving as expected before moving into the
+Connect 4 environment, which is more complex.
 
 %%%%%%%%%%
 % Figure %
 %%%%%%%%%%
 
-\begin{figure}[!h]
+\begin{figure}[!b]
     \centering
     \subfloat[Win for \textsc{X}]{
         \label{fig:tic-env-win}
@@ -257,18 +268,16 @@ Tic-Tac-Toe game positions.
         \label{fig:tic-env-draw}
         \includegraphics[width=0.15\textwidth]{figures/tic_env_draw.pdf}
     }
-    \caption{Examples of wins, losses and draws in Tic-Tac-Toe}
+    \caption{Examples of a win, a loss and a draw in Tic-Tac-Toe.}
     \label{fig:tic-env}
 \end{figure}
 
-As an example, we will simulate 10,000 games using a random players.
-
-\begin{python}
-from capstone.game import TicTacToe
-game = TicTacToe()
-game.legal_moves() # [1, 2, 3, 4, 5, 6, 7, 8, 9]
-print(game)
-\end{python}
+% \begin{python}
+% from capstone.game import TicTacToe
+% game = TicTacToe()
+% game.legal_moves() # [1, 2, 3, 4, 5, 6, 7, 8, 9]
+% print(game)
+% \end{python}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Connect 4 Environment}
