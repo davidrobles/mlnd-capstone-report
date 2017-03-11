@@ -33,6 +33,14 @@
  urlcolor=blue, %
 ]{hyperref}
 
+
+
+\usepackage{adjustbox}
+\usepackage{kantlipsum}
+\usepackage{tikz}
+
+
+
 \usepackage[labelfont=bf]{caption}
 
 
@@ -98,11 +106,37 @@ showstringspaces=false            %
 % Python for inline
 \newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
 
-% Github URL
+%%%%%%%%%%%%%%
+% Github URL %
+%%%%%%%%%%%%%%
+
 \newcommand{\GithubURL}[2]{
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/#1}{#2}
-\break
+    \noindent
+    \href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/#1}{#2}
+    \break
+}
+
+%%%%%%%%%%%%%%%
+% Source Code %
+%%%%%%%%%%%%%%%
+
+\newenvironment{bluebox}{%
+    \noindent
+    \adjustbox{innerenv={varwidth}{\dimexpr\linewidth-2\fboxsep-0.45cm\relax},
+    margin=\fboxsep+.25cm \fboxsep+.05cm,bgcolor=blue!10,frame,center}\bgroup
+}{\egroup}
+
+\newcommand{\SourceCode}[1]{
+    \begin{wrapfigure}{R}{.15\textwidth}
+        \vspace{-12pt}
+        \begin{bluebox}
+            \Longstack[c]{
+                \GithubURL{#1}{Source}\\
+                \GithubURL{#1}{Code}
+            }
+        \end{bluebox}
+        \vspace{-12pt}
+    \end{wrapfigure}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -233,15 +267,6 @@ Tic-Tac-Toe and Connect 4, and the dataset is the UCI Connect 4 dataset.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Tic-Tac-Toe Environment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand{\SourceCode}[1]{
-    \begin{wrapfigure}{r}{.15\textwidth}
-        \vspace{-12pt}
-        % \framebox{\Longstack[c]{\GithubURL{#1}{Source}\\\GithubURL{#1}{Code}}}
-        \framebox{\GithubURL{#1}{Source Code}}
-        \vspace{-12pt}
-    \end{wrapfigure}
-}
 
 \SourceCode{capstone/game/games/tictactoe.py}
 
