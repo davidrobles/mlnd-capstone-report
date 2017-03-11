@@ -119,7 +119,38 @@ showstringspaces=false            %
 \subsection{Project Overview}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Content.
+Reinforcement learning is the area of machine learning concerned with the idea of learning by
+interacting with an environment~\citep{Sutton1998RL}. It has a long and notable history in games.
+The checkers program written by \citet{Samuel1959Checkers} was the first remarkable application of
+temporal difference learning, and also the first significant learning program of any kind. It had
+the principles of temporal difference learning decades before it was described and analyzed.
+However, it was another game where reinforcement learning reached its first big success, when
+\textsc{TD-Gammon}~\citep{Tesauro1995TD} reached world-class gameplay in Backgammon by training a
+neural network-based evaluation function through self-play.
+
+Deep Learning~\citep{LeCun2015Nature} is another branch of machine learning that allows
+computational models that are composed of multiple processing layers to learn representations of
+data with multiple levels of abstraction. Deep learning techniques have dramatically improved the
+state-of-the-art in areas such as speech recognition~\citep{Hinton2012Speech}, image
+recognition~\citep{Krizhevsky2012ImageNet} and natural language processing~\citep{Colbert2012}.
+
+Reecently, there have been several breakthroughs when combining reinforcement learning and deep
+learning. \cite{Mnih2015AtariNature} used a convolutional neural network trained with a variant of
+Q-learning and learned to play Atari 2600 games at a human-level. Last year, one of the biggest
+challenges for artificial intelligence was solved, when Google's DeepMind~\citep{Silver2016GoNature}
+created AlphaGo to beat the world's greatest Go player. AlphaGo used deep neural networks trained by
+a combination of supervised learning from human expert games, and reinforcement learning from games
+of self-play.
+
+Developing strong game-playing programs for classic two-player games (e.g. Chess, Checkers, Go) is
+important in two respects: first, for humans that play the games looking for an intellectual
+challenge, and second, for AI researchers that use the games as testbeds for artificial
+intelligence. In both cases, the task for game programmers and AI researchers of writing strong game
+AI is a hard and tedious task that requires hours of trial and error adjustments and human
+expertise. Therefore, when a strong game-playing algorithm is created to play a specific game, it is
+rarely useful for creating an algorithm to play another game, since the domain knowledge is
+non-transferable. For this reason, there is enormous value in using machine learning to learn to
+play these games without using any domain knowledge.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem Statement}
