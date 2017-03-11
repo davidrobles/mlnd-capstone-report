@@ -122,12 +122,12 @@ showstringspaces=false            %
 
 \newenvironment{bluebox}{%
     \noindent
-    \adjustbox{innerenv={varwidth}{\dimexpr\linewidth-2\fboxsep-0.45cm\relax},
+    \adjustbox{innerenv={varwidth}{\dimexpr\linewidth-2\fboxsep-0.15cm\relax},
     margin=\fboxsep+.25cm \fboxsep+.05cm,bgcolor=blue!10,frame,center}\bgroup
 }{\egroup}
 
 \newcommand{\SourceCode}[1]{
-    \begin{wrapfigure}{R}{.15\textwidth}
+    \begin{wrapfigure}{R}{.12\textwidth}
         \vspace{-12pt}
         \begin{bluebox}
             \Longstack[c]{
@@ -138,6 +138,12 @@ showstringspaces=false            %
         \vspace{-12pt}
     \end{wrapfigure}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Connect 4 UCI Data Set URL %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\URLUCI}{\url{https://archive.ics.uci.edu/ml/datasets/Connect-4}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Machine Learning Nanodegree \\ Capstone Report}
@@ -277,7 +283,9 @@ Tic-Tac-Toe game positions: a win, a draw and a loss.
 
 Tic-Tac-Toe is an extremely simple game, nonetheless, is very useful to analyze simple concepts and
 to verify that the implementation of the learning algorithms are behaving as expected before moving
-into the Connect 4 environment, which is more complex because of its large state space.
+into the Connect 4 environment, which is more complex because of its large state space. asd fsa
+dfsda f sadfsda fsad fsad fsa df sadf sadf sadf asdf sadf asd fsad fsa df asd fas dfa sd fasd fa sdf
+asdf sadf sdafsa.
 
 %%%%%%%%%%
 % Figure %
@@ -312,13 +320,14 @@ into the Connect 4 environment, which is more complex because of its large state
 \subsubsection{Connect 4 Environment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\GithubURL{capstone/game/connect4.py}{Implementation}
+\SourceCode{capstone/game/games/connect4.py}
 
 Connect 4 is a two-player board game of perfect information where pieces are dropped into the
 columns of a vertical $6 \times 7$ grid with the goal of forming a straight line of 4 connected
-pieces. There are at most 7 actions per state, since placing a piece in a column is a legal action
-only if that column has at least one empty location. \hyperref[fig:c4-env]{Figure~\ref*{fig:c4-env}}
-shows three Connect 4 game positions.
+pieces. There are at most seven actions per state, since placing a piece in a column is a legal
+action only if that column has at least one empty location.
+\hyperref[fig:c4-env]{Figure~\ref*{fig:c4-env}} shows three Connect 4 game positions: a win, a draw
+and a loss.
 
 %%%%%%%%%%
 % Figure %
@@ -326,19 +335,19 @@ shows three Connect 4 game positions.
 
 \begin{figure}[!h]
     \centering
-    \subfloat[Win for \textsc{Player 1}]{
+    \subfloat[Win for \textsc{Yellow}]{
         \label{fig:c4-env-wing}
-        \includegraphics[width=0.2\textwidth]{figures/c4_env_win.pdf}
+        \includegraphics[width=0.18\textwidth]{figures/c4_env_win.pdf}
     } \hspace{0.1in}
-    \subfloat[Win for \textsc{Player 2}]{
+    \subfloat[Win for \textsc{Red}]{
         \label{fig:c4-env-loss}
-        \includegraphics[width=0.2\textwidth]{figures/c4_env_loss.pdf}
+        \includegraphics[width=0.18\textwidth]{figures/c4_env_loss.pdf}
     } \hspace{0.1in}
     \subfloat[Draw]{
         \label{fig:c4-env-draw}
-        \includegraphics[width=0.2\textwidth]{figures/c4_env_draw.pdf}
+        \includegraphics[width=0.18\textwidth]{figures/c4_env_draw.pdf}
     }
-    \caption{Examples of wins, losses and draws in Connect Four}
+    \caption{Examples of a win for \textsc{Yellow}, a win for \textsc{Red} and a draw in Connect Four.}
     \label{fig:c4-env}
 \end{figure}
 
@@ -347,7 +356,8 @@ shows three Connect 4 game positions.
 \subsubsection{UCI Connect 4 Data Set}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\URLUCI}{\url{https://archive.ics.uci.edu/ml/datasets/Connect-4}}
+
+\SourceCode{capstone/game/games/connect4.py}
 
 As part of the testing phase, we will use the \emph{Connect 4 Data Set}\footnote{\URLUCI{}} that is
 available from the UCI Machine Learning Repository~\citep{Hettich1998UCI}. This dataset has a total
