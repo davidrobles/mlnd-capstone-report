@@ -3,7 +3,6 @@
 \usepackage{fullpage}
 \usepackage{graphicx}
 \usepackage{color}
-% \usepackage{tcolorbox}
 \usepackage[usestackEOL]{stackengine}
 \usepackage{fancyhdr}
 \usepackage{url}
@@ -235,15 +234,20 @@ Tic-Tac-Toe and Connect 4, and the dataset is the UCI Connect 4 dataset.
 \subsubsection{Tic-Tac-Toe Environment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{wrapfigure}{r}{.1\textwidth}
-\vspace{-12pt}
-\framebox{\Longstack[c]{\GithubURL{capstone/game/games/tictactoe.py}{Source}\\Code}}
-\vspace{-12pt}
-\end{wrapfigure}
+\newcommand{\SourceCode}[1]{
+    \begin{wrapfigure}{r}{.15\textwidth}
+        \vspace{-12pt}
+        % \framebox{\Longstack[c]{\GithubURL{#1}{Source}\\\GithubURL{#1}{Code}}}
+        \framebox{\GithubURL{#1}{Source Code}}
+        \vspace{-12pt}
+    \end{wrapfigure}
+}
+
+\SourceCode{capstone/game/games/tictactoe.py}
 
 Tic-Tac-Toe is a paper-and-pencil game for two players, X and O, who take turns marking the spaces
 in a 3x3 grid. The player who succeeds in placing three of their marks in a horizontal, vertical, or
-diagonal row wins the game.  \hyperref[fig:tic-env]{Figure~\ref*{fig:tic-env}} shows three
+diagonal row wins the game. \hyperref[fig:tic-env]{Figure~\ref*{fig:tic-env}} shows three
 Tic-Tac-Toe game positions: a win, a draw and a loss.
 
 Tic-Tac-Toe is an extremely simple game, but is very useful to analyze simple concepts and to test
