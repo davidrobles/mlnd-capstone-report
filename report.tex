@@ -263,9 +263,9 @@ Q^*(s,a) = \max\limits_\pi Q^\pi(s,a), \forall s \in \mathcal{S}, a \in \mathcal
 \section{Analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Data Exploration}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Data Exploration and Visualization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this project we use two environments and one dataset. The environments are the games of
 Tic-Tac-Toe and Connect 4, and the dataset is the UCI Connect 4 dataset.
@@ -305,7 +305,7 @@ asdf sadf sdafsa.
         \label{fig:tic-env-draw}
         \includegraphics[width=0.15\textwidth]{figures/tic_env_draw.pdf}
     }
-    \caption{Examples of a win, a loss and a draw in Tic-Tac-Toe.}
+    \caption{Examples of a win for X, a loss and a draw in Tic-Tac-Toe.}
     \label{fig:tic-env}
 \end{figure}
 
@@ -327,7 +327,7 @@ columns of a vertical $6 \times 7$ grid with the goal of forming a straight line
 pieces. There are at most seven actions per state, since placing a piece in a column is a legal
 action only if that column has at least one empty location.
 \hyperref[fig:c4-env]{Figure~\ref*{fig:c4-env}} shows three Connect 4 game positions: a win, a draw
-and a loss.
+and a loss:
 
 %%%%%%%%%%
 % Figure %
@@ -347,7 +347,7 @@ and a loss.
         \label{fig:c4-env-draw}
         \includegraphics[width=0.18\textwidth]{figures/c4_env_draw.pdf}
     }
-    \caption{Examples of a win for \textsc{Yellow}, a win for \textsc{Red} and a draw in Connect Four.}
+    \caption{Examples of a win, a loss and a draw in Connect Four.}
     \label{fig:c4-env}
 \end{figure}
 
@@ -368,14 +368,8 @@ $\{\textsc{x}, \textsc{o}, \textsc{b}\}$, where \textsc{x} is the first player, 
 second player, and \textsc{b} is empty. The outcome class is the game theoretical value for the
 first player, and can belong to one of the classes $\{\textsc{Win}, \textsc{Loss}, \textsc{Draw}\}$.
 There are 44,473 wins, 16,635 losses and 6,449 draws.
+\hyperref[table:uci-dataset]{Table~\ref*{table:uci-dataset}} shows the dataset.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Exploratory Visualization}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{UCI Connect 4 Data Set}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 As an example, here are ten instances selected randomly:
 
@@ -383,6 +377,10 @@ As an example, here are ten instances selected randomly:
 \definecolor{odd}{RGB}{240,249,254}
 \definecolor{header}{RGB}{128,169,188}
 % \newcolumntype{R}{@{\extracolsep{13cm}}r@{\extracolsep{10pt}}}%
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Table: UCI Dataset %
+%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{table}[h!]
 \small
