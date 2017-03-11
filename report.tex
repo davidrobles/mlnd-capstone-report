@@ -129,14 +129,15 @@ Content.
 \newcommand{\URLcf}{https://en.wikipedia.org/wiki/Connect_Four}
 
 In this project we use deep reinforcement learning to create an agent that learns to play the game
-of {Connect 4} by playing games against itself. We define the machine learning problem as follows:
+of \mbox{Connect 4} by playing games against itself. We define the machine learning problem as
+follows:
 
 \begin{itemize}
 
     \item \textbf{Task:} Playing Connect 4.
 
-    \item \textbf{Performance:} Percent of games won against other agents, and accuracy of the
-        predictions on the UCI Connect 4 dataset.
+    \item \textbf{Performance:} Winning percentage when playing against other agents, and accuracy
+        of the predicted outcomes on the UCI Connect 4 dataset.
 
     \item \textbf{Experience:} Games played against itself.
 
@@ -149,14 +150,14 @@ of {Connect 4} by playing games against itself. We define the machine learning p
 
 \end{itemize}
 
-Therefore, I seek to build a Q-learning agent trained via a deep convolutional neural network to
-approximate the optimal action-value function:
+More specifically, we seek to build an agent that uses Q-learning via self-play to train a deep
+convolutional neural network to approximate the optimal action-value function:
 
 \begin{equation}
 Q^*(s,a) = \max\limits_\pi Q^\pi(s,a), \forall s \in \mathcal{S}, a \in \mathcal{A}
 \end{equation}
 
-\noindent which is the maximum sum of rewards achievable by a behaviour policy $\pi$.
+\noindent which is the maximum sum of rewards achievable by a behavior policy $\pi$.
 
 %%%%%%%%%%%%%%%%%%%%
 \subsection{Metrics}
@@ -164,11 +165,11 @@ Q^*(s,a) = \max\limits_\pi Q^\pi(s,a), \forall s \in \mathcal{S}, a \in \mathcal
 
 \begin{itemize}
 
-    \item \textbf{Winning percentage.} This metric consists in playing a high number of games (e.g.
-        100,000) against another agent (e.g. a random agent), and calculating the average of games
-        won by the agent that uses the learned value function.
+    \item \textbf{Winning percentage.} Consists in playing a high number of games (e.g. 100,000)
+        against other agents (e.g. Alpha-Beta player) using the trained deep neural network as the
+        action-value function to take greedy actions.
         
-    \item \textbf{Prediction accuracy.} The learned value function will be used to predict the
+    \item \textbf{Prediction accuracy.} The learned action-value function is used to predict the
         game-theoretic outcomes (win, loss or draw) of the board positions in the Connect 4 Data
         Set.
 
@@ -176,12 +177,14 @@ Q^*(s,a) = \max\limits_\pi Q^\pi(s,a), \forall s \in \mathcal{S}, a \in \mathcal
 
 % from wiki
 
-Accuracy is not a reliable metric for the real performance of a classifier, because it will yield
-misleading results if the data set is unbalanced (that is, when the number of samples in different
-classes vary greatly). For example, if there were 95 cats and only 5 dogs in the data set, the
-classifier could easily be biased into classifying all the samples as cats. The overall accuracy
-would be 95\%, but in practice the classifier would have a 100\% recognition rate for the cat class
-but a 0\% recognition rate for the dog class.
+% Accuracy is not a reliable metric for the real performance of a classifier, because it will yield
+% misleading results if the data set is unbalanced (that is, when the number of samples in different
+% classes vary greatly). For example, if there were 95 cats and only 5 dogs in the data set, the
+% classifier could easily be biased into classifying all the samples as cats. The overall accuracy
+% would be 95\%, but in practice the classifier would have a 100\% recognition rate for the cat class
+% but a 0\% recognition rate for the dog class.
+
+% discuss that the dataset is unbalanced
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analysis}
