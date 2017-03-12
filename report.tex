@@ -256,9 +256,7 @@ draw and a loss.
 
 Tic-Tac-Toe is an extremely simple game, nonetheless, is very useful to analyze simple concepts and
 to verify that the implementation of the learning algorithms are behaving as expected before moving
-into the Connect 4 environment, which is more complex because of its large state space. asd fsa
-dfsda f sadfsda fsad fsad fsa df sadf sadf sadf asdf sadf asd fsad fsa df asd fas dfa sd fasd fa sdf
-asdf sadf sdafsa.
+into the Connect 4 environment, which is more complex because of its large state space.
 
 %%%%%%%%%%
 % Figure %
@@ -278,9 +276,11 @@ asdf sadf sdafsa.
         \label{fig:tic-env-draw}
         \includegraphics[width=0.15\textwidth]{figures/tic_env_draw.pdf}
     }
-    \caption{Examples of a win for X, a loss and a draw in Tic-Tac-Toe.}
+    \caption{Examples of a win, a loss and a draw in Tic-Tac-Toe.}
     \label{fig:tic-env}
 \end{figure}
+
+\pagebreak[4]
 
 % \begin{python}
 % from capstone.game import TicTacToe
@@ -297,8 +297,9 @@ Connect 4 \GithubURL{capstone/game/games/connect4.py} is a two-player board game
 information where pieces are dropped into the columns of a vertical $6 \times 7$ grid with the goal
 of forming a straight line of 4 connected pieces. There are at most seven actions per state, since
 placing a piece in a column is a legal action only if that column has at least one empty location.
-\hyperref[fig:c4-env]{Figure~\ref*{fig:c4-env}} shows three Connect 4 game positions: a win, a draw
-and a loss:
+In this project we use pieces of two colors: \textsc{Yellow} for the first player, and \textsc{Red}
+for the second player. \hyperref[fig:c4-env]{Figure~\ref*{fig:c4-env}} shows three Connect 4 game
+positions: a win, a draw and a loss:
 
 %%%%%%%%%%
 % Figure %
@@ -337,6 +338,9 @@ $\{\texttt{x}, \texttt{o}, \texttt{b}\}$, where \texttt{x} is the first player, 
 second player, and \texttt{b} is empty. The outcome class is the game theoretical value for the
 first player, and can belong to one of the classes $\{\texttt{win}, \texttt{loss}, \texttt{draw}\}$.
 There are 44,473 wins, 16,635 losses and 6,449 draws \GithubURL{examples/c4_uci_data_expl.py}.
+\hyperref[fig:c4-exp]{Figure~\ref*{fig:c4-exp}} shows a visual representation of five randomly
+selected instances of the data set. As we can see, all game positions have eight pieces in the
+board, representing all legal 8-ply positions \GithubURL{examples/c4_uci_viz.py}.
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Table: UCI Dataset %
@@ -372,9 +376,7 @@ There are 44,473 wins, 16,635 losses and 6,449 draws \GithubURL{examples/c4_uci_
 \label{table:uci-dataset}
 \end{table}
 
-\hyperref[fig:c4-exp]{Figure~\ref*{fig:c4-exp}} shows a visual representation of five randomly
-selected instances of the data set. As we can wee, all game positions have eight pieces in the
-board, representing all legal 8-ply positions \GithubURL{examples/c4_uci_viz.py}.
+\pagebreak[4]
 
 %%%%%%%%%%
 % Figure %
@@ -402,7 +404,7 @@ board, representing all legal 8-ply positions \GithubURL{examples/c4_uci_viz.py}
         \label{fig:c4-exp-10}
         \includegraphics[width=0.15\textwidth]{figures/c4_exploration_10_draw.pdf}
     }
-    \caption{10 randomly selected instances of the UCI Connect 4 Data Set. The outcome of each board
+    \caption{Five randomly selected instances of the UCI Connect 4 Data Set. The outcome of each board
     position is from the point of view of the firs player (Yellow discs).}
     \label{fig:c4-exp}
 \end{figure}
