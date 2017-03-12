@@ -411,6 +411,34 @@ board, representing all legal 8-ply positions \GithubURL{examples/c4_uci_viz.py}
 \subsection{Algorithms and Techniques}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Markov Decision Process}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A \emph{Markov decision process} (MDP) consist of four elements:
+
+\begin{itemize}
+
+    \item $\mathcal{S}$ is the set of \emph{states} (state space).
+
+    \item $\mathcal{A}$ is the set of \emph{actions} (action space). The set of actions that are
+        available in some particular state $s_t \in \mathcal{S}$ is denoted $\mathcal{A}(s_t)$.
+
+    \item $ T : \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to \mathbb{R}$ is the
+      \emph{transition function}, which is the probability given we are in state $s_t \in
+      \mathcal{S}$, take action $a_t \in \mathcal{A}(s_t)$ and we will transition to state $s_{t+1}
+      \in \mathcal{S}$.
+
+    \item $ R : \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to \mathbb{R}$ is the
+      \emph{reward function}, which is the immediate reward received when in state $s_t \in
+      \mathcal{S}$ action $a_t \in \mathcal{A}$ is taken and the MDP transitions to state $s_{t+1}
+      \in \mathcal{S}$. However, it is also possible to define it either as $ R : \mathcal{S} \times
+      \mathcal{A} \to \mathbb{R}$ or $R : \mathcal{S} \to \mathbb{R}$. The first one gives rewards
+      for performing an action $a_t$ in a particular state $s_t$, and the second gives rewards when
+      transitioning to state $s_{t+1}$.
+
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Neural Networks}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -500,38 +528,6 @@ branches that will not have any effect in the selection of the best move.
 \section{Implementation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Markov Decision Process}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \GithubURL{capstone/rl/mdp.py}{Implementation}
-
-A \emph{Markov decision process} (MDP) consist of a set of states, a set of actions, a transition
-function and a reward function.
-
-\begin{itemize}
-
-    \item $\mathcal{S}$ is the set of \emph{states} (state space).
-
-    \item $\mathcal{A}$ is the set of \emph{actions} (action space). The set of actions that are
-      available in some particular state $s_t \in \mathcal{S}$ is denoted $\mathcal{A}(s_t)$, such
-      that $\mathcal{A}(s_t) \in \mathcal{P}(\mathcal{A})$, where $\mathcal{P}(\cdot)$ denotes the
-      power set.
-
-    \item $ T : \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to \mathbb{R}$ is the
-      \emph{transition function}, which is the probability given we are in state $s_t \in
-      \mathcal{S}$, take action $a_t \in \mathcal{A}(s_t)$ and we will transition to state $s_{t+1}
-      \in \mathcal{S}$.
-
-    \item $ R : \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to \mathbb{R}$ is the
-      \emph{reward function}, which is the immediate reward received when in state $s_t \in
-      \mathcal{S}$ action $a_t \in \mathcal{A}$ is taken and the MDP transitions to state $s_{t+1}
-      \in \mathcal{S}$. However, it is also possible to define it either as $ R : \mathcal{S} \times
-      \mathcal{A} \to \mathbb{R}$ or $R : \mathcal{S} \to \mathbb{R}$. The first one gives rewards
-      for performing an action $a_t$ in a particular state $s_t$, and the second gives rewards when
-      transitioning to state $s_{t+1}$.
-
-\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Environment}
