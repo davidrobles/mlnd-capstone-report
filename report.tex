@@ -630,38 +630,124 @@ branches that will not have any effect in the selection of the best move.
 
 \end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Implementation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Implementation content.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Data Preprocessing}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Content.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak[4]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Game}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    \item Two games were implemented: Tic Tac Toe and Connect 4.
-    \item Converting a to an MDP by using a fixed agent.
-    \item Show that q-learning learns to play against a fixed opponent using Tic-Tac-Toe.
-    \item Show that q-learning learns to play against a fixed opponent using Connect 4.
+The first part of the implementation was to implement the two games, Tic-Tac-Toe and Connect 4. The
+idea was to design them first in a way that is independent of reinforcement learning. The following
+is the abstract Game interface for both \GithubURL{capstone/game/game.py}.
 
-\end{itemize}
+\begin{python}
+class Game(object):
 
-%%%%%%%%%%%%%%%%%%%%%%%
+    def copy(self):
+        '''Returns a copy of the game.'''
+        pass
+
+    def cur_player(self):
+        '''
+        Returns the index of the player in turn, starting with 0:
+        0 (Player 1), 1 (Player 2), etc.
+        '''
+        pass
+
+    def is_over(self):
+        '''Returns True if the game is over.'''
+        return len(self.legal_moves()) == 0
+
+    def legal_moves(self):
+        '''
+        Returns a list of legal moves for the player in turn.
+        '''
+        pass
+
+    def make_move(self, move):
+        '''Makes one move for the player in turn.'''
+        pass
+
+    def make_moves(self, moves):
+        '''Makes a series of moves.'''
+        pass
+
+    def outcomes(self):
+        '''Returns a list of outcomes for each player at the end of the game.'''
+        pass
+
+    def outcome(self, player_idx):
+        '''Returns the outcome for the given player.'''
+        pass
+
+    def reset(self):
+        '''Restarts the game.'''
+        pass
+\end{python}
+
+Once we had the Game interface well defined we implemented both Tic-Tac-toe
+\GithubURL{capstone/game/games/tictactoe.py} and \mbox{Connect 4}
+\GithubURL{capstone/game/games/tictactoe.py}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Markov Decision Process}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We then designed the interface for an MDP as follows:
+
+\begin{python}
+class MDP(object):
+
+    def states(self):
+        '''Returns a list of all states. Not generally possible for large MDPs.'''
+        pass
+
+    def start_state(self):
+        '''Returns the initial state.'''
+        pass
+
+    def actions(self, state):
+        '''Returns a list of possible actions in the given state.'''
+        pass
+
+    def transitions(self, state, action):
+        '''
+        Returns a dict of (next_state: probability) key/values, where 'next_state' is
+        reachable from 'state' by taking 'action'. The sum of all probabilities should
+        be 1.0. Not available in reinforcement learning.
+        '''
+        pass
+
+    def reward(self, state, action, next_state):
+        '''
+        Returns the reward of being in 'state', taking 'action', and ending up
+        in 'next_state'. Not available in reinforcement learning.
+        '''
+        pass
+
+    def is_terminal(self, state):
+        '''.Returns True if the given state is terminal.'''
+        pass
+\end{python}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Refinement}
-%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Content.
 
