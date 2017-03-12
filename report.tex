@@ -439,6 +439,85 @@ A \emph{Markov decision process} (MDP) consist of four elements:
 
 \end{itemize}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Environment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the reinforcement learning problem an agent does not have access to the dynamics (reward and
+transition function) of the MDP. However, it interacts with an \emph{environment} by way of three
+signals: a \emph{state}, which describes the state of the environment, an \emph{action}, which
+allows the agent to have some impact on the environment, and a \emph{reward}, which provides the
+agent with feedback on its immediate performance.
+
+%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Policy}
+%%%%%%%%%%%%%%%%%%%%%%
+
+% \GithubURL{capstone/policy/policy.py}{Implementation}
+
+In an MDP, the agent acts according to a policy $\pi$, which maps each state $s \in \mathcal{S}$ to
+an action $a \in \mathcal{A}(s)$. A policy that specifies a unique action to be performed is called
+a \emph{deterministic} policy, and is defined as $\pi : \mathcal{S} \rightarrow \mathcal{A}$.
+
+The interaction between the policy used by the agent and the environment works as follows. First, it
+starts at an \emph{initial state} $s_0$. Then, the policy $\pi$ selects an action $a_0 = \pi(s_0)$
+from the set of available actions $\mathcal{A}(s_0)$, and the action is executed. The environment
+transitions to a new state $s_1$ based on the transition function $T$ with probability
+$T(s_0,a_0,s_1)$, and a reward $r_0 = R(s_0, a_0, s_1)$ is received. This process continues,
+producing a \emph{trajectory} of experience $s_0, a_0, s_1, r_1, a_1, s_2, r_2, a_2, \dots$, and the
+process ends in a \emph{terminal state} $s_T$ and is restarted in the initial state.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Random policy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \GithubURL{capstone/policy/random_policy.py}{Implementation}
+
+Selects:
+%
+\begin{equation}
+    \pi_{\textrm{rand}}(s) = \argmax_{a \in \mathcal{A}(s_t)} Q(s, a)
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Greedy policy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \GithubURL{capstone/policy/greedy.py}{Implementation}
+
+\noindent
+\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/greedy.py}
+     {Implementation}
+\break
+
+The greedy tree policy selects the \emph{max action}, which is the greedy action with the highest
+value.
+%
+\begin{equation}
+    \pi_{\textrm{greedy}}(s) = \argmax_{a \in \mathcal{A}(s_t)} Q(s, a)
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{$\epsilon$-greedy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \GithubURL{capstone/policy/egreedy.py}{Implementation}
+
+The $\epsilon$-greedy tree policy selects the best action for a proportion $1 - \epsilon$ of the
+trials, and another action is randomly selected (with uniform probability) for a proportion
+$\epsilon$,
+%
+\begin{equation}
+    \pi_{\epsilon}(s) = \left\{
+     \begin{array}{lr}
+         \pi_{\textrm{rand}}(s,a) & \text{if } rand() < \epsilon\\
+         \pi_{\textrm{greedy}}(s,a) & \text{otherwise}
+     \end{array}
+   \right.
+\end{equation}
+%
+where $\epsilon \in [0, 1]$ and $rand()$ returns a random number from a uniform distribution $\in
+[0, 1]$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Neural Networks}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -528,136 +607,7 @@ branches that will not have any effect in the selection of the best move.
 \section{Implementation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Environment}
-%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \GithubURL{capstone/rl/environment.py}{Implementation}
-
-An agent does not have access to the dynamics (reward and transition function) of the MDP. However,
-it interacts with an \emph{environment} by way of three signals: a \emph{state}, which describes the
-state of the environment, an \emph{action}, which allows the agent to have some impact on the
-environment, and a \emph{reward}, which provides the agent with feedback on its immediate
-performance.
-
-%%%%%%%%%%%%%%%%%%%
-\subsection{Policy}
-%%%%%%%%%%%%%%%%%%%
-
-% \GithubURL{capstone/policy/policy.py}{Implementation}
-
-In an MDP, the agent acts according to a policy $\pi$, which maps each state $s \in \mathcal{S}$ to
-an action $a \in \mathcal{A}(s)$. A policy that specifies a unique action to be performed is called
-a \emph{deterministic} policy, and is defined as $\pi : \mathcal{S} \rightarrow \mathcal{A}$. On the
-other hand, a \emph{stochastic} policy $\pi : \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$
-selects actions according to a probability distribution, such that for each state $s \in
-\mathcal{S}$, it holds that $\pi(s,a) \geq 0$ and $\sum_{a\in\mathcal{A}(s)} \pi(s,a) = 1$.
-
-The interaction between the policy used by the agent and the environment works as follows. First, it
-starts at an \emph{initial state} $s_0$. Then, the policy $\pi$ selects an action $a_0 = \pi(s_0)$
-from the set of available actions $\mathcal{A}(s_0)$, and the action is executed. The environment
-transitions to a new state $s_1$ based on the transition function $T$ with probability
-$T(s_0,a_0,s_1)$, and a reward $r_0 = R(s_0, a_0, s_1)$ is received. This process continues,
-producing a \emph{trajectory} of experience $s_0, a_0, s_1, r_1, a_1, s_2, r_2, a_2, \dots$. If the
-task is \emph{episodic}, the process ends in a \emph{terminal state} $s_T$ and is restarted in the
-initial state. If the task is \emph{continiuing}, the sequence of states can be extended
-indefinitely.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Random policy}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \GithubURL{capstone/policy/random_policy.py}{Implementation}
-
-Selects:
-%
-\begin{equation}
-    \pi_{\textrm{rand}}(s) = \argmax_{a \in \mathcal{A}(s_t)} Q(s, a)
-\end{equation}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Greedy policy}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \GithubURL{capstone/policy/greedy.py}{Implementation}
-
-\noindent
-\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/policy/greedy.py}
-     {Implementation}
-\break
-
-The greedy tree policy selects the \emph{max action}, which is the greedy action with the highest
-value.
-%
-\begin{equation}
-    \pi_{\textrm{greedy}}(s) = \argmax_{a \in \mathcal{A}(s_t)} Q(s, a)
-\end{equation}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{$\epsilon$-greedy}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \GithubURL{capstone/policy/egreedy.py}{Implementation}
-
-The $\epsilon$-greedy tree policy selects the best action for a proportion $1 - \epsilon$ of the
-trials, and another action is randomly selected (with uniform probability) for a proportion
-$\epsilon$,
-%
-\begin{equation}
-    \pi_{\epsilon}(s) = \left\{
-     \begin{array}{lr}
-         \pi_{\textrm{rand}}(s,a) & \text{if } rand() < \epsilon\\
-         \pi_{\textrm{greedy}}(s,a) & \text{otherwise}
-     \end{array}
-   \right.
-\end{equation}
-%
-where $\epsilon \in [0, 1]$ and $rand()$ returns a random number from a uniform distribution $\in
-[0, 1]$.
-
-%%%%%%%%%%%%%%%%%
-\subsection{Game}
-%%%%%%%%%%%%%%%%%
-
-Informally speaking, a perfect-information game in extensive form is a tree in the sense of graph
-theory, in which each node represents the current state of the game, each edge represents a
-possible action, and the leaves represent the terminal states, which contains final outcomes
-through a utility function. In the field of AI these are known simply as \emph{game trees}.
-
-A \textbf{perfect-information extensive-form game} is defined as a tuple $G = (n, \mathcal{S},
-\mathcal{S_T}, \mathcal{A}, \rho, T, U)$, where:
-
-
-\begin{itemize}
-
-    \item $n$ is the \emph{number of players};
-
-    \item $\mathcal{S}$ is the set of \emph{states};
-
-    \item $\mathcal{S}_T \subset \mathcal{S}$ is the set of \emph{terminal states};
-
-    \item $\mathcal{A}$ is the set of \emph{actions}. The set of actions that are available in some
-    particular state $s_t \in \mathcal{S}$ for the player in turn $\rho(s_t)$ is denoted
-    $\mathcal{A}(s_t)$, such that $\mathcal{A}(s_t) \in \mathcal{P}(\mathcal{A})$, where
-    $\mathcal{P}(\cdot)$ denotes the power set.
-
-    \item $\rho : \overline{\mathcal{S}_T} \to \{i \in \mathbb{N} : 1 \leq i \leq n \} $ is the
-    \emph{player function}, which assigns to each non-terminal state $s_t \in \overline{S_T}$ a
-    player $i$ who chooses an action at that state;
-
-    \item $T : \overline{\mathcal{S}_T} \times \mathcal{A} \to \mathcal{S}$ is the \emph{transition
-    function}, which maps a non-terminal state and an action to a new state;
-
-    \item $U : S_T \to \mathbb{R}^n $ is the \emph{utility function}, which returns a vector of
-    payoffs $U(s_T) = (u_1, \dots, u_n)$ for each of the $n$ players of the game. We will use the
-    notation $U_i(s_T)$ to represent the payoff for the $i$th player when the game is over at state
-    $s_T \in S_T$.
-
-\end{itemize}
-
-In two-player perfect-information extensive-form games, a \emph{ply} refers to one turn taken by one
-of the players.
+Implementation content.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
