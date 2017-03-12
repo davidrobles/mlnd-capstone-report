@@ -411,64 +411,49 @@ board, representing all legal 8-ply positions \GithubURL{examples/c4_uci_viz.py}
 \subsection{Algorithms and Techniques}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Alpha-beta pruning}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Neural Networks}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \GithubURL{capstone/game/players/alphabeta.py}{Implementation}
-
-% In this project, we will use reinforcement learning with deep learning to make an agent learn to
-% play the game of {Connect 4}\footnote{\url{\URLcf}} by playing games against itself. In other words,
-% using the formalism used by \cite{Mitchell1997Book} to define a machine learning problem:
-
-\emph{Alpha-beta pruning}~\citep{Knuth1975AB} is the most common game tree search algorithm for
-two-player games of perfect information. It extends the minimax algorithm to reduce the number of
-nodes that are evaluated in the game tree. Instead of calculating the exact minimax values for all
-the nodes in the game tree, alpha-beta prunes away branches that will not have any effect in the
-selection of the best move.
-
-% \hyperref[fig:ab-game-tree]{Figure~\ref*{fig:ab-game-tree}} illustrates
-% the prunning process in the Alpha-Beta algorithm. This tree has a total of 28 nodes, however, 10
-% nodes of the tree were pruned (crossed branches) because those branches do not have any effect in
-% the selection of the best move.
-
-% The algorithm works by imposing a \emph{search window} $\left[ \alpha, \beta \right] $ at each
-% \textsc{Min} or \textsc{Max} node in the game tree. $\alpha$ represents the value of the best (i.e.
-% highest-value) node found so far for \textsc{Max}, while $\beta$ is the best value (i.e.
-% lowest-value) for \textsc{Min}. The search through successor nodes can be terminated as soon as the
-% current node's value is proven to fall outside the search window. The functionality of Alpha-Beta
-% is detailed in \hyperref[alg:alpha-beta]{Algorithm~\ref*{alg:alpha-beta}}.
-
-% \newcommand{\URLab}{https://github.com/davidrobles/mlnd-capstone-code/blob/master/capstone/player/alphabeta.py}
+Content.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \GithubURL{capstone/rl/learners/qlearning.py}{Implementation}
-
 One of the most basic and popular methods to estimate action-value functions is the
-\emph{Q-learning} algorithm~\citep{Watkins1989PhD}. It is model-free online off-policy algorithm,
-whose main strength is that it is able to compare the expected utility of the available actions
-without requiring a model of the environment. Q-learning works by learning an action-value function
-that gives the expected utility of taking a given action in a given state and following a fixed
-policy thereafter. The update rule uses action-values and a built-in max-operator over the
-action-values of the next state in order to update $Q(s_t, a_t)$ as follows,
+\emph{Q-learning} algorithm~\citep{Watkins1989PhD} \GithubURL{capstone/rl/learners/qlearning.py}.
+It is model-free online off-policy algorithm, whose main strength is that it is able to compare the
+expected utility of the available actions without requiring a model of the environment. Q-learning
+works by learning an action-value function that gives the expected utility of taking a given action
+in a given state and following a fixed policy thereafter. The update rule uses action-values and a
+built-in max-operator over the action-values of the next state in order to update $Q(s_t, a_t)$ as
+follows,
 %
-\begin{equation}
-    Q(s_t, a_t) \gets Q(s_t, a_t) + \alpha [r_{t+1} + \gamma \max_a Q(s_{t+1}, a) - Q(s_t, a_t)]
-\end{equation}
+\begin{equation} Q(s_t, a_t) \gets Q(s_t, a_t) + \alpha [r_{t+1} + \gamma \max_a Q(s_{t+1}, a) -
+Q(s_t, a_t)] \end{equation}
 
 The agent makes a step in the environment from state $s_t$ to $s_{t+1}$ using action $a_t$ while
 receiving reward $r_t$. The update takes place on the action-value $a_t$ in the state $s_t$ from
 which this action was executed.
 
-Q-learning is exploration-intensive, which means that it will converge to the optimal policy
-regardless of the exploration policy being followed, under the assumption that each state-action
-pair is visited an infinite number of times, and the learning parameter $\alpha$ is decreased
-appropriately~\citep{Watkins1992Q}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Approximate Q-learning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+It is possible to use a function approximator to estimate the action-value function, $Q(s,a;\theta)
+\approx Q(s,a)$. We refer to a neural network function approximator with weights $\theta$ as a
+Q-network.
+
+asfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as
+fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf
+as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd
+asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsa
+\GithubURL{capstone/rl/learners/qlearning.py}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Self-play}
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \GithubURL{capstone/rl/learners/qlearning_selfplay.py}{Implementation}
 
@@ -479,6 +464,16 @@ that definitely holds for self-play. As a second reason for popularity, there is
 implement or access a different agent with roughly equal playing strength. However, self-play has
 several drawbacks, with the main one being that a single opponent does not provide sufficient
 exploration~\citep{Szita2011RLGames}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Alpha-beta pruning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\emph{Alpha-beta pruning}~\citep{Knuth1975AB} \GithubURL{capstone/game/players/alphabeta.py} is the
+most common game tree search algorithm for two-player games of perfect information. It extends the
+minimax algorithm to reduce the number of nodes that are evaluated in the game tree. Instead of
+calculating the exact minimax values for all the nodes in the game tree, alpha-beta prunes away
+branches that will not have any effect in the selection of the best move.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Benchmark}
