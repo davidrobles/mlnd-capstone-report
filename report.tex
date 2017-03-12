@@ -674,9 +674,7 @@ class Game(object):
         return len(self.legal_moves()) == 0
 
     def legal_moves(self):
-        '''
-        Returns a list of legal moves for the player in turn.
-        '''
+        '''Returns a list of legal moves for the player in turn.'''
         pass
 
     def make_move(self, move):
@@ -708,7 +706,7 @@ Once we had the Game interface well defined we implemented both Tic-Tac-toe
 \subsubsection{Markov Decision Process}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We then designed the interface for an MDP as follows:
+We then designed the interface for an MDP \GithubURL{capstone/rl/mdp.py} as follows:
 
 \begin{python}
 class MDP(object):
@@ -743,6 +741,57 @@ class MDP(object):
     def is_terminal(self, state):
         '''.Returns True if the given state is terminal.'''
         pass
+\end{python}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Converting a Game into an MDP}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Content.
+
+\pagebreak[4]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Environment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A reinforcement learning environment \GithubURL{capstone/rl/environment.py} for interacting with an
+MDP. The main idea is that it restricts access to the transition and reward functions. It needs to
+interact with the environment to transition to another state and receive rewards.
+
+\begin{python}
+class Environment(object):
+
+    def __init__(self, mdp):
+        self._mdp = mdp
+        self._cur_state = self._mdp.start_state()
+
+    def actions(self, state):
+        '''Returns the available actions in the given state.'''
+        return self._mdp.actions(state)
+
+    def cur_state(self):
+        '''Returns the current state.'''
+        return self._cur_state.copy()
+
+    def do_action(self, action):
+        '''
+        Performs the given action in the current state.
+        Returns (reward, next_state).
+        '''
+        prev = self.cur_state()
+        transitions = self._mdp.transitions(self.cur_state(), action)
+        for next_state, prob in transitions:
+            self._cur_state = next_state
+        reward = self._mdp.reward(prev, action, self.cur_state())
+        return reward, self.cur_state()
+
+    def is_terminal(self):
+        return self._mdp.is_terminal(self.cur_state())
+
+    def reset(self):
+        '''Resets the current state to the start state.'''
+        self._cur_state = self._mdp.start_state()
 \end{python}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
