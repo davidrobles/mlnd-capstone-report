@@ -58,6 +58,7 @@
 \definecolor{deepblue}{rgb}{0,0,0.5}
 \definecolor{deepred}{rgb}{0.6,0,0}
 \definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{coolblue}{HTML}{101094}
 
 \usepackage{listings}
 
@@ -65,31 +66,32 @@
 
 % Python style for highlighting
 \newcommand\pythonstyle{\lstset{
-language=Python,
-basicstyle=\ttm,
-otherkeywords={self},             % Add keywords here
-keywordstyle=\ttb\color{deepblue},
-emph={MyClass,__init__},          % Custom highlighting
-emphstyle=\ttb\color{deepred},    % Custom highlighting style
-stringstyle=\color{deepgreen},
-frame=tb,                         % Any extra options here
-framesep=10pt,
-framexleftmargin=10pt,
-backgroundcolor=\color{codebg},
-rulecolor=\color{codebg},
-aboveskip=15pt,
-belowskip=15pt,
-showstringspaces=false            % 
+    language=Python,
+    basicstyle=\ttm,
+    otherkeywords={},             % Add keywords here
+    keywordstyle=\ttm\color{coolblue},
+    emph={MyClass},          % Custom highlighting
+    emphstyle=\ttm\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    frame=tb,                         % Any extra options here
+    framesep=10pt,
+    framexleftmargin=10pt,
+    backgroundcolor=\color{codebg},
+    rulecolor=\color{codebg},
+    aboveskip=15pt,
+    belowskip=15pt,
+    showstringspaces=false            % 
 }}
 
 
 % Python environment
-\lstnewenvironment{python}[1][]
-{
-\pythonstyle
-\lstset{#1}
-}
-{}
+\lstnewenvironment{python}[1][] {
+    \pythonstyle
+    \lstset{#1}
+}{}
+
+% \setmonofont[Color={0019D4}]{Courier New}
+
 
 % Python for external files
 \newcommand\pythonexternal[2][]{{
@@ -792,6 +794,104 @@ class Environment(object):
     def reset(self):
         '''Resets the current state to the start state.'''
         self._cur_state = self._mdp.start_state()
+\end{python}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Learner}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+We define an episodic learner. It is basically an interface for algorithms that learn a value
+function by interacting with an environment in an episodic way.
+
+\begin{python}
+class Learner(object):
+
+    def __init__(self, env, n_episodes=1000):
+        self.env = env
+        self.n_episodes = n_episodes
+
+    def train(self, callbacks=None):
+        '''Trains the model for a fixed number of episodes.'''
+        callbacks = CallbackList(callbacks)
+        callbacks.on_train_begin()
+        for episode in range(self.n_episodes):
+            callbacks.on_episode_begin(episode)
+            self.env.reset()
+            self.episode()
+            callbacks.on_episode_end(episode, self.qfunction)
+        callbacks.on_train_end(self.qfunction)
+
+    @abc.abstractmethod
+    def episode(self):
+        pass
+\end{python}
+
+\pagebreak[4]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Tabular Q-learning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+asdf asd fas fas df a.
+
+\begin{python}
+class QLearning(Learner):
+    '''Tabular Q-learning'''
+
+    def __init__(self, env, policy, qfunction, learning_rate=0.1, discount_factor=1.0):
+        super(QLearning, self).__init__(env, **kwargs)
+        self.policy = policy
+        self.qfunction = qfunction
+        self.learning_rate = learning_rate
+        self.discount_factor = discount_factor
+
+    def best_qvalue(self, state):
+        return max_qvalue(state, self.env.actions(state), self.qfunction)
+
+    def episode(self):
+        while not self.env.is_terminal():
+            state = self.env.cur_state()
+            action = self.policy.action(state)
+            reward, next_state = self.env.do_action(action)
+            best_qvalue = self.best_qvalue(next_state)
+            target = reward + (self.discount_factor * best_qvalue)
+            td_error = target - self.qfunction[state, action]
+            self.qfunction[state, action] += self.learning_rate * td_error
+\end{python}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Approximate Q-learning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{python}
+class ApproximateQLearning(Learner):
+    '''Q-learning with a function approximator'''
+
+    def __init__(self, env, policy, qfunction, discount_factor=1.0,
+                 experience_replay=True, **kwargs):
+        super(ApproximateQLearning, self).__init__(env, **kwargs)
+        self.policy = policy
+        self.qfunction = qfunction
+        self.discount_factor = discount_factor
+        self.experience_replay = experience_replay
+        if self.experience_replay:
+            self.memory = set()
+
+    def best_qvalue(self, state):
+        return max_qvalue(state, self.env.actions(state), self.qfunction)
+
+    def episode(self):
+        while not self.env.is_terminal():
+            state = self.env.cur_state()
+            action = self.policy.action(state)
+            reward, next_state = self.env.do_action(action)
+            if self.experience_replay:
+                self.memory.add((state, action, reward, next_state))
+                state, _, reward, next_state = random.choice(tuple(self.memory))
+            best_qvalue = self.best_qvalue(next_state)
+            update = reward + (self.discount_factor * best_qvalue)
+            self.qfunction.update(state, update)
+
 \end{python}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
