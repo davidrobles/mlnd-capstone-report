@@ -535,24 +535,6 @@ every state in the MDP,
     \pi^*(s,a) = \argmax_\pi Q^\pi(s, a)
 \end{equation}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Tabular Q-function}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-A lookup table is used to store a value for each action-value, $Q(s,a)$
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Approximate Q-function}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Content.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Neural Networks}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Content.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -571,21 +553,29 @@ Q(s_t, a_t)] \end{equation}
 
 The agent makes a step in the environment from state $s_t$ to $s_{t+1}$ using action $a_t$ while
 receiving reward $r_t$. The update takes place on the action-value $a_t$ in the state $s_t$ from
-which this action was executed.
+which this action was executed. This version of Q-learning works well for tasks with a small a
+state-space, since it uses arrays or tables with one entry for each state-action pair. In many cases
+in which there are far more states than could possibly be entries in a table we need to use function
+approximation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Approximate Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-It is possible to use a function approximator to estimate the action-value function, $Q(s,a;\theta)
-\approx Q(s,a)$. We refer to a neural network function approximator with weights $\theta$ as a
-Q-network.
+Function approximation consists in using a more compact parameterized function representations,
+instead of the tabular case.
 
-asfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as
-fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf
-as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd
-asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsa
-\GithubURL{capstone/rl/learners/qlearning.py}.
+It is possible to use a function approximator to estimate the action-value function, $Q(s,a;\theta)
+\approx Q(s,a)$.
+
+% We refer to a neural network function approximator with weights $\theta$ as a Q-network.
+
+% asfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as
+% fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf
+% as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd
+% asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsa
+
+% \GithubURL{capstone/rl/learners/qlearning.py}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Self-play}
