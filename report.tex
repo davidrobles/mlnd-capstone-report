@@ -562,20 +562,20 @@ approximation.
 \subsubsection{Approximate Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Function approximation consists in using a more compact parameterized function representations,
-instead of the tabular case.
+Approximate Q-learning consists in parameterizing an approximate action-value function,
+$Q(s,a;\theta_i) \approx Q(s,a)$, in which $\theta_i$ are the parameters (weights) of the
+action-value function at iteration $i$.
 
-It is possible to use a function approximator to estimate the action-value function, $Q(s,a;\theta)
-\approx Q(s,a)$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Experience Replay}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% We refer to a neural network function approximator with weights $\theta$ as a Q-network.
-
-% asfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as
-% fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf
-% as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd
-% asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsaasfd asd fas fd asf as fsa
-
-% \GithubURL{capstone/rl/learners/qlearning.py}.
+Reinforcement learning is known to be unstable or even to diverge when a nonlinear function
+approximator such as a neural network is used to represent the action-value function. One trick is
+to make it work is to use \emph{experience replay}, which consists in storing the experiences $(s_t,
+a_t, r_t, s_{t+1})$. During the training of approximate Q-learning random minibatches from the
+replay memory are used instead of the most recent transition. This breaks the similarity of
+subsequent training samples, which otherwise might drive the network into a local minimum.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Self-play}
@@ -590,16 +590,6 @@ that definitely holds for self-play. As a second reason for popularity, there is
 implement or access a different agent with roughly equal playing strength. However, self-play has
 several drawbacks, with the main one being that a single opponent does not provide sufficient
 exploration~\citep{Szita2011RLGames}.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Alpha-beta pruning}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\emph{Alpha-beta pruning}~\citep{Knuth1975AB} \GithubURL{capstone/game/players/alphabeta.py} is the
-most common game tree search algorithm for two-player games of perfect information. It extends the
-minimax algorithm to reduce the number of nodes that are evaluated in the game tree. Instead of
-calculating the exact minimax values for all the nodes in the game tree, alpha-beta prunes away
-branches that will not have any effect in the selection of the best move.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Benchmark}
@@ -631,7 +621,8 @@ branches that will not have any effect in the selection of the best move.
 \subsection{Data Preprocessing}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Content.
+In this project data preprocessing is not necessary because all the learning came from two
+reinforcement learning simulators.
 
 \pagebreak[4]
 
