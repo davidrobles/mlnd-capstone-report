@@ -663,16 +663,8 @@ class Game(object):
         '''Makes one move for the player in turn.'''
         pass
 
-    def make_moves(self, moves):
-        '''Makes a series of moves.'''
-        pass
-
     def outcomes(self):
         '''Returns a list of outcomes for each player at the end of the game.'''
-        pass
-
-    def outcome(self, player_idx):
-        '''Returns the outcome for the given player.'''
         pass
 
     def reset(self):
@@ -725,11 +717,238 @@ class MDP(object):
         pass
 \end{python}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Converting a Game into an MDP}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Markov Decision Process for Games}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Content.
+We also created two helper classes:
+
+\GithubURL{capstone/rl/mdp.py}
+
+\begin{python}
+class GameMDP(MDP):
+    '''
+    Converts a Game into an MDP. The agent makes moves for both players
+    in the game. Used in self-play learning.
+    '''
+
+    def __init__(self, game):
+        self._game = game
+        self._states = {}
+
+    def actions(self, state):
+        return [None] if state.is_over() else state.legal_moves()
+
+    def is_terminal(self, state):
+        return state.is_over()
+
+    def reward(self, state, action, next_state):
+        '''Returns the utility from the point of view of the first player.'''
+        return utility(next_state, 0) if next_state.is_over() else 0
+
+    def start_state(self):
+        return self._game.copy()
+
+    def states(self):
+        if not self._states:
+            def generate_states(game):
+                '''Generates all the states for the game'''
+                if game not in self._states:
+                    self._states[game] = game
+                for move in game.legal_moves():
+                    new_game = game.copy().make_move(move)
+                    generate_states(new_game)
+            generate_states(self._game)
+        return self._states
+
+    def transitions(self, state, action):
+        if state.is_over():
+            return [(state, 1.0)]
+        new_game = state.copy().make_move(action)
+        return [(new_game, 1.0)]
+\end{python}
+
+And also, \texttt{FixedGameMDP} \GithubURL{capstone/rl/mdp.py}, which converts a \texttt{Game} into
+an \texttt{MDP} by using a fixed opponent for one of the players in the game:
+
+\begin{python}
+class FixedGameMDP(GameMDP):
+
+    def __init__(self, game, opp_player, opp_idx):
+        '''
+        opp_player: the opponent player
+        opp_idx: the idx of the opponent player in the game
+        '''
+        super(FixedGameMDP, self).__init__(game)
+        self._opp_player = opp_player
+        self._opp_idx = opp_idx
+        self._agent_idx = opp_idx ^ 1
+
+    def reward(self, game, move, next_game):
+        return utility(next_game, self._agent_idx) if next_game.is_over() else 0
+
+    def start_state(self):
+        new_game = self._game.copy()
+        if not new_game.is_over() and new_game.cur_player() == self._opp_idx:
+            chosen_move = self._opp_player.choose_move(new_game)
+            new_game.make_move(chosen_move)
+        return new_game
+
+    def transitions(self, game, move):
+        if game.is_over():
+            return []
+        new_game = game.copy().make_move(move)
+        if not new_game.is_over() and new_game.cur_player() == self._opp_idx:
+            chosen_move = self._opp_player.choose_move(new_game)
+            new_game.make_move(chosen_move)
+        return [(new_game, 1.0)]
+\end{python}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Environment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A reinforcement learning environment \GithubURL{capstone/rl/environment.py} for interacting with an
+MDP. The main idea is that it restricts access to the transition and reward functions. It needs to
+interact with the environment to transition to another state and receive rewards.
+
+\begin{python}
+class Environment(object):
+
+    def __init__(self, mdp):
+        self._mdp = mdp
+        self._cur_state = self._mdp.start_state()
+
+    def actions(self, state):
+        '''Returns the available actions in the given state.'''
+        return self._mdp.actions(state)
+
+    def cur_state(self):
+        '''Returns the current state.'''
+        return self._cur_state.copy()
+
+    def do_action(self, action):
+        '''
+        Performs the given action in the current state.
+        Returns (reward, next_state).
+        '''
+        prev = self.cur_state()
+        transitions = self._mdp.transitions(self.cur_state(), action)
+        for next_state, prob in transitions:
+            self._cur_state = next_state
+        reward = self._mdp.reward(prev, action, self.cur_state())
+        return reward, self.cur_state()
+
+    def is_terminal(self):
+        return self._mdp.is_terminal(self.cur_state())
+
+    def reset(self):
+        '''Resets the current state to the start state.'''
+        self._cur_state = self._mdp.start_state()
+\end{python}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Learner}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+We define an episodic learner. It is basically an interface for algorithms that learn a value
+function by interacting with an environment in an episodic way.
+
+\begin{python}
+class Learner(object):
+
+    def __init__(self, env, n_episodes=1000):
+        self.env = env
+        self.n_episodes = n_episodes
+
+    def train(self, callbacks=None):
+        '''Trains the model for a fixed number of episodes.'''
+        callbacks = CallbackList(callbacks)
+        callbacks.on_train_begin()
+        for episode in range(self.n_episodes):
+            callbacks.on_episode_begin(episode)
+            self.env.reset()
+            self.episode()
+            callbacks.on_episode_end(episode, self.qfunction)
+        callbacks.on_train_end(self.qfunction)
+
+    @abc.abstractmethod
+    def episode(self):
+        pass
+\end{python}
+
+\pagebreak[4]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Tabular Q-learning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+asdf asd fas fas df a.
+
+\begin{python}
+class QLearning(Learner):
+    '''Tabular Q-learning'''
+
+    def __init__(self, env, policy, qfunction, learning_rate=0.1, discount_factor=1.0):
+        super(QLearning, self).__init__(env, **kwargs)
+        self.policy = policy
+        self.qfunction = qfunction
+        self.learning_rate = learning_rate
+        self.discount_factor = discount_factor
+
+    def best_qvalue(self, state):
+        return max_qvalue(state, self.env.actions(state), self.qfunction)
+
+    def episode(self):
+        while not self.env.is_terminal():
+            state = self.env.cur_state()
+            action = self.policy.action(state)
+            reward, next_state = self.env.do_action(action)
+            best_qvalue = self.best_qvalue(next_state)
+            target = reward + (self.discount_factor * best_qvalue)
+            td_error = target - self.qfunction[state, action]
+            self.qfunction[state, action] += self.learning_rate * td_error
+\end{python}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Approximate Q-learning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{python}
+class ApproximateQLearning(Learner):
+    '''Q-learning with a function approximator'''
+
+    def __init__(self, env, policy, qfunction, discount_factor=1.0,
+                 experience_replay=True, **kwargs):
+        super(ApproximateQLearning, self).__init__(env, **kwargs)
+        self.policy = policy
+        self.qfunction = qfunction
+        self.discount_factor = discount_factor
+        self.experience_replay = experience_replay
+        if self.experience_replay:
+            self.memory = set()
+
+    def best_qvalue(self, state):
+        return max_qvalue(state, self.env.actions(state), self.qfunction)
+
+    def episode(self):
+        while not self.env.is_terminal():
+            state = self.env.cur_state()
+            action = self.policy.action(state)
+            reward, next_state = self.env.do_action(action)
+            if self.experience_replay:
+                self.memory.add((state, action, reward, next_state))
+                state, _, reward, next_state = random.choice(tuple(self.memory))
+            best_qvalue = self.best_qvalue(next_state)
+            update = reward + (self.discount_factor * best_qvalue)
+            self.qfunction.update(state, update)
+
+\end{python}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Experiments}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Estimate state-action values using tabular Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -901,146 +1120,6 @@ the predicted q-values for each available action.
 
 \pagebreak[4]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Environment}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-A reinforcement learning environment \GithubURL{capstone/rl/environment.py} for interacting with an
-MDP. The main idea is that it restricts access to the transition and reward functions. It needs to
-interact with the environment to transition to another state and receive rewards.
-
-\begin{python}
-class Environment(object):
-
-    def __init__(self, mdp):
-        self._mdp = mdp
-        self._cur_state = self._mdp.start_state()
-
-    def actions(self, state):
-        '''Returns the available actions in the given state.'''
-        return self._mdp.actions(state)
-
-    def cur_state(self):
-        '''Returns the current state.'''
-        return self._cur_state.copy()
-
-    def do_action(self, action):
-        '''
-        Performs the given action in the current state.
-        Returns (reward, next_state).
-        '''
-        prev = self.cur_state()
-        transitions = self._mdp.transitions(self.cur_state(), action)
-        for next_state, prob in transitions:
-            self._cur_state = next_state
-        reward = self._mdp.reward(prev, action, self.cur_state())
-        return reward, self.cur_state()
-
-    def is_terminal(self):
-        return self._mdp.is_terminal(self.cur_state())
-
-    def reset(self):
-        '''Resets the current state to the start state.'''
-        self._cur_state = self._mdp.start_state()
-\end{python}
-
-%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Learner}
-%%%%%%%%%%%%%%%%%%%%%%%
-
-We define an episodic learner. It is basically an interface for algorithms that learn a value
-function by interacting with an environment in an episodic way.
-
-\begin{python}
-class Learner(object):
-
-    def __init__(self, env, n_episodes=1000):
-        self.env = env
-        self.n_episodes = n_episodes
-
-    def train(self, callbacks=None):
-        '''Trains the model for a fixed number of episodes.'''
-        callbacks = CallbackList(callbacks)
-        callbacks.on_train_begin()
-        for episode in range(self.n_episodes):
-            callbacks.on_episode_begin(episode)
-            self.env.reset()
-            self.episode()
-            callbacks.on_episode_end(episode, self.qfunction)
-        callbacks.on_train_end(self.qfunction)
-
-    @abc.abstractmethod
-    def episode(self):
-        pass
-\end{python}
-
-\pagebreak[4]
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Tabular Q-learning}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-asdf asd fas fas df a.
-
-\begin{python}
-class QLearning(Learner):
-    '''Tabular Q-learning'''
-
-    def __init__(self, env, policy, qfunction, learning_rate=0.1, discount_factor=1.0):
-        super(QLearning, self).__init__(env, **kwargs)
-        self.policy = policy
-        self.qfunction = qfunction
-        self.learning_rate = learning_rate
-        self.discount_factor = discount_factor
-
-    def best_qvalue(self, state):
-        return max_qvalue(state, self.env.actions(state), self.qfunction)
-
-    def episode(self):
-        while not self.env.is_terminal():
-            state = self.env.cur_state()
-            action = self.policy.action(state)
-            reward, next_state = self.env.do_action(action)
-            best_qvalue = self.best_qvalue(next_state)
-            target = reward + (self.discount_factor * best_qvalue)
-            td_error = target - self.qfunction[state, action]
-            self.qfunction[state, action] += self.learning_rate * td_error
-\end{python}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Approximate Q-learning}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{python}
-class ApproximateQLearning(Learner):
-    '''Q-learning with a function approximator'''
-
-    def __init__(self, env, policy, qfunction, discount_factor=1.0,
-                 experience_replay=True, **kwargs):
-        super(ApproximateQLearning, self).__init__(env, **kwargs)
-        self.policy = policy
-        self.qfunction = qfunction
-        self.discount_factor = discount_factor
-        self.experience_replay = experience_replay
-        if self.experience_replay:
-            self.memory = set()
-
-    def best_qvalue(self, state):
-        return max_qvalue(state, self.env.actions(state), self.qfunction)
-
-    def episode(self):
-        while not self.env.is_terminal():
-            state = self.env.cur_state()
-            action = self.policy.action(state)
-            reward, next_state = self.env.do_action(action)
-            if self.experience_replay:
-                self.memory.add((state, action, reward, next_state))
-                state, _, reward, next_state = random.choice(tuple(self.memory))
-            best_qvalue = self.best_qvalue(next_state)
-            update = reward + (self.discount_factor * best_qvalue)
-            self.qfunction.update(state, update)
-
-\end{python}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Refinement}
