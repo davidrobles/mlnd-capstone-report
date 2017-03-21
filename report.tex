@@ -946,57 +946,44 @@ class ApproximateQLearning(Learner):
 
 \end{python}
 
+\pagebreak[4]
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Experiments}
 %%%%%%%%%%%%%%%%%%%%%%%%
+
+In order to create a strong agent to play Connect 4 we had to go step by step with a series of
+experiments.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Estimate state-action values using tabular Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The first step to implement a Q-learning agent with 
+The goal of the first experiment is to verify that the implementation of the Q-learning algorithm is
+correct. It consisted in using tabular Q-learning to estimate the Q-values of a simple Tic-Tac-Toe
+board position, shown in \hyperref[fig:tic-ql-tab-cur] {Figure~\ref*{fig:tic-ql-tab-cur}}. We
+modeled this scenario as an MDP in which a move by nature is made for the second player using a
+fixed Alpha-Beta agent that takes optimal moves. The position is set as the initial state of the
+MDP, $s_0$, and it has five available actions, $\mathcal{A}(s_0) = \{1, 2, 4, 6, 9\}$. This position
+is very close to the end of the game, which allows us to develop intuition of the expected Q-values
+from the game-theoretic point of view. For instance, we can clearly identify that the best available
+action is 9, which leads to a win if we keep playing the best possible actions. Any other action
+(i.e. 1, 2, 4 or 6) would lead to a loss, assuming perfect play from the opponent. The rewards given
+by the MDP are $+1$ for a win for the first player, $-1$ for a win for the first player, and $0$ for
+a draw.
 
-We estimate the state-action values for two very simple board positions for both Tic-Tac-Toe and
-Connect 4. We will be using the tabular version of Q-learning. The goal here is simply to verify
-that our implementation of the Q-learning algorithm is working as expected. We chose very simple
-positions because the expected q-values are easy to understand.
-
-We converted both games as MDPs by making the opponent a fixed agent that takes optimal moves by
-using the Alpha-Beta algorithm. This allowed us to verify that we are learning the q-values assuming
-the worst case scenario. In other situations in which the depth of the game tree is huge Alpha-Beta
-would need to combined with a good heuristic evaluation function, but in these simple positions it
-won't be necessary.
-
-The rewards given by the Tic-Tac-Toe environment are $+1$ for a win for the first player, $-1$ for a
-win for the first player, and $0$ for a draw.
-
-
-Tic-Tac-toe
-
-% - Implement Q-learning
-% - GameMDP converter
-% - Generate a Tic-Tac-Toe board that is easier to analyze
-% - Run Q-learning and show that the values are correct.
-
-% \GithubURL{examples/tic_ql_tab_full.py}{Implementation}
-
-For Tic-Tac-Toe we used the board position in \hyperref[fig:tic-ql-tab-cur]
-{Figure~\ref*{fig:tic-ql-tab-cur}} as the starting state, $s_0$. It has five available actions,
-$\mathcal{A}(s_0) = \{1, 2, 4, 6, 9\}$. By looking at such a simple position we can clearly identify
-that the best available action is 9, which leads to a win if we keep playing the best possible
-actions. Any other action (i.e. 1, 2, 4 or 6) would lead to a loss, assuming perfect play from the
-opponent.
+% This position is shown in in \hyperref[fig:tic-ql-tab-cur] {Figure~\ref*{fig:tic-ql-tab-cur}}, and
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_current.pdf}
-    \caption{Starting Tic-Tac-Toe state, $s_0$, with five legal actions, $\mathcal{A}(s_0) = \{1, 2, 4, 6, 9\}$.}
+    \caption{Starting Tic-Tac-Toe state, $s_0$.}
     \label{fig:tic-ql-tab-cur}
 \end{figure}
 
 We ran the tabular version of the Q-learning algorithm with $\alpha = 0.1$ (learning rate),
 $\gamma=1.0$ (discount factor), and a uniformly random behavior policy. The Q-values converged to
-the expected values after around 800 episodes of training, and are shown in
+the expected values after approximately 800 episodes of training, and are shown in
 \hyperref[fig:tic-ql-qvalues] {Figure~\ref*{fig:tic-ql-qvalues}}. As we can see in
 \hyperref[fig:tic-ql-tab-move-9] {Figure~\ref*{fig:tic-ql-tab-move-9}}, the expected future reward
 of taking action 9 is correctly estimated as 1.0, since that would lead to a win. At the same time,
@@ -1050,30 +1037,6 @@ making another move (either 1 or 6) to win.
     \label{fig:tic-ql-tab-qvalues-progress}
 \end{figure}
 
-Connect 4
-
-%%% MERGE THIS WITH PREVIOSU CHAPTER< SUBFIGURES
-
-% \GithubURL{examples/c4_ql_tabular_fixed.py}{Implementation}
-
-For Connect 4 we used the board position in \hyperref[fig:c4-ql-tab-cur]
-{Figure~\ref*{fig:c4-ql-tab-cur}} as the starting state, $s_0$. It has three available actions,
-$\mathcal{A}(s_0) = \{\texttt{d}, \texttt{f}, \texttt{g}\}$. By looking at such a simple position we
-can clearly identify that the best available action is \texttt{f}, which leads to a win if we keep
-playing the best possible actions.  Any other action (i.e. \texttt{d} or \texttt{g}) would lead to a
-loss, assuming perfect play from the opponent.
-
-%%%%%%%%%%
-% Figure %
-%%%%%%%%%%
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_current.pdf}
-    \caption{Connect 4 board, $s_0$, with three legal actions: $\{\texttt{d}, \texttt{f}, \texttt{g}\}$.}
-    \label{fig:c4-ql-tab-cur}
-\end{figure}
-
 We ran the same tabular version of the Q-learning algorithm with the same parameters as the used for
 Tic-Tac-Toe $\alpha=0.1$ (learning rate), $\gamma=1.0$ (discount factor), and a uniformly random
 behavior policy. The Q-values also converged to the expected values after around 800 episodes of
@@ -1084,39 +1047,6 @@ time, the q-values for all the other actions was -1.0. This makes sense, since a
 \texttt{f} would lead to an immediate loss. Also, we can see in
 \hyperref[fig:c4-ql-tab-qvalues-progress] {Figure~\ref*{fig:c4-ql-tab-qvalues-progress}} we can see
 the predicted q-values for each available action. 
-
-%%%%%%%%%%%
-% Figures %
-%%%%%%%%%%%
-
-\begin{figure}[!h]
-    \centering
-    \subfloat[$Q(s_0, \texttt{d}) = -1.0$]{
-        \label{fig:c4-ql-move-e}
-        \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_move_d.pdf}
-    } \hspace{0.1in}
-    \subfloat[$Q(s_0, \texttt{f}) = 1.0$]{
-        \label{fig:c4-ql-move-f}
-        \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_move_f.pdf}
-    } \hspace{0.1in}0
-    \subfloat[$Q(s_0, \texttt{g}) = -1.0$]{
-        \label{fig:c4-ql-move-g}
-        \includegraphics[width=0.2\textwidth]{figures/c4_ql_tab_move_g.pdf}
-    }
-    \caption{All the next states and their q values.}
-    \label{fig:c4-ql-qvalues}
-\end{figure}
-
-%%%%%%%%%%
-% Figure %
-%%%%%%%%%%
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.50\textwidth]{figures/c4_ql_tab_action_values.pdf}
-    \caption{The predicted state-action value during training.}
-    \label{fig:c4-ql-tab-qvalues-progress}
-\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Estimate q-values using Q-learning via self-play}
