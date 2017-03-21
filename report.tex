@@ -988,11 +988,7 @@ the expected values after approximately 800 episodes of training, and are shown 
 \hyperref[fig:tic-ql-tab-move-9] {Figure~\ref*{fig:tic-ql-tab-move-9}}, the expected future reward
 of taking action 9 is correctly estimated as 1.0, since that would lead to a win. At the same time,
 the q-values for all the other actions was -1.0. This makes sense, since any action not being 9
-would lead to an immediate loss. Also, we can see in \hyperref[fig:tic-ql-tab-qvalues-progress]
-{Figure~\ref*{fig:tic-ql-tab-qvalues-progress}} we can see the predicted q-values for each available
-action. It is interesting to see how the q-value for $Q(s_0, 9)$ takes some time to converge. This
-is probably because taking action 9 leads to an eventual win, but not immediately. It requires
-making another move (either 1 or 6) to win.
+would lead to an immediate loss. 
 
 % show the index numbers of the board
 
@@ -1026,6 +1022,15 @@ making another move (either 1 or 6) to win.
     \label{fig:tic-ql-qvalues}
 \end{figure}
 
+Also, we can see in \hyperref[fig:tic-ql-tab-qvalues-progress]
+{Figure~\ref*{fig:tic-ql-tab-qvalues-progress}} we can see the predicted q-values for each available
+action. It is interesting to see how the q-value for $Q(s_0, 9)$ takes some time to converge. This
+is probably because taking action 9 leads to an eventual win, but not immediately. It requires
+making another move (either 1 or 6) to win. aasd fdasd fa sdf as df a sd fa sd fas df as df aasd
+fdasd fa sdf as df a sd fa sd fas df as df aasd fdasd fa sdf as df a sd fa sd fas df as df aasd
+fdasd fa sdf as df a sd fa sd fas df as df aasd fdasd fa sdf as df a sd fa sd fas df as df aasd
+fdasd fa sdf as df a sd fa sd fas df as df asd fdasd fa sdf as df a sd fa sd fas df as df a.
+
 %%%%%%%%%%
 % Figure %
 %%%%%%%%%%
@@ -1036,17 +1041,6 @@ making another move (either 1 or 6) to win.
     \caption{The predicted state-action value during training.}
     \label{fig:tic-ql-tab-qvalues-progress}
 \end{figure}
-
-We ran the same tabular version of the Q-learning algorithm with the same parameters as the used for
-Tic-Tac-Toe $\alpha=0.1$ (learning rate), $\gamma=1.0$ (discount factor), and a uniformly random
-behavior policy. The Q-values also converged to the expected values after around 800 episodes of
-training, and are shown in \hyperref[fig:c4-ql-qvalues] {Figure~\ref*{fig:c4-ql-qvalues}}. As we can
-see in \hyperref[fig:c4-ql-move-f] {Figure~\ref*{fig:c4-ql-move-f}}, the expected future reward of
-taking action \texttt{f} is correctly estimated as 1.0, since that would lead to a win. At the same
-time, the q-values for all the other actions was -1.0. This makes sense, since any action not being
-\texttt{f} would lead to an immediate loss. Also, we can see in
-\hyperref[fig:c4-ql-tab-qvalues-progress] {Figure~\ref*{fig:c4-ql-tab-qvalues-progress}} we can see
-the predicted q-values for each available action. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Estimate q-values using Q-learning via self-play}
