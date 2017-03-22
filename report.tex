@@ -958,9 +958,9 @@ experiments. aasdf as fas dfas fsad f asdasdf as fas dfas fsad f asdasdf as fas 
 as fas dfas fsad f asdasdf as fas dfas fsad f asdasdf as fas dfas fsad f asdsdf as fas dfas fsad f
 asd.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Estimate state-action values using tabular Q-learning}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Estimate Tic-Tac-Toe Q-values using tabular Q-learning versus fixed opponent}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%
 % Figure %
@@ -973,19 +973,20 @@ asd.
     \label{fig:tic-ql-tab-cur}
 \end{wrapfigure}
 
-The goal of the first experiment is to verify that the implementation of the Q-learning algorithm is
-correct. It consisted in using tabular Q-learning to estimate the Q-values of a simple Tic-Tac-Toe
-board position, shown in \hyperref[fig:tic-ql-tab-cur] {Figure~\ref*{fig:tic-ql-tab-cur}}. We
-modeled this scenario as an MDP in which a move by nature is made for the second player using a
-fixed Alpha-Beta agent that makes optimal moves. The position is set as the initial state of the
-MDP, $s_0$, and it has five available actions, $\mathcal{A}(s_0) = \{\texttt{1}, \texttt{2},
-\texttt{4}, \texttt{6}, \texttt{9}\}$. This position is very close to the end of the game, which
-allows us to develop intuition of the expected Q-values from the game-theoretic point of view. For
-instance, we can clearly identify that the best available action is \texttt{9}, which leads to an
-eventual win for the first player assuming optimal actions thereafter. Any other action (i.e.
-\texttt{1}, \texttt{2}, \texttt{4} or \texttt{6}) would lead to a loss, assuming perfect play from
-the opponent.  The rewards given by the MDP are $+1$ for a win for the first player, $-1$ for a win
-for the first player, and $0$ for a draw.
+The goal of the first experiment \GithubURL{examples/tic_ql_tab_simple.py} is to verify that the
+implementation of the Q-learning algorithm is correct. It consisted in using tabular Q-learning to
+estimate the Q-values of a simple Tic-Tac-Toe board position, shown in \hyperref[fig:tic-ql-tab-cur]
+{Figure~\ref*{fig:tic-ql-tab-cur}}. We modeled this scenario as an MDP in which a move by nature is
+made for the second player using a fixed Alpha-Beta agent that makes optimal moves. The position is
+set as the initial state, $s_0$, and it has five available actions, $\mathcal{A}(s_0) =
+\{\texttt{1}, \texttt{2}, \texttt{4}, \texttt{6}, \texttt{9}\}$. This position is very close to the
+end of the game, which allows us to develop intuition of the expected Q-values from the
+game-theoretic point of view. For instance, we can clearly identify that the best available action
+is \texttt{9}, which leads to an eventual win for the first player assuming optimal actions
+thereafter. On the other hand, any other action (i.e.  \texttt{1}, \texttt{2}, \texttt{4} or
+\texttt{6}) would lead to a loss, assuming perfect play from the opponent.  The rewards given by the
+MDP are $+1$ for a win for the first player, $-1$ for a win for the first player, and $0$ for a
+draw.
 
 We ran the experiment with $\alpha = 0.1$ (learning rate), $\gamma=1.0$ (discount factor), and a
 $\pi_{\textrm{rand}}$ (uniformly random) behavior policy.  After approximately 800 episodes of
@@ -1048,7 +1049,7 @@ action \texttt{9} results in an eventual, but not immediate win. It requires mak
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Estimate q-values using Q-learning via self-play}
+\subsubsection{Estimate Tic-Tac-Toe Q-values using tabular Q-learning via self-play}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In the previous example we estimated the q-values for Tic-Tac-toe and Connect 4 positions against a
@@ -1063,17 +1064,24 @@ alternative is to use self-play, which consists in making playing games against 
 
 \begin{figure}[!h]
     \centering
-    \subfloat[Tic-Tac-Toe]{
-        \label{fig:tic-ql-tab-simple-selfplay-progress}
-        \includegraphics[width=0.4\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
-    } \hspace{0.1in}
-    \subfloat[Connect 4]{
-        \label{fig:c4-ql-tab-simple-selfplay-progress}
-        \includegraphics[width=0.4\textwidth]{figures/c4_ql_tab_simple_selfplay_progress.pdf}
-    }
-    \caption{All the next states and their q values.}
-    \label{fig:ql-tab-simple-selfplay-progress}
+    \includegraphics[width=0.40\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
+    \caption{The predicted state-action value during training.}
+    \label{fig:tic-ql-tab-simple-selfplay-progress}
 \end{figure}
+
+% \begin{figure}[!h]
+%     \centering
+%     \subfloat[Tic-Tac-Toe]{
+%         \label{fig:tic-ql-tab-simple-selfplay-progress}
+%         \includegraphics[width=0.4\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
+%     } \hspace{0.1in}
+%     \subfloat[Connect 4]{
+%         \label{fig:c4-ql-tab-simple-selfplay-progress}
+%         \includegraphics[width=0.4\textwidth]{figures/c4_ql_tab_simple_selfplay_progress.pdf}
+%     }
+%     \caption{All the next states and their q values.}
+%     \label{fig:ql-tab-simple-selfplay-progress}
+% \end{figure}
 
 % This converged to examples/tic_ql_tab_simple_selfplay.py
 
