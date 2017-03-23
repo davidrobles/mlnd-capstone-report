@@ -961,6 +961,11 @@ asd.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Estimate Tic-Tac-Toe Q-values using tabular Q-learning versus fixed opponent}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:tic-ql-tab-simple-fixed}
+
+% run this experiment for two players: rand and alpha-beta.
+
+% see: http://www.ai.rug.nl/~mwiering/GROUP/ARTICLES/paper-othello.pdf
 
 %%%%%%%%%%
 % Figure %
@@ -985,7 +990,7 @@ game-theoretic point of view. For instance, we can clearly identify that the bes
 is \texttt{9}, which leads to an eventual win for the first player assuming optimal actions
 thereafter. On the other hand, any other action (i.e.  \texttt{1}, \texttt{2}, \texttt{4} or
 \texttt{6}) would lead to a loss, assuming perfect play from the opponent.  The rewards given by the
-MDP are $+1$ for a win for the first player, $-1$ for a win for the first player, and $0$ for a
+MDP are $+1$ for a win for the first player, $-1$ for a win for the second player, and $0$ for a
 draw.
 
 We ran the experiment with $\alpha = 0.1$ (learning rate), $\gamma=1.0$ (discount factor), and a
@@ -1005,23 +1010,23 @@ previous experiment when we used $\gamma=0.99$ it converged to the values $0.999
 
 \begin{figure}[!h]
     \centering
-    \subfloat[$Q(s_0, 1) = -1.0$]{
+    \subfloat[$Q(s_0, \texttt{1}) = -1.0$]{
         \label{fig:tic-ql-tab-move-1}
         \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_1.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s_0, 2) = -1.0$]{
+    \subfloat[$Q(s_0, \texttt{2}) = -1.0$]{
         \label{fig:tic-ql-tab-move-2}
         \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_2.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s_0, 4) = -1.0$]{
+    \subfloat[$Q(s_0, \texttt{4}) = -1.0$]{
         \label{fig:tic-ql-tab-move-4}
         \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_4.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s_0, 6) = -1.0$]{
+    \subfloat[$Q(s_0, \texttt{6}) = -1.0$]{
         \label{fig:tic-ql-tab-move-6}
         \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_6.pdf}
     } \hspace{0.1in}
-    \subfloat[$Q(s_0, 9) = 1.0$]{
+    \subfloat[$Q(s_0, \texttt{9}) = 1.0$]{
         \label{fig:tic-ql-tab-move-9}
         \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_move_9.pdf}
     }
@@ -1044,46 +1049,38 @@ action \texttt{9} results in an eventual, but not immediate win. It requires mak
 \begin{figure}[!h]
     \centering
     \includegraphics[width=0.40\textwidth]{figures/tic_ql_tab_action_values.pdf}
-    \caption{The predicted state-action value during training.}
+    \caption{The predicted Q-values during the training phase of tabular Q-learning using a
+             Alpha-Beta as a fixed opponent.}
     \label{fig:tic-ql-tab-qvalues-progress}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Estimate Tic-Tac-Toe Q-values using tabular Q-learning via self-play}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this experiment \GithubURL{examples/tic_ql_tab_simple_selfplay.py} we also used tabular
+Q-learning to estimate the Q-values of the same position described in
+\hyperref[sec:tic-ql-tab-simple-fixed] {Section~\ref*{sec:tic-ql-tab-simple-fixed}}. This time,
+however, we assume we do not have a perfect fixed opponent and use self-play. So, why self-play?
+Because in self-play there is no need to implement or access a different agent with roughly equal
+playing strength, and most of the time we do not have the luxury of a perfect fixed opponent. In
+games that are not as simple as Tic-Tac-Toe (e.g. Chess, Go, etc.), we simply cannot come up with a
+player that plays perfectly.
 
 In the previous example we estimated the q-values for Tic-Tac-toe and Connect 4 positions against a
 fixed Alpha-Beta opponent. While this works very well sometimes we don't have that algorithm. An
 alternative is to use self-play, which consists in making playing games against itself.
 
-% examples/tic_ql_tab_simple_selfplay.py 
-
-%%%%%%%%%%%
-% Figures %
-%%%%%%%%%%%
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=0.40\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
-    \caption{The predicted state-action value during training.}
+    \caption{The predicted Q-values during the training phase of tabular Q-learning via self-play.}
     \label{fig:tic-ql-tab-simple-selfplay-progress}
 \end{figure}
-
-% \begin{figure}[!h]
-%     \centering
-%     \subfloat[Tic-Tac-Toe]{
-%         \label{fig:tic-ql-tab-simple-selfplay-progress}
-%         \includegraphics[width=0.4\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
-%     } \hspace{0.1in}
-%     \subfloat[Connect 4]{
-%         \label{fig:c4-ql-tab-simple-selfplay-progress}
-%         \includegraphics[width=0.4\textwidth]{figures/c4_ql_tab_simple_selfplay_progress.pdf}
-%     }
-%     \caption{All the next states and their q values.}
-%     \label{fig:ql-tab-simple-selfplay-progress}
-% \end{figure}
-
-% This converged to examples/tic_ql_tab_simple_selfplay.py
 
 In both examples we can see that it took longer to learn the episodes because it didn't have a
 perfect guidance on what was good and bad, it had to learn it by itself. This is a powerful
