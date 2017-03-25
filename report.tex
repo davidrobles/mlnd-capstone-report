@@ -998,7 +998,8 @@ $\pi_{\textrm{rand}}$ (uniformly random) behavior policy. After approximately 80
 training the Q-values converged to the expected, presented in \hyperref[fig:tic-ql-qvalues]
 {Figure~\ref*{fig:tic-ql-qvalues}}. As we can see, the expected future rewards are: $1.0$ for action
 \texttt{9}, and $-1.0$ for all other actions (i.e. \texttt{1}, \texttt{2}, \texttt{4} or
-\texttt{6}). Exactly the values we were looking for, which means that our implementation is correct.
+\texttt{6}). Exactly the values we were looking for, which suggests that our implementation of
+Q-learning is correct.
 
 % show the index numbers of the board
 
@@ -1033,15 +1034,14 @@ training the Q-values converged to the expected, presented in \hyperref[fig:tic-
 \end{figure}
 
 \hyperref[fig:tic-ql-tab-qvalues-progress] {Figure~\ref*{fig:tic-ql-tab-qvalues-progress}} shows the
-predicted state-action values during training. It is interesting to see how the Q-value for $Q(s_0,
+predicted state-action values during training. It is interesting to see how the value of $Q(s_0,
 \texttt{9})$ takes more time to converge than the other Q-values. This is probably because taking
-action \texttt{9} results in an eventual, but not immediate win. It requires making another move
-(either \texttt{1} or \texttt{6}) to win.
-
-Also, is worth noting that we used a $\pi_{\textrm{rand}}$ as the behavior policy instead of a
-$\epsilon$-greedy because Q-learning is an off-policy algorithm, which means we can use one policy
-for exploration, and another for exploitation. And $\pi_{\textrm{rand}}$ allows sufficient
-exploration for this scenario.
+action \texttt{9} results in an eventual, but not immediate win, and it requires making another move
+(either \texttt{1} or \texttt{6}) to win. Also, is worth explaining why we used a
+$\pi_{\textrm{rand}}$ as the behavior policy instead of something like $\pi_{\epsilon}$. Q-learning
+is an off-policy algorithm, which means we can use one policy for sampling (behavor policy), while
+estimating the value function for another one (target policy). And in an MDP as simple as in this, a
+simple $\pi_{\textrm{rand}}$ policy is effective.
 
 \blindtext
 
