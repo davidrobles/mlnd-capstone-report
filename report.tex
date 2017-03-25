@@ -965,19 +965,6 @@ asd.
 
 % run this experiment for two players: rand and alpha-beta.
 
-% see: http://www.ai.rug.nl/~mwiering/GROUP/ARTICLES/paper-othello.pdf
-
-%%%%%%%%%%
-% Figure %
-%%%%%%%%%%
-
-\begin{wrapfigure}{r}{0.26\textwidth}
-    \centering
-    \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_current.pdf}
-    \caption{Initial state}
-    \label{fig:tic-ql-tab-cur}
-\end{wrapfigure}
-
 The goal of the first experiment \GithubURL{examples/tic_ql_tab_simple.py} is to verify that the
 implementation of the Q-learning algorithm is correct. It consisted in using tabular Q-learning to
 estimate the Q-values of a simple Tic-Tac-Toe board position, shown in \hyperref[fig:tic-ql-tab-cur]
@@ -992,6 +979,17 @@ thereafter. On the other hand, any other action (i.e.  \texttt{1}, \texttt{2}, \
 \texttt{6}) would lead to a loss, assuming perfect play from the opponent.  The rewards given by the
 MDP are $+1$ for a win for the first player, $-1$ for a win for the second player, and $0$ for a
 draw.
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.15\textwidth]{figures/tic_ql_tab_current.pdf}
+    \caption{Initial state}
+    \label{fig:tic-ql-tab-cur}
+\end{figure}
 
 We ran the experiment with $\alpha = 0.1$ (learning rate), $\gamma=1.0$ (discount factor), and a
 $\pi_{\textrm{rand}}$ (uniformly random) behavior policy. After approximately 800 episodes of
@@ -1040,7 +1038,7 @@ action \texttt{9} results in an eventual, but not immediate win, and it requires
 (either \texttt{1} or \texttt{6}) to win. Also, is worth explaining why we used a
 $\pi_{\textrm{rand}}$ as the behavior policy instead of something like $\pi_{\epsilon}$. Q-learning
 is an off-policy algorithm, which means we can use one policy for sampling (behavor policy), while
-estimating the value function for another one (target policy). And in an MDP as simple as in this, a
+estimating the value function for another one (target policy). And in an MDP as small as this, a
 simple $\pi_{\textrm{rand}}$ policy is effective.
 
 \blindtext
