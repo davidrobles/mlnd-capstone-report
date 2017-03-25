@@ -994,13 +994,11 @@ MDP are $+1$ for a win for the first player, $-1$ for a win for the second playe
 draw.
 
 We ran the experiment with $\alpha = 0.1$ (learning rate), $\gamma=1.0$ (discount factor), and a
-$\pi_{\textrm{rand}}$ (uniformly random) behavior policy.  After approximately 800 episodes of
-training the Q-values converged to the expected values, presented in \hyperref[fig:tic-ql-qvalues]
-{Figure~\ref*{fig:tic-ql-qvalues}}. As we can see in \hyperref[fig:tic-ql-tab-move-9]
-{Figure~\ref*{fig:tic-ql-tab-move-9}}, the expected future reward of taking action \texttt{9} is
-correctly estimated as 1.0, and $-1.0$ for all the other actions (i.e. \texttt{1}, \texttt{2},
-\texttt{4} or \texttt{6}). We obtained the exact values because we used a $\gamma=1.0$, but in a
-previous experiment when we used $\gamma=0.99$ it converged to the values $0.99999$ and $-0.99999$.
+$\pi_{\textrm{rand}}$ (uniformly random) behavior policy. After approximately 800 episodes of
+training the Q-values converged to the expected, presented in \hyperref[fig:tic-ql-qvalues]
+{Figure~\ref*{fig:tic-ql-qvalues}}. As we can see, the expected future rewards are: $1.0$ for action
+\texttt{9}, and $-1.0$ for all other actions (i.e. \texttt{1}, \texttt{2}, \texttt{4} or
+\texttt{6}). Exactly the values we were looking for, which means that our implementation is correct.
 
 % show the index numbers of the board
 
@@ -1040,6 +1038,11 @@ predicted state-action values during training. It is interesting to see how the 
 action \texttt{9} results in an eventual, but not immediate win. It requires making another move
 (either \texttt{1} or \texttt{6}) to win.
 
+Also, is worth noting that we used a $\pi_{\textrm{rand}}$ as the behavior policy instead of a
+$\epsilon$-greedy because Q-learning is an off-policy algorithm, which means we can use one policy
+for exploration, and another for exploitation. And $\pi_{\textrm{rand}}$ allows sufficient
+exploration for this scenario.
+
 \blindtext
 
 %%%%%%%%%%
@@ -1048,7 +1051,7 @@ action \texttt{9} results in an eventual, but not immediate win. It requires mak
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=0.40\textwidth]{figures/tic_ql_tab_action_values.pdf}
+    \includegraphics[width=0.50\textwidth]{figures/tic_ql_tab_action_values.pdf}
     \caption{The predicted Q-values during the training phase of tabular Q-learning using a
              Alpha-Beta as a fixed opponent.}
     \label{fig:tic-ql-tab-qvalues-progress}
@@ -1061,15 +1064,28 @@ action \texttt{9} results in an eventual, but not immediate win. It requires mak
 In this experiment \GithubURL{examples/tic_ql_tab_simple_selfplay.py} we also used tabular
 Q-learning to estimate the Q-values of the same position described in
 \hyperref[sec:tic-ql-tab-simple-fixed] {Section~\ref*{sec:tic-ql-tab-simple-fixed}}. This time,
-however, we assume we do not have a perfect fixed opponent and use self-play. So, why self-play?
-Because in self-play there is no need to implement or access a different agent with roughly equal
-playing strength, and most of the time we do not have the luxury of a perfect fixed opponent. In
-games that are not as simple as Tic-Tac-Toe (e.g. Chess, Go, etc.), we simply cannot come up with a
-player that plays perfectly.
+however, we used self-play, which consists in playing games against itself. Self-play is a good
+alternative when we cannot train against a strong opponent or one of roughly equal playing strength.
+This is will be the case in Connect 4 because we cannot use the Alpha-Beta algorithm to search the
+full tree, given its game tree complexity of $\log^{14}$. We would need a value function, which is
+what we are trying to find with deep reinforcement learning anyway. For this reason, and first we
+want to test that it works as expected in Tic-Tac-Toe before moving to Connect 4.
 
-In the previous example we estimated the q-values for Tic-Tac-toe and Connect 4 positions against a
-fixed Alpha-Beta opponent. While this works very well sometimes we don't have that algorithm. An
-alternative is to use self-play, which consists in making playing games against itself.
+We used the same parameters as in the previous experiment: $\alpha = 0.1$ (learning rate),
+$\gamma=1.0$ (discount factor), and a $\pi_{\textrm{rand}}$ (uniformly random) behavior policy.
+
+% In the previous experiment we used a fixed opponent (Alpha-Beta) that knows how to play the game
+% perfectly. This was possible because Tic-Tac-Toe has a very small state space and is easy to search
+% the full tree. But most of the time we do not have the luxury of a strong opponent or of roughly
+% equal playing strength. One alternative is to use self-play, which consists in making playing games
+% against itself.
+
+% In this experiment \GithubURL{examples/tic_ql_tab_simple_selfplay.py} we also used tabular
+% Q-learning to estimate the Q-values of the same position described in
+% \hyperref[sec:tic-ql-tab-simple-fixed] {Section~\ref*{sec:tic-ql-tab-simple-fixed}}. This time,
+% however, we used self-play instead of a fixed opponent. We used the same parameters as in the
+% previous experiment: $\alpha = 0.1$ (learning rate), $\gamma=1.0$ (discount factor), and a
+% $\pi_{\textrm{rand}}$ (uniformly random) behavior policy.
 
 %%%%%%%%%%
 % Figure %
@@ -1077,16 +1093,28 @@ alternative is to use self-play, which consists in making playing games against 
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=0.40\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
+    \includegraphics[width=0.50\textwidth]{figures/tic_ql_tab_simple_selfplay_progress.pdf}
     \caption{The predicted Q-values during the training phase of tabular Q-learning via self-play.}
     \label{fig:tic-ql-tab-simple-selfplay-progress}
 \end{figure}
 
-In both examples we can see that it took longer to learn the episodes because it didn't have a
-perfect guidance on what was good and bad, it had to learn it by itself. This is a powerful
-technique that will be used in the next sections to learn a value function for Connect 4. The values
-are the same as the ones shown in Figures \hyperref[fig:tic-ql-qvalues]{\ref*{fig:tic-ql-qvalues}}
-and \hyperref[fig:c4-ql-qvalues]{\ref*{fig:c4-ql-qvalues}}.
+We obtained the same results as in the previous experiment, i.e., the Q-values also converged as
+expected to the values in(\hyperref[fig:tic-ql-qvalues] {Figure~\ref*{fig:tic-ql-qvalues}}).
+However, this time it took longer time to converge to the expected Q-values. This makes sense,
+because 
+
+% Q-learning was not playing a rational opponent since the beginning, it was playing against itself,
+% and at the beginning it behaves as a random agent. However, as the training pases by, it keeps
+% learning and even playing against itself is able to converge.
+
+
+% The values are the same as the ones shown in Figures
+% \hyperref[fig:tic-ql-qvalues]{\ref*{fig:tic-ql-qvalues}} and \hyperref[fig:c4-qlk
+
+% In both examples we can see that it took longer to learn the episodes because it didn't have a
+% perfect guidance on what was good and bad, it had to learn it by itself. This is a powerful
+% technique that will be used in the next sections to learn a value function for Connect 4. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Estimate all q-values using tabular Q-learning}
