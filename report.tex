@@ -1090,79 +1090,34 @@ makes uniformly random moves and provides less direct feedback.
 
 % Try this with e-greedy
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Estimate all q-values using tabular Q-learning}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Use Q-function to Play Tic-Tac-Toe versus a Random agent}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \GithubURL{examples/tic_ql_tab_full.py}{Implementation}
+In this experiment \GithubURL{examples/tic_ql_tab_full_selfplay.py} we used tabular Q-learning via
+self-play to learn the Q-values of all game states of Tic-Tac-Toe, and used them to play the game
+against a random player. In order to do that we set the starting state of the MDP as the empty
+board. We evaluated the performance as training progressed by having a $\pi_{greedy}$ policy (using
+the Q-function being learned) play 1,000 matches every 1,000 episodes against a player that makes
+uniformly random moves.
 
-Now the idea is to learn to play the games in general starting from the same position. This means
-that we will use Q-learning to estimate the q-values from the empty board of the game. We will do it
-for Tic-Tac-Toe. We ran the experiment using similar parameters, and after 65,000 episodes the
-q-values were found correctly.
+The results are presented in \hyperref[fig:tic-ql-tab-full-selfplay-wld-plot]
+{Figure~\ref*{fig:tic-ql-tab-full-selfplay-wld-plot}}. We can observe how after around 70,000
+episodes it learned to play the game almost perfectly against a random player. While the random
+opponent is obviously a weak opponent, is a simple test to verify that we can use the learned
+Q-values to play the game.
 
-% IDEA, Juntar ambos tic tac toe and connect 4 en uno!
-
-In \hyperref[fig:tic-ql-tab-full-wld-plot]{Figure~\ref*{fig:tic-ql-tab-full-wld-plot}} we can see
-how after 65,000 episodes it learned the values.
-
-We were able to do that because the full game-tree of Tic-Tac-Toe is around 888888 game states. And
-based on the results we can assume that the majority of the states were visited. But the problem now
-is that Connect 4 has INSERT game states. That makes it impossible to run the Q-learning algorithm
-with a tabular Q-function to save the exact value for every single state of the game. The solution
-to this is now to use a function approximator.
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.50\textwidth]{figures/tic_ql_tab_full_wld_plot.pdf}
-    \caption{Results after playing 1,000 games every 1,000 episodes against a Random player.}
-    \label{fig:tic-ql-tab-full-wld-plot}
-\end{figure}
-
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s.
-
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Estimate all q-values using tabular Q-learning via Self-Play}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \GithubURL{examples/tic_ql_tab_full_selfplay.py}{Implementation}
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=0.50\textwidth]{figures/tic_ql_tab_full_selfplay_wld_plot.pdf}
-    \caption{Results after playing 1,000 games every 1,000 episodes against a Random player.}
+    \caption{Win/Loss/Draw percentages of playing 1,000 games every 1,000 episodes
+             between a greedy player that uses the learned Q-function against a Random player.}
     \label{fig:tic-ql-tab-full-selfplay-wld-plot}
 \end{figure}
-
-In \hyperref[fig:tic-ql-tab-full-selfplay-wld-plot]
-{Figure~\ref*{fig:tic-ql-tab-full-selfplay-wld-plot}} we can see how after 70,000 episodes it
-learned the values.
-
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s.
-
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Estimate Q-values Using Approximate Q-learning}
