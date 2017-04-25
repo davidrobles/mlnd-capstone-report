@@ -1163,23 +1163,23 @@ These positions are from CITE.
 % Figure %
 %%%%%%%%%%
 
-\begin{figure}[!h]
-    \centering
-    \subfloat[$Q(s_0, \texttt{1}) = -1.0$]{
-        \label{fig:c4-ql-tab-move-1}
-        \includegraphics[width=0.15\textwidth]{figures/c4_dqn_easy_board.pdf}
-    } \hspace{0.1in}
-    \subfloat[$Q(s_0, \texttt{2}) = -1.0$]{
-        \label{fig:c4-dqn-medium}
-        \includegraphics[width=0.15\textwidth]{figures/c4_dqn_easy_board.pdf}
-    } \hspace{0.1in}
-    \subfloat[$Q(s_0, \texttt{9}) = 1.0$]{
-        \label{fig:c4-dqn-hard}
-        \includegraphics[width=0.15\textwidth]{figures/c4_dqn_easy_board.pdf}
-    }
-    \caption{}
-    \label{fig:c4-dqn}
-\end{figure}
+% \begin{figure}[!h]
+%     \centering
+%     \subfloat[$Q(s_0, \texttt{1}) = -1.0$]{
+%         \label{fig:c4-ql-tab-move-1}
+%         \includegraphics[width=0.48\textwidth]{figures/c4_dqn_easy_board.pdf}
+%     }
+%     \subfloat[$Q(s_0, \texttt{2}) = -1.0$]{
+%         \label{fig:c4-dqn-medium}
+%         \includegraphics[width=0.48\textwidth]{figures/c4_dqn_easy_board.pdf}
+%     } \hspace{0.1in}
+%     \subfloat[$Q(s_0, \texttt{9}) = 1.0$]{
+%         \label{fig:c4-dqn-hard}
+%         \includegraphics[width=0.48\textwidth]{figures/c4_dqn_easy_board.pdf}
+%     }
+%     \caption{}
+%     \label{fig:c4-dqn}
+% \end{figure}
 
 % Figure of the neural network
 
@@ -1206,15 +1206,15 @@ used the UCI Connect 4 dataset only to get the initial positions to train the al
     \centering
     \subfloat[Wins]{
         \label{fig:c4-ql-dn-uci-wins}
-        \includegraphics[width=0.30\textwidth]{figures/c4dn_uci_wins.pdf}
-    }
+        \includegraphics[width=0.49\textwidth]{figures/c4dn_uci_wins.pdf}
+    } \\
     \subfloat[Draws]{
         \label{fig:c4-ql-dn-uci-draws}
-        \includegraphics[width=0.30\textwidth]{figures/c4dn_uci_draws.pdf}
+        \includegraphics[width=0.49\textwidth]{figures/c4dn_uci_draws.pdf}
     }
     \subfloat[Losses]{
         \label{fig:c4-ql-dn-uci-losses}
-        \includegraphics[width=0.30\textwidth]{figures/c4dn_uci_losses.pdf}
+        \includegraphics[width=0.49\textwidth]{figures/c4dn_uci_losses.pdf}
     }
     \caption{Performance of the policy learned during trained evaluated starting from winning,
     draws, and loss positions assuming perfect play.}
