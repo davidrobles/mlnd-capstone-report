@@ -1187,8 +1187,6 @@ These positions are from CITE.
 
 % Try self-play
 
-% - Here I should show the 3 figures of learning and testing vs uci
-
 % - Test against different boards from the connect 4 book
 
 % - Check if i can predict the outcomes of wins loss draws using my keras model with 1-ply search
@@ -1226,33 +1224,22 @@ used the UCI Connect 4 dataset only to get the initial positions to train the al
 In \hyperref[fig:c4-ql-dn-uci] {Figure~\ref*{fig:c4-ql-dn-uci}} we can see how the quality of the
 target policy improved during training. The policy was evaluated during training every 500 episodes
 by playing 3,000 games against a random player starting from randomly selected 8-ply positions from
-the UCI Connect 4 dataset. The first 1,000 games started from randomly selected positions where the
-outcome is a win for the first player assuming perfect play from both players. In
-\hyperref[fig:c4-ql-dn-uci-wins] {Figure~\ref*{fig:c4-ql-dn-uci-wins}} we can observe how it goes
-from a 56\% win rate to a 94\%. It makes sense that it starts already with higher probability of
-winning, since it starts from favorable positions. The next 1,000 games were played from
-game-theoretical draws (\hyperref[fig:c4-ql-dn-uci-draws] {Figure~\ref*{fig:c4-ql-dn-uci-draws}}).
-As expected, the win rate at the beginning is 50\%, but then it goes up to 92\%. Finally, the next
-1,000 games (\hyperref[fig:c4-ql-dn-uci-losses] {Figure~\ref*{fig:c4-ql-dn-uci-losses}}) started
-from unfavorable positions that are guaranteed wins for the second player. Here we can see that it
-starts with a low win rate of 45\%, but then it goes to a 90\% win rate.
+the UCI Connect 4 dataset. The first 1,000 games started from positions where the outcome is a win
+for the first player assuming perfect play from both sides. \hyperref[fig:c4-ql-dn-uci-wins]
+{Figure~\ref*{fig:c4-ql-dn-uci-wins}} shows how the policy improved from a 56\% to a 94\% win rate
+after 15,000 episodes. This makes sense because the matches started from favorable positions with
+higher probability of winning for the first player. The next 1,000 games started from
+game-theoretical draw positions (\hyperref[fig:c4-ql-dn-uci-draws]
+{Figure~\ref*{fig:c4-ql-dn-uci-draws}}).  As expected, the win rate at the beginning was 50\%, but
+then it went up to 92\%. Good improvement, but a little lower win rate than when starting from
+favorable positions. Finally, the next 1,000 games (\hyperref[fig:c4-ql-dn-uci-losses]
+{Figure~\ref*{fig:c4-ql-dn-uci-losses}}) started from unfavorable positions that are guaranteed wins
+for the second player under optimal play from both sides. In this case the win rate before the
+policy begins learning is 45\%, but then it went up to a 90\% win rate. This was also expected,
+since we started at a disadvantage.
 
-While the previous evaluation was made against a random player, we can see that the Q-learning
+While the previous evaluation was made against a weak random player, we can see that the Q-learning
 algorithm is learning to play the game without doing any type of lookahead search.
-
-% play, 1,000 games starting from positions that are guaranteed drawsx under
-% perfect play 
-
-% We did three type of evaluations according to the game theoretical outcome of these positions, i.e.,
-% the expected outcome assuming perfect play from both players.
-
-% against three different type of game positions, depending of the game-theoretical outcome.
-
-% Note that this is testing the value function without doing any type of lookahead to check for the
-% outcome of the next state.
-
-% \caption{Win/Loss/Draw percentages of playing 1,000 games every 1,000 episodes
-%          between a greedy player that uses the learned Q-function against a Random player.}
 
 \pagebreak[4]
 
