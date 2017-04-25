@@ -1119,23 +1119,107 @@ Q-values to play the game.
     \label{fig:tic-ql-tab-full-selfplay-wld-plot}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Estimate Connect 4 Q-values Using Approximate Q-learning}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define Q-Network
 
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Learn to Play Connect 4 using a Q-Network}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s
-sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s sd fas dfas f sa fsad f asd fa s.
+As mentioned previously, lookup table approach of saving the exact Q-values for every single state
+of a game is not feasible in Connect 4 becuase of itsmassive state-space, and using a tabular
+version would only be possible if we wanted to learn to play the game from a position close to the
+end of the game. But this is not the case.
+
+In the first experiment [source] our goal is to learn to play Connect 4 from a simple board position
+where we already know that is a guaranteed win for the first player, assuming perfect play from both
+players. We got this position from CITE, and is shown in FIGURE. 
+
+In this case 
+
+This Q-Network is a multi-layer perceptron as we can see in FIGURE. The one input layer has 42
+output units, the hidden layer 100 units, and the output layer has 7 output units (one for each
+column of the board.
+
+Using Q-learning with non-linear function approximators, like neural networks, is not very stable.
+One trick to address this issue is to use \emph{experience replay}. During training we store each
+experience $(s, a, r, s')$ in replay memory $\mathcal{D}$.
+
+We used experience replay with minibatches of 32, and a memory size of 10,000.
+
+Experience replay
+
+~\citep{LIn1993ExpReplay}
+
+In this example we did not use self-play.
+
+Three different board positions: easy, medium and hard.
+
+These positions are from CITE.
+
+~\citep{Allen2010C4}
+
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \subfloat[$Q(s_0, \texttt{1}) = -1.0$]{
+        \label{fig:c4-ql-tab-move-1}
+        \includegraphics[width=0.15\textwidth]{figures/c4_dqn_easy_board.pdf}
+    } \hspace{0.1in}
+    \subfloat[$Q(s_0, \texttt{2}) = -1.0$]{
+        \label{fig:c4-dqn-medium}
+        \includegraphics[width=0.15\textwidth]{figures/c4_dqn_easy_board.pdf}
+    } \hspace{0.1in}
+    \subfloat[$Q(s_0, \texttt{9}) = 1.0$]{
+        \label{fig:c4-dqn-hard}
+        \includegraphics[width=0.15\textwidth]{figures/c4_dqn_easy_board.pdf}
+    }
+    \caption{}
+    \label{fig:c4-dqn}
+\end{figure}
+
+% Figure of the neural network
+
+% Try the experiments with more layers?
+
+% Try self-play
+
+% - Here I should show the 3 figures of learning and testing vs uci
+
+% - Test against different boards from the connect 4 book
+
+% - Check if i can predict the outcomes of wins loss draws using my keras model with 1-ply search
+
+% - And done, write report and wrap up the project code
+
+These figures consist in running Q-learning to train a Deep Neural Network to play Connect 4. We
+used the UCI Connect 4 dataset only to get the initial positions to train the algorithm.
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \subfloat[Wins]{
+        \label{fig:c4-ql-dn-uci-wins}
+        \includegraphics[width=0.30\textwidth]{figures/c4dn_uci_wins.pdf}
+    }
+    \subfloat[Draws]{
+        \label{fig:c4-ql-dn-uci-draws}
+        \includegraphics[width=0.30\textwidth]{figures/c4dn_uci_draws.pdf}
+    }
+    \subfloat[Losses]{
+        \label{fig:c4-ql-dn-uci-losses}
+        \includegraphics[width=0.30\textwidth]{figures/c4dn_uci_losses.pdf}
+    }
+    \caption{Performance of the policy learned during trained evaluated starting from winning,
+    draws, and loss positions assuming perfect play.}
+    \label{fig:c4-ql-dn-uci}
+\end{figure}
 
 \pagebreak[4]
 
