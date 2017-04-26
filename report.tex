@@ -1232,14 +1232,14 @@ higher probability of winning for the first player. The next 1,000 games started
 game-theoretical draw positions (\hyperref[fig:c4-ql-dn-uci-draws]
 {Figure~\ref*{fig:c4-ql-dn-uci-draws}}).  As expected, the win rate at the beginning was 50\%, but
 then it went up to 92\%. Good improvement, but a little lower win rate than when starting from
-favorable positions. Finally, the next 1,000 games (\hyperref[fig:c4-ql-dn-uci-losses]
+favorable positions. Finally, the last 1,000 games (\hyperref[fig:c4-ql-dn-uci-losses]
 {Figure~\ref*{fig:c4-ql-dn-uci-losses}}) started from unfavorable positions that are guaranteed wins
 for the second player under optimal play from both sides. In this case the win rate before the
 policy begins learning is 45\%, but then it went up to a 90\% win rate. This was also expected,
 since we started at a disadvantage.
 
 While the previous evaluation was made against a weak random player, we can see that the Q-learning
-algorithm is learning to play the game without doing any type of lookahead search.
+is learning a value function for Connect 4 using a deep neural network as a function approximator.
 
 \pagebreak[4]
 
