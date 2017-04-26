@@ -123,10 +123,10 @@
 \definecolor{header}{RGB}{128,169,188}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Learning to Play Connect 4 With Deep Reinforcement Learning \\
+\title{Learning to Play Board Games With Deep Reinforcement Learning \\
        Machine Learning Nanodegree - Capstone Report}
 \author{David A. Robles}
-\date{March 24, 2017}
+\date{May 5, 2017}
 \begin{document}
 \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -330,6 +330,7 @@ positions: a win, a draw and a loss:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{UCI Connect 4 Data Set}
+\label{sec:uci-c4}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 As part of the testing phase, we will use the \emph{Connect 4 Data Set}\footnote{\URLUCI{}} that is
@@ -341,10 +342,10 @@ features, one for each space in the $6 \times 7$ board, and can belong to one of
 $\{\texttt{x}, \texttt{o}, \texttt{b}\}$, where \texttt{x} is the first player, \texttt{o} is the
 second player, and \texttt{b} is empty. The outcome class is the game theoretical value for the
 first player, and can belong to one of the classes $\{\texttt{win}, \texttt{loss}, \texttt{draw}\}$.
-There are 44,473 wins, 16,635 losses and 6,449 draws \GithubURL{examples/c4_uci_data_expl.py}.
+There are 44,473 wins, 16,635 losses and 6,449 draws \GithubURL{experiments/c4_uci_data_expl.py}.
 \hyperref[fig:c4-exp]{Figure~\ref*{fig:c4-exp}} shows a visual representation of five randomly
 selected instances of the data set. As we can see, all game positions have eight pieces in the
-board, representing all legal 8-ply positions \GithubURL{examples/c4_uci_viz.py}.
+board, representing all legal 8-ply positions \GithubURL{experiments/c4_uci_viz.py}.
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Table: UCI Dataset %
@@ -965,7 +966,7 @@ asd.
 
 % run this experiment for two players: rand and alpha-beta.
 
-The goal of the first experiment \GithubURL{examples/tic_ql_tab_simple.py} is to verify that the
+The goal of the first experiment \GithubURL{experiments/tic_ql_tab_simple.py} is to verify that the
 implementation of the Q-learning algorithm is correct. It consisted in using tabular Q-learning to
 estimate the Q-values of a simple Tic-Tac-Toe board position, shown in \hyperref[fig:tic-ql-tab-cur]
 {Figure~\ref*{fig:tic-ql-tab-cur}}. We modeled this scenario as an MDP in which a move by nature is
@@ -1057,7 +1058,7 @@ simple $\pi_{\textrm{rand}}$ policy is effective.
 \subsubsection{Estimate Tic-Tac-Toe Q-values using tabular Q-learning via self-play}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this experiment \GithubURL{examples/tic_ql_tab_simple_selfplay.py} we also used tabular
+In this experiment \GithubURL{experiments/tic_ql_tab_simple_selfplay.py} we also used tabular
 Q-learning to estimate the Q-values of the same position described in
 \hyperref[sec:tic-ql-tab-simple-fixed] {Section~\ref*{sec:tic-ql-tab-simple-fixed}}. This time,
 however, we used self-play, which consists in playing games against itself. Self-play is a good
@@ -1094,7 +1095,7 @@ makes uniformly random moves and provides less direct feedback.
 \subsubsection{Use Q-function to Play Tic-Tac-Toe versus a Random agent}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this experiment \GithubURL{examples/tic_ql_tab_full_selfplay.py} we used tabular Q-learning via
+In this experiment \GithubURL{experiments/tic_ql_tab_full_selfplay.py} we used tabular Q-learning via
 self-play to learn the Q-values of all game states of Tic-Tac-Toe, and used them to play the game
 against a random player. In order to do that we set the starting state of the MDP as the empty
 board. We evaluated the performance as training progressed by having a $\pi_{greedy}$ policy (using
@@ -1121,42 +1122,56 @@ Q-values to play the game.
 
 % Define Q-Network
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Learn to Play Connect 4 using a Q-Network}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Learning to Play Connect 4 using Q-learning with a Deep Neural Network}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 As mentioned previously, lookup table approach of saving the exact Q-values for every single state
 of a game is not feasible in Connect 4 becuase of itsmassive state-space, and using a tabular
 version would only be possible if we wanted to learn to play the game from a position close to the
 end of the game. But this is not the case.
 
-In the first experiment [source] our goal is to learn to play Connect 4 from a simple board position
-where we already know that is a guaranteed win for the first player, assuming perfect play from both
-players. We got this position from CITE, and is shown in FIGURE. 
+In this experiment \GithubURL{experiments/c4_dvn_uci.py} our goal was to learn to play Connect 4
+starting from 8-ply positions from the UCI Connect 4 dataset~\hyperref[sec:uci-c4]
+{Section~\ref*{sec:uci-c4}}. In this positions we already know the game-theoretical outcome of the
+game assuming perfect play from both players, however, we don't use the outcome for training (no
+supervised learning). This helped us to start every episode of Q-learning training from different
+board positions, which is helpful to learn to generalize by seeing all kinds of board positions.
 
-In this case 
+This experiment consisted in using approximate Q-learning
+\GithubURL{capstone/rl/learners/qlearning_approx.py} with a deep neural network
+\GithubURL{capstone/rl/value_functions/c4deepnetwork.py}. We used a deep convolutional network with
+4 layers of 64 filters of size $3\times3$ and rectified linear non-linearities. In addition to the
+convolutions, we added a densely-connected layer with 256 units.  And Finally, the output layer had
+only one unit (to represent the value of the given state) with a tanh activation function to keep it
+in the range $[-1, +1]$.
 
-This Q-Network is a multi-layer perceptron as we can see in FIGURE. The one input layer has 42
-output units, the hidden layer 100 units, and the output layer has 7 output units (one for each
-column of the board.
+the output layer was 
 
-Using Q-learning with non-linear function approximators, like neural networks, is not very stable.
-One trick to address this issue is to use \emph{experience replay}. During training we store each
-experience $(s, a, r, s')$ in replay memory $\mathcal{D}$.
+The neural network was trained 
 
-We used experience replay with minibatches of 32, and a memory size of 10,000.
+% This Q-Network is a multi-layer perceptron as we can see in FIGURE. The one input layer has 42
+% output units, the hidden layer 100 units, and the output layer has 7 output units (one for each
+% column of the board.
 
-Experience replay
+% Using Q-learning with non-linear function approximators, like neural networks, is not very stable.
+% One trick to address this issue is to use \emph{experience replay}. During training we store each
+% experience $(s, a, r, s')$ in replay memory $\mathcal{D}$.
 
-~\citep{LIn1993ExpReplay}
+% We used experience replay with minibatches of 32, and a memory size of 10,000.
 
-In this example we did not use self-play.
 
-Three different board positions: easy, medium and hard.
+% Experience replay
 
-These positions are from CITE.
+% ~\citep{LIn1993ExpReplay}
 
-~\citep{Allen2010C4}
+% In this example we did not use self-play.
+
+% Three different board positions: easy, medium and hard.
+
+% These positions are from CITE.
+
+% ~\citep{Allen2010C4}
 
 
 %%%%%%%%%%
@@ -1193,8 +1208,8 @@ These positions are from CITE.
 
 % - And done, write report and wrap up the project code
 
-These figures consist in running Q-learning to train a Deep Neural Network to play Connect 4. We
-used the UCI Connect 4 dataset only to get the initial positions to train the algorithm.
+% These figures consist in running Q-learning to train a Deep Neural Network to play Connect 4. We
+% used the UCI Connect 4 dataset only to get the initial positions to train the algorithm.
 
 %%%%%%%%%%
 % Figure %
