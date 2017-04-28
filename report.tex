@@ -1317,13 +1317,65 @@ Content.
 \subsection{Reflection}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-Content.
+% I chose this project because I had interest in learning more about reinforcement learning using
+% function approximators, more specifically, with deep learning. I had some experience using
+% reinforcemnt learning in the tabular case, but using it with function approximators is way more
+% complex. I don't regret choosing this project because I learned a lot and I had fun, and that is the point of
+% choosing a hard project. However, compared to the reinforcement learning
+
+% \emph{Robot Motion Planning Capstone Project}
+
+% I think my mistake was trying to more than what it was necessary, and that is why it took me so much
+% time (plus lack of time as well). I started creating my games framework, my reinforcement learning
+% framework, I even wrote unit tests to validate some of the mdps and game environments. While all of
+% that is great, if I could go back in time I wouldn't do it again. I would focus in getting my
+% task/goal done, and working in the rest as a side project after the capstone project (which I'm
+% planning to do).
+
+The most difficult aspect of this project was that is extremely hard to stabilize reinforcement
+learning with non-linear function approximators. There are plenty of tricks that can be used and
+hyperparameters that need to be tuned to get it to work, such as:
+
+\begin{itemize}
+
+    \item \textbf{Q-learning}: exploration policy (random?, $\epsilon$-greedy?), discount factor,
+        learning rate, number of episodes.
+
+    \item \textbf{Experience Replay}: batch size, experience pool size.
+
+    \item \textbf{Deep Neural Network}: mlp? convnets? number of layers, number of filters, number
+        of kernels, optimizer (vanilla sgd, adam, rprop), learning rate, pooling, activation
+        functions, etc.
+
+    \item \textbf{$\epsilon$-greedy}: fixed $\epsilon$? decrease $\epsilon$? initial value for $\epsilon$,
+        how many episodes to decrease it? final value?
+
+\end{itemize}
+
+All these techniques and parameters were selected by trial and error, and no systematic grid search was
+done due to the high computational cost.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Improvement}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-Content.
+As in most projects, there are way too many aspects that can be improved. But in my opinion the
+three most important are:
+
+\begin{enumerate}
+
+    \item \textbf{Better benchmarks:} In most of this project we used simple benchmakrks, such as
+        playing against random players. While testing against random is probably the first thing to
+        test against (if you can't beat a random player your learning algorithm is not working), it
+        would be better to find a few heuristics and better players that can be used for testing.
+
+    \item \textbf{Incorporate other RL techniques:} The field of RL has been advancing fast in
+        recent years. There are a few new and old techniques that I would like to try, such as
+        asynchronous RL, double Q-learning.
+
+    \item \textbf{Benchmark:} dsfasdfas.
+
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAPHY
