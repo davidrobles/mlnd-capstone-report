@@ -1352,8 +1352,11 @@ be used and hyperparameters that need to be tuned to get it to work, such as:
 
 \end{itemize}
 
-All these techniques and parameters were selected by trial and error, and no systematic grid search was
-done due to the high computational cost.
+All these techniques and parameters were selected by trial and error, and no systematic grid search
+was done due to the high computational cost. More than once it seemed that the implementation of the
+algorithms and techniques was incorrect, and it turned out that the wrong parameters were being
+used. A ``simple'' change such as decreasing $\epsilon$, or changing the neural network optimizer
+made big changes in the performance of the value function.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Improvement}
