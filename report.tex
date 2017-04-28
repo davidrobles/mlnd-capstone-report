@@ -1333,8 +1333,8 @@ Content.
 % planning to do).
 
 The most difficult aspect of this project was that is extremely hard to stabilize reinforcement
-learning with non-linear function approximators. There are plenty of tricks that can be used and
-hyperparameters that need to be tuned to get it to work, such as:
+learning with non-linear function approximators via self-play. There are plenty of tricks that can
+be used and hyperparameters that need to be tuned to get it to work, such as:
 
 \begin{itemize}
 
@@ -1347,8 +1347,8 @@ hyperparameters that need to be tuned to get it to work, such as:
         of kernels, optimizer (vanilla sgd, adam, rprop), learning rate, pooling, activation
         functions, etc.
 
-    \item \textbf{$\epsilon$-greedy}: fixed $\epsilon$? decrease $\epsilon$? initial value for $\epsilon$,
-        how many episodes to decrease it? final value?
+    \item \textbf{$\epsilon$-greedy}: fixed $\epsilon$? decrease $\epsilon$? initial value for
+        $\epsilon$?, how many episodes to decrease it? final value?
 
 \end{itemize}
 
@@ -1371,7 +1371,7 @@ three most important are:
 
     \item \textbf{Incorporate other RL techniques:} The field of RL has been advancing fast in
         recent years. There are a few new and old techniques that I would like to try, such as
-        asynchronous RL, double Q-learning.
+        asynchronous RL, double Q-learning, prioritized experience replay.
 
     \item \textbf{Benchmark:} dsfasdfas.
 
