@@ -1122,33 +1122,69 @@ Q-values to play the game.
 
 % Define Q-Network
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Model Evaluation and Validation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Learning to Play Connect 4 using Q-learning with a Deep Neural Network}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As mentioned previously, lookup table approach of saving the exact Q-values for every single state
-of a game is not feasible in Connect 4 becuase of itsmassive state-space, and using a tabular
-version would only be possible if we wanted to learn to play the game from a position close to the
-end of the game. But this is not the case.
+Once that we validated that our implementation of Q-learning is working and showed that it can learn
+a tabular value function to play Tic-Tac-Toe we moved into the more complex Connect 4. In this game,
+storing the Q-values for every board position in a lookup table is not feasible because of its huge
+state space. Instead of using tabular Q-learning, we used approximate
+Q-learning~\GithubURL{capstone/rl/learners/qlearning_approx.py} with a deep neural network
+(DNN)~\GithubURL{capstone/rl/value_functions/c4deepnetwork.py}. This approach consists in
+parameterizing an approximate action-value function, $Q(s,a;\theta_i) \approx Q(s,a)$, in which
+$\theta_i$ are the weights of the neural network.
+
+In some games it can be more efficient to consider the \emph{afterstate value} $V(s \circ a)$, which
+is the state reached after taking action $a$ in state $s$, instead of the Q-value $Q(s,
+a)$~\citep{Sutton1998RL}. We used this approach by using a DNN that takes the state of the board in
+the input layer, as shown in \hyperref[fig:c4-dnn-input] {Figure~\ref*{fig:c4-dnn-input}}, and
+outputs the value of being in that state, $V(s)$. After the input layer, we used convolutions with 4
+layers of 64 filters of size $3\times3$ and rectified linear non-linearities. In addition to the
+convolutions, we added a densely-connected layer with 256 units. Finally, the output layer has only
+one unit that fires the value of the given board with a $tanh$ activation function to keep it in the
+range $[-1, +1]$.
+
+% that takes the state of the board as shown in Figure i
+
+%%%%%%%%%%
+% Figure %
+%%%%%%%%%%
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.35\textwidth]{figures/c4-dnn-input.pdf}
+    \caption{Feature extraction of a Connect 4 board}
+    \label{fig:c4-dnn-input}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Training and Evaluation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this experiment \GithubURL{experiments/c4_dvn_uci.py} our goal was to learn to play Connect 4
-starting from 8-ply positions from the UCI Connect 4 dataset~\hyperref[sec:uci-c4]
-{Section~\ref*{sec:uci-c4}}. In this positions we already know the game-theoretical outcome of the
-game assuming perfect play from both players, however, we don't use the outcome for training (no
-supervised learning). This helped us to start every episode of Q-learning training from different
-board positions, which is helpful to learn to generalize by seeing all kinds of board positions.
+starting from 8-ply positions from the UCI Connect 4 dataset (\hyperref[sec:uci-c4]
+{Section~\ref*{sec:uci-c4}}). In these positions we already know the game-theoretical outcome of the
+game assuming perfect play from both players, however, we did not use the outcome for training (no
+supervised learning), only for evaluation. This helped us to start every episode of Q-learning
+training from different board positions, which is helpful to learn to generalize by seeing all kinds
+of board positions.
 
 This experiment consisted in using approximate Q-learning
 \GithubURL{capstone/rl/learners/qlearning_approx.py} with a deep neural network
-\GithubURL{capstone/rl/value_functions/c4deepnetwork.py}. We used a deep convolutional network with
-4 layers of 64 filters of size $3\times3$ and rectified linear non-linearities. In addition to the
-convolutions, we added a densely-connected layer with 256 units.  And Finally, the output layer had
-only one unit (to represent the value of the given state) with a tanh activation function to keep it
-in the range $[-1, +1]$.
+\GithubURL{capstone/rl/value_functions/c4deepnetwork.py}.
 
-the output layer was 
+% the output layer was 
 
-The neural network was trained 
+% The neural network was trained 
 
 % This Q-Network is a multi-layer perceptron as we can see in FIGURE. The one input layer has 42
 % output units, the hidden layer 100 units, and the output layer has 7 output units (one for each
@@ -1211,6 +1247,27 @@ The neural network was trained
 % These figures consist in running Q-learning to train a Deep Neural Network to play Connect 4. We
 % used the UCI Connect 4 dataset only to get the initial positions to train the algorithm.
 
+
+In \hyperref[fig:c4-ql-dn-uci] {Figure~\ref*{fig:c4-ql-dn-uci}} we can see how the quality of the
+target policy improved during training. The policy was evaluated during training every 500 episodes
+by playing 3,000 games against a random player starting from randomly selected 8-ply positions from
+the UCI Connect 4 dataset. The first 1,000 games started from positions where the outcome is a win
+for the first player assuming perfect play from both sides. \hyperref[fig:c4-ql-dn-uci-wins]
+{Figure~\ref*{fig:c4-ql-dn-uci-wins}} shows how the policy improved from a 56\% to a 94\% win rate
+after 15,000 episodes. This makes sense because the matches started from favorable positions with
+higher probability of winning for the first player. The next 1,000 games started from
+game-theoretical draw positions (\hyperref[fig:c4-ql-dn-uci-draws]
+{Figure~\ref*{fig:c4-ql-dn-uci-draws}}).  As expected, the win rate at the beginning was 50\%, but
+then it went up to 92\%. Good improvement, but a little lower win rate than when starting from
+favorable positions. Finally, the last 1,000 games (\hyperref[fig:c4-ql-dn-uci-losses]
+{Figure~\ref*{fig:c4-ql-dn-uci-losses}}) started from unfavorable positions that are guaranteed wins
+for the second player under optimal play from both sides. In this case the win rate before the
+policy begins learning is 45\%, but then it went up to a 90\% win rate. This was also expected,
+since we started at a disadvantage.
+
+While the previous evaluation was made against a weak random player, we can see that the Q-learning
+is learning a value function for Connect 4 using a deep neural network as a function approximator.
+
 %%%%%%%%%%
 % Figure %
 %%%%%%%%%%
@@ -1235,36 +1292,8 @@ The neural network was trained
 
     \label{fig:c4-ql-dn-uci}
 \end{figure}
-
-In \hyperref[fig:c4-ql-dn-uci] {Figure~\ref*{fig:c4-ql-dn-uci}} we can see how the quality of the
-target policy improved during training. The policy was evaluated during training every 500 episodes
-by playing 3,000 games against a random player starting from randomly selected 8-ply positions from
-the UCI Connect 4 dataset. The first 1,000 games started from positions where the outcome is a win
-for the first player assuming perfect play from both sides. \hyperref[fig:c4-ql-dn-uci-wins]
-{Figure~\ref*{fig:c4-ql-dn-uci-wins}} shows how the policy improved from a 56\% to a 94\% win rate
-after 15,000 episodes. This makes sense because the matches started from favorable positions with
-higher probability of winning for the first player. The next 1,000 games started from
-game-theoretical draw positions (\hyperref[fig:c4-ql-dn-uci-draws]
-{Figure~\ref*{fig:c4-ql-dn-uci-draws}}).  As expected, the win rate at the beginning was 50\%, but
-then it went up to 92\%. Good improvement, but a little lower win rate than when starting from
-favorable positions. Finally, the last 1,000 games (\hyperref[fig:c4-ql-dn-uci-losses]
-{Figure~\ref*{fig:c4-ql-dn-uci-losses}}) started from unfavorable positions that are guaranteed wins
-for the second player under optimal play from both sides. In this case the win rate before the
-policy begins learning is 45\%, but then it went up to a 90\% win rate. This was also expected,
-since we started at a disadvantage.
-
-While the previous evaluation was made against a weak random player, we can see that the Q-learning
-is learning a value function for Connect 4 using a deep neural network as a function approximator.
-
 \pagebreak[4]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Model Evaluation and Validation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Content
 
