@@ -554,9 +554,10 @@ works by learning an action-value function that gives the expected utility of ta
 in a given state and following a fixed policy thereafter. The update rule uses action-values and a
 built-in max-operator over the action-values of the next state in order to update $Q(s_t, a_t)$ as
 follows,
-%
-\begin{equation} Q(s_t, a_t) \gets Q(s_t, a_t) + \alpha [r_{t+1} + \gamma \max_a Q(s_{t+1}, a) -
-Q(s_t, a_t)] \end{equation}
+
+\begin{equation}
+Q(s_t,a_t) \gets Q(s_t,a_t) + \alpha \left[r_{t+1} + \gamma \max_a Q(s_{t+1},a) - Q(s_t,a_t)\right]
+\end{equation}
 
 The agent makes a step in the environment from state $s_t$ to $s_{t+1}$ using action $a_t$ while
 receiving reward $r_t$. The update takes place on the action-value $a_t$ in the state $s_t$ from
