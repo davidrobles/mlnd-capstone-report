@@ -106,7 +106,7 @@
 % Github URL %
 %%%%%%%%%%%%%%
 
-\newcommand{\GithubURL}[1]{[\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/#1}{source}]}
+\newcommand{\GithubURL}[1]{[\href{https://github.com/davidrobles/mlnd-capstone-code/blob/master/#1}{implementation}]}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Connect 4 UCI Data Set URL %
@@ -197,7 +197,7 @@ problem as follows:
         \emph{actions} (moves), and $\mathbb{R}$ represents the value of being in a state $s \in
         \mathcal{S}$, applying a action $a \in \mathcal{A}$, and following policy $\pi$ thereafter.
 
-    \item \textbf{Target function representation:} Deep neural network.
+    \item \textbf{Target function representation:} Tabular representation and deep neural network.
 
 \end{itemize}
 
@@ -217,7 +217,7 @@ Q^*(s,a) = \max\limits_\pi Q^\pi(s,a), \forall s \in \mathcal{S}, a \in \mathcal
 \begin{itemize}
 
     \item \textbf{Winning percentage.} Consists in playing a high number of games (e.g. 100,000)
-        against other agents (e.g. Alpha-Beta player) using the trained deep neural network as the
+        against other agents (e.g. Random player) using the trained deep neural network as the
         action-value function to take greedy actions.
         
     \item \textbf{Prediction accuracy.} The learned action-value function is used to predict the
@@ -253,8 +253,8 @@ Tic-Tac-Toe and Connect 4, and the dataset is the UCI Connect 4 dataset.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Tic-Tac-Toe \GithubURL{capstone/game/games/tictactoe.py} is a paper-and-pencil game for two players,
-X and O, who take turns marking the spaces in a 3x3 grid. The player who succeeds in placing three
-of their marks in a horizontal, vertical, or diagonal row wins the game.
+X and O, who take turns marking the spaces in a $3 \times 3$ grid. The player who succeeds in
+placing three of their marks in a horizontal, vertical, or diagonal row wins the game.
 \hyperref[fig:tic-env]{Figure~\ref*{fig:tic-env}} shows three Tic-Tac-Toe game positions: a win, a
 draw and a loss.
 
@@ -280,7 +280,7 @@ into the Connect 4 environment, which is more complex because of its large state
         \label{fig:tic-env-draw}
         \includegraphics[width=0.15\textwidth]{figures/tic_env_draw.pdf}
     }
-    \caption{Examples of a win, a loss and a draw in Tic-Tac-Toe.}
+    \caption{Tic-Tac-Toe}
     \label{fig:tic-env}
 \end{figure}
 
@@ -303,7 +303,7 @@ of forming a straight line of 4 connected pieces. There are at most seven action
 placing a piece in a column is a legal action only if that column has at least one empty location.
 In this project we use pieces of two colors: \textsc{Yellow} for the first player, and \textsc{Red}
 for the second player. \hyperref[fig:c4-env]{Figure~\ref*{fig:c4-env}} shows three Connect 4 game
-positions: a win, a draw and a loss:
+positions: a win for \textsc{Yellow}, a win for \textsc{Red} and a draw:
 
 %%%%%%%%%%
 % Figure %
@@ -323,7 +323,7 @@ positions: a win, a draw and a loss:
         \label{fig:c4-env-draw}
         \includegraphics[width=0.18\textwidth]{figures/c4_env_draw.pdf}
     }
-    \caption{Examples of a win, a loss and a draw in Connect Four.}
+    \caption{Connect Four}
     \label{fig:c4-env}
 \end{figure}
 
@@ -410,7 +410,7 @@ board, representing all legal 8-ply positions \GithubURL{experiments/c4_uci_viz.
         \includegraphics[width=0.15\textwidth]{figures/c4_exploration_10_draw.pdf}
     }
     \caption{Five randomly selected instances of the UCI Connect 4 Data Set. The outcome of each board
-    position is from the point of view of the firs player (Yellow discs).}
+    position is from the point of view of the firs player (yellow discs).}
     \label{fig:c4-exp}
 \end{figure}
 
@@ -514,8 +514,12 @@ function}. A value function estimates what is good for an agent over the long ru
 expected outcome from any given state, by summarising the total amount of reward that an agent can
 expect to accumulate into a single number. Value functions are defined for particular policies.
 
-Two types of value functions exist: state value functions and action value functions. In this
-project, however, we only focus in the latter.
+The \emph{state value function} (or V-function), is the expected return when starting in state $s$
+and following policy $\pi$ thereafter~\citep{Sutton1998RL},
+%
+\begin{equation}
+V^\pi(s) = \mathbb{E}_\pi \left[R_t | s_t = s \right]
+\end{equation}
 
 The \emph{action value function} (or Q-function), is the expected return after selecting action $a$
 in state $s$ and then following policy $\pi$,
