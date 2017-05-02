@@ -123,8 +123,7 @@
 \definecolor{header}{RGB}{128,169,188}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Learning to Play Board Games With Deep Reinforcement Learning \\
-       Machine Learning Nanodegree - Capstone Report}
+\title{Learning to Play Board Games With Deep Reinforcement Learning}
 \author{David A. Robles}
 \date{May 5, 2017}
 \begin{document}
@@ -179,18 +178,19 @@ play these games without using any domain knowledge.
 
 \newcommand{\URLcf}{https://en.wikipedia.org/wiki/Connect_Four}
 
-In this project we use deep reinforcement learning to create an agent that learns to play the game
-of \mbox{Connect 4} by playing games against itself. We define the machine learning problem as
-follows:
+In this project we use reinforcement learning and deep learning to learn value functions for the
+games of \mbox{Tic-Tac-Toe} and \mbox{Connect 4} via self-play. We define the machine learning
+problem as follows:
 
 \begin{itemize}
 
-    \item \textbf{Task:} Playing Connect 4.
+    \item \textbf{Task:} Playing Tic-Tac-Toe and Connect 4.
 
     \item \textbf{Performance:} Winning percentage when playing against other agents, and accuracy
         of the predicted outcomes on the UCI Connect 4 dataset.
 
-    \item \textbf{Experience:} Games played against itself.
+    \item \textbf{Experience:} Games played against a random opponent, an Alpha-Beta opponent and
+        against itself.
 
     \item \textbf{Target function:} $Q^\pi : \mathcal{S} \times \mathcal{A} \to \mathbb{R}$, where
         $\mathcal{S}$ is the set of \emph{states} (board positions) and $\mathcal{A}$ is the set of
