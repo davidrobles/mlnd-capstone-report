@@ -578,11 +578,17 @@ action-value function at iteration $i$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Reinforcement learning is known to be unstable or even to diverge when a nonlinear function
-approximator such as a neural network is used to represent the action-value function. One trick is
-to make it work is to use \emph{experience replay}, which consists in storing the experiences $(s_t,
-a_t, r_t, s_{t+1})$. During the training of approximate Q-learning random minibatches from the
-replay memory are used instead of the most recent transition. This breaks the similarity of
-subsequent training samples, which otherwise might drive the network into a local minimum.
+approximator such as a neural network is used to represent the action-value function. One trick to
+make it work is to use \emph{experience replay}, which consists in storing the experiences $(s_t,
+a_t, r_t, s_{t+1})$ at each time step $t$ in a data set $D_t=\{e_1,\dots,e_t\}$. During the training
+of approximate Q-learning random minibatches from the replay memory are used instead of the most
+recent transition. This breaks the similarity of subsequent training samples, which otherwise might
+drive the network into a local minimum.
+
+\begin{equation}
+L_i(\theta_i) = \mathbb{E}_{(s, a, r, s') \sim U(D)} \\
+                \left[\left(r + \gamma \max_{a'} Q(s',a', \theta^-_i) - Q(s,a;\theta)\right)^2\right]
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Self-play}
