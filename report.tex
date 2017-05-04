@@ -168,8 +168,8 @@ intelligence. In both cases, the task for game programmers and AI researchers of
 AI is a hard and tedious task that requires hours of trial and error adjustments and human
 expertise. Therefore, when a strong game-playing algorithm is created to play a specific game, it is
 rarely useful for creating an algorithm to play another game, since the domain knowledge is
-non-transferable. For this reason, there is enormous value in using machine learning to learn to
-play these games without using any domain knowledge.
+non-transferable. For this reason, there is enormous value in using machine learning to learn value
+functions to play these games without using any domain knowledge.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem Statement}
@@ -186,8 +186,8 @@ problem as follows:
 
     \item \textbf{Task:} Playing Tic-Tac-Toe and Connect 4.
 
-    \item \textbf{Performance:} Winning percentage when playing against other agents, and accuracy
-        of the predicted outcomes on the UCI Connect 4 dataset.
+    \item \textbf{Performance:} Winning percentage when playing against a random player, starting
+        from new games, and also starting from board positions from the UCI Connect 4 dataset.
 
     \item \textbf{Experience:} Games played against a random opponent, an Alpha-Beta opponent and
         against itself.
@@ -197,7 +197,7 @@ problem as follows:
         \emph{actions} (moves), and $\mathbb{R}$ represents the value of being in a state $s \in
         \mathcal{S}$, applying a action $a \in \mathcal{A}$, and following policy $\pi$ thereafter.
 
-    \item \textbf{Target function representation:} Tabular representation and deep neural network.
+    \item \textbf{Target function representations:} Lookup table and deep neural network.
 
 \end{itemize}
 
@@ -217,25 +217,10 @@ Q^*(s,a) = \max\limits_\pi Q^\pi(s,a), \forall s \in \mathcal{S}, a \in \mathcal
 \begin{itemize}
 
     \item \textbf{Winning percentage.} Consists in playing a high number of games (e.g. 100,000)
-        against other agents (e.g. Random player) using the trained deep neural network as the
+        against other agents (e.g. Random player) using the learned value functions as the
         action-value function to take greedy actions.
         
-    \item \textbf{Prediction accuracy.} The learned action-value function is used to predict the
-        game-theoretic outcomes (win, loss or draw) of the board positions in the Connect 4 Data
-        Set.
-
 \end{itemize}
-
-% from wiki
-
-% Accuracy is not a reliable metric for the real performance of a classifier, because it will yield
-% misleading results if the data set is unbalanced (that is, when the number of samples in different
-% classes vary greatly). For example, if there were 95 cats and only 5 dogs in the data set, the
-% classifier could easily be biased into classifying all the samples as cats. The overall accuracy
-% would be 95\%, but in practice the classifier would have a 100\% recognition rate for the cat class
-% but a 0\% recognition rate for the dog class.
-
-% discuss that the dataset is unbalanced
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analysis}
@@ -333,16 +318,16 @@ positions: a win for \textsc{Yellow}, a win for \textsc{Red} and a draw:
 \label{sec:uci-c4}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As part of the testing phase, we will use the \emph{Connect 4 Data Set}\footnote{\URLUCI{}} that is
-available from the UCI Machine Learning Repository~\citep{Hettich1998UCI}. A partial view of the
-dataset is presented in \hyperref[table:uci-dataset]{Table~\ref*{table:uci-dataset}}. The dataset
-has a total of 67,557 instances, representing all legal 8-ply positions in \mbox{Connect 4} in which
-neither player has won yet, and which the next move is not forced. Each instance is described by 42
-features, one for each space in the $6 \times 7$ board, and can belong to one of the classes
-$\{\texttt{x}, \texttt{o}, \texttt{b}\}$, where \texttt{x} is the first player, \texttt{o} is the
-second player, and \texttt{b} is empty. The outcome class is the game theoretical value for the
-first player, and can belong to one of the classes $\{\texttt{win}, \texttt{loss}, \texttt{draw}\}$.
-There are 44,473 wins, 16,635 losses and 6,449 draws \GithubURL{experiments/c4_uci_data_expl.py}.
+As part of the testing phase, we will use the \emph{Connect 4 Data Set} that is available from the
+UCI Machine Learning Repository~\citep{Lichman2013}. A partial view of the dataset is presented in
+\hyperref[table:uci-dataset]{Table~\ref*{table:uci-dataset}}. The dataset has a total of 67,557
+instances, representing all legal 8-ply positions in \mbox{Connect 4} in which neither player has
+won yet, and which the next move is not forced. Each instance is described by 42 features, one for
+each space in the $6 \times 7$ board, and can belong to one of the classes $\{\texttt{x},
+\texttt{o}, \texttt{b}\}$, where \texttt{x} is the first player, \texttt{o} is the second player,
+and \texttt{b} is empty. The outcome class is the game theoretical value for the first player, and
+can belong to one of the classes $\{\texttt{win}, \texttt{loss}, \texttt{draw}\}$.  There are 44,473
+wins, 16,635 losses and 6,449 draws \GithubURL{experiments/c4_uci_data_expl.py}.
 \hyperref[fig:c4-exp]{Figure~\ref*{fig:c4-exp}} shows a visual representation of five randomly
 selected instances of the data set. As we can see, all game positions have eight pieces in the
 board, representing all legal 8-ply positions \GithubURL{experiments/c4_uci_viz.py}.
@@ -410,7 +395,7 @@ board, representing all legal 8-ply positions \GithubURL{experiments/c4_uci_viz.
         \includegraphics[width=0.15\textwidth]{figures/c4_exploration_10_draw.pdf}
     }
     \caption{Five randomly selected instances of the UCI Connect 4 Data Set. The outcome of each board
-    position is from the point of view of the firs player (yellow discs).}
+             position is from the point of view of the firs player (yellow discs).}
     \label{fig:c4-exp}
 \end{figure}
 
@@ -451,7 +436,7 @@ A \emph{Markov decision process} (MDP) \GithubURL{capstone/rl/mdp.py} consist of
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In the reinforcement learning problem an agent does not have access to the dynamics (reward and
-transition function) of the MDP. However, it interacts with an \emph{environment}
+transition functions) of the MDP. However, it interacts with an \emph{environment}
 \GithubURL{capstone/rl/environment.py} by way of three signals: a \emph{state}, which describes the
 state of the environment, an \emph{action}, which allows the agent to have some impact on the
 environment, and a \emph{reward}, which provides the agent with feedback on its immediate
@@ -512,7 +497,7 @@ We use three types of policies in this project:
 
 Most of the algorithms for solving MDPs (computing optimal policies) do it by learning a \emph{value
 function} \GithubURL{capstone/rl/value_function.py}. A value function estimates what is good for an
-agent over the long run. It estimates the expected outcome from any given state, by summarising the
+agent over the long run. It estimates the expected outcome from any given state, by summarizing the
 total amount of reward that an agent can expect to accumulate into a single number. Value functions
 are defined for particular policies.
 
