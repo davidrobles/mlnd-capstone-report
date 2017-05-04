@@ -652,8 +652,14 @@ of as a 2-D grid of pixels (discs in this case).
 \subsection{Data Preprocessing}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this project data preprocessing is not necessary because all the learning came from two
-reinforcement learning simulators.
+The only data preprocessing done in this project was for the Connect 4 UCI dataset. As mentioned
+before, the dataset was used only for the testing phase. All the learning came from the two
+reinforcement learning simulators for Tic-Tac-Toe and Connect 4. We loaded the Connect 4 UCI dataset
+into a Pandas DataFrame for analysis \GithubURL{capstone/datasets/ucic4.py\#6}. A helper function
+was created to convert a DataFrame row into a Connect 4 game
+\GithubURL{capstone/datasets/ucic4.py\#L24}. Another three helper functions were created load games
+starting from the board in the dataset depending on the outcome
+\GithubURL{capstone/datasets/ucic4.py\#L49}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementation}
@@ -710,7 +716,7 @@ Once we had the Game interface well defined we implemented both Tic-Tac-toe
 \subsubsection{Markov Decision Process}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Next, the interface for an MDP \GithubURL{capstone/rl/mdp.py}:
+Next, the interface for an MDP \GithubURL{capstone/rl/mdp.py\#L7}:
 
 \begin{python}
 class MDP(object):
@@ -751,16 +757,12 @@ class MDP(object):
 \subsubsection{Markov Decision Process for Games}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We also created two helper classes:
-
-\GithubURL{capstone/rl/mdp.py}
+We also created two helper classes. The first class \texttt{GameMDP}
+\GithubURL{capstone/rl/mdp.py\#L66} was designed to convert a Game into an MDP. In this case the
+agent makes moves for both players in the game. Used in self-play learning.
 
 \begin{python}
 class GameMDP(MDP):
-    '''
-    Converts a Game into an MDP. The agent makes moves for both players
-    in the game. Used in self-play learning.
-    '''
 
     def __init__(self, game):
         self._game = game
@@ -798,8 +800,8 @@ class GameMDP(MDP):
         return [(new_game, 1.0)]
 \end{python}
 
-And also, \texttt{FixedGameMDP} \GithubURL{capstone/rl/mdp.py}, which converts a \texttt{Game} into
-an \texttt{MDP} by using a fixed opponent for one of the players in the game:
+And also, \texttt{FixedGameMDP} \GithubURL{capstone/rl/mdp.py\#L108}, which converts a \texttt{Game}
+into an \texttt{MDP} by using a fixed opponent for one of the players in the game:
 
 \begin{python}
 class FixedGameMDP(GameMDP):
@@ -838,9 +840,9 @@ class FixedGameMDP(GameMDP):
 \subsubsection{Environment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A reinforcement learning environment \GithubURL{capstone/rl/environment.py} for interacting with an
-MDP. The main idea is that it restricts access to the transition and reward functions. It needs to
-interact with the environment to transition to another state and receive rewards.
+A reinforcement learning environment \GithubURL{capstone/rl/environment.py} serves as a middleman
+between the policies and the MDP. The main idea is that when a learning agent interacts with an
+environment it does not have access to the transition and reward functions.
 
 \begin{python}
 class Environment(object):
@@ -877,62 +879,104 @@ class Environment(object):
         self._cur_state = self._mdp.start_state()
 \end{python}
 
-%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Learner}
-%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{EpisodicLearnerMixin}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We define an episodic learner. It is basically an interface for algorithms that learn a value
-function by interacting with an environment in an episodic way.
+Both Q-learning and Approximate Q-learning algorithms are episodic learners. They include the mixin
+\texttt{EpisodicLearnerMixin} to share functionality for running episodes and calling the callbacks
+that are used for generating plots and evaluations.
 
 \begin{python}
-class Learner(object):
+class EpisodicLearnerMixin(object):
+    '''
+    Mixin for learning value functions by interacting with an
+    environment in an episodic setting.
+    '''
 
-    def __init__(self, env, n_episodes=1000):
-        self.env = env
-        self.n_episodes = n_episodes
+    @property
+    def value_function(self):
+        if hasattr(self, 'vfunction'):
+            return self.vfunction
+        if hasattr(self, 'qfunction'):
+            return self.qfunction
 
-    def train(self, callbacks=None):
+    def train(self, n_episodes, callbacks=None):
         '''Trains the model for a fixed number of episodes.'''
         callbacks = CallbackList(callbacks)
         callbacks.on_train_begin()
-        for episode in range(self.n_episodes):
-            callbacks.on_episode_begin(episode)
+        for episode in range(n_episodes):
+            callbacks.on_episode_begin(episode, self.value_function)
             self.env.reset()
             self.episode()
-            callbacks.on_episode_end(episode, self.qfunction)
-        callbacks.on_train_end(self.qfunction)
-
-    @abc.abstractmethod
-    def episode(self):
-        pass
+            callbacks.on_episode_end(episode, self.value_function)
+        callbacks.on_train_end(self.value_function)
 \end{python}
 
-\pagebreak[4]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Tabular Value Function}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We created a generic tabular value function \GithubURL{capstone/rl/value_functions/tabular.py} that
+can be used for both state $V(s)$ and state-action $Q(s, a)$ values. In many algorithms such as in
+Q-learning is helpful to initialize the values in the lookup table to random values when they do not
+exist. This is allowed with the \texttt{init} parameter in the constructor. More details on its
+functionality can be found in the comments of the source code.
+
+\begin{python}
+_MEAN = 0.0
+_STD = 0.3
+
+class TabularVF(ValueFunction):
+
+    def __init__(self, init=True, random_state=None):
+        self.init = init
+        self.random_state = check_random_state(random_state)
+        self._table = {}
+
+    def __setitem__(self, key, value):
+        self._table[key] = value
+
+    def __getitem__(self, key):
+        if key not in self._table:
+            if self.init:
+                self._table[key] = self.random_state.normal(_MEAN, _STD)
+            else:
+                self._table[key] = 0
+        return self._table[key]
+\end{python}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Tabular Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-asdf asd fas fas df a.
+Tabular Q-learning \GithubURL{capstone/rl/learners/qlearning.py} includes the
+\texttt{EpisodicLearnerMixin} run the training interaction with the environment. As we can see in
+the code, the constructor allows the \texttt{selfplay} parameter, which is used when using the same
+policy to maximize/minimize the best Q-value.
 
 \begin{python}
-class QLearning(Learner):
-    '''Tabular Q-learning'''
+class QLearning(EpisodicLearnerMixin):
 
-    def __init__(self, env, policy, qfunction, learning_rate=0.1, discount_factor=1.0):
-        super(QLearning, self).__init__(env, **kwargs)
+    def __init__(self, env, policy, qfunction, learning_rate=0.1,
+                 discount_factor=1.0, selfplay=False):
+        self.env = env
         self.policy = policy
         self.qfunction = qfunction
         self.learning_rate = learning_rate
         self.discount_factor = discount_factor
+        self.selfplay = selfplay
 
     def best_qvalue(self, state):
-        return max_qvalue(state, self.env.actions(state), self.qfunction)
+        if self.selfplay:
+            best_func = max_qvalue if state.cur_player() == 0 else min_qvalue
+            return best_func(state, self.env.get_actions(state), self.qfunction)
+        return max_qvalue(state, self.env.get_actions(state), self.qfunction)
 
     def episode(self):
         while not self.env.is_terminal():
-            state = self.env.cur_state()
-            action = self.policy.action(state)
+            state = self.env.get_state()
+            action = self.policy.get_action(state)
             reward, next_state = self.env.do_action(action)
             best_qvalue = self.best_qvalue(next_state)
             target = reward + (self.discount_factor * best_qvalue)
