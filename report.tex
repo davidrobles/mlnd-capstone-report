@@ -422,7 +422,7 @@ board, representing all legal 8-ply positions \GithubURL{experiments/c4_uci_viz.
 \subsubsection{Markov Decision Process}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A \emph{Markov decision process} (MDP) consist of four elements:
+A \emph{Markov decision process} (MDP) \GithubURL{capstone/rl/mdp.py} consist of four elements:
 
 \begin{itemize}
 
@@ -451,10 +451,11 @@ A \emph{Markov decision process} (MDP) consist of four elements:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In the reinforcement learning problem an agent does not have access to the dynamics (reward and
-transition function) of the MDP. However, it interacts with an \emph{environment} by way of three
-signals: a \emph{state}, which describes the state of the environment, an \emph{action}, which
-allows the agent to have some impact on the environment, and a \emph{reward}, which provides the
-agent with feedback on its immediate performance.
+transition function) of the MDP. However, it interacts with an \emph{environment}
+\GithubURL{capstone/rl/environment.py} by way of three signals: a \emph{state}, which describes the
+state of the environment, an \emph{action}, which allows the agent to have some impact on the
+environment, and a \emph{reward}, which provides the agent with feedback on its immediate
+performance.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Policy}
@@ -562,17 +563,19 @@ Q(s_t,a_t) \gets Q(s_t,a_t) + \alpha \left[r_{t+1} + \gamma \max_a Q(s_{t+1},a) 
 The agent makes a step in the environment from state $s_t$ to $s_{t+1}$ using action $a_t$ while
 receiving reward $r_t$. The update takes place on the action-value $a_t$ in the state $s_t$ from
 which this action was executed. This version of Q-learning works well for tasks with a small a
-state-space, since it uses arrays or tables with one entry for each state-action pair. In many cases
-in which there are far more states than could possibly be entries in a table we need to use function
-approximation.
+state-space, since it uses arrays or tables with one entry for each state-action pair.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Approximate Q-learning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Approximate Q-learning consists in parameterizing an approximate action-value function,
-$Q(s,a;\theta_i) \approx Q(s,a)$, in which $\theta_i$ are the parameters (weights) of the
-action-value function at iteration $i$.
+In many cases in which there are far more states than could possibly be entries in a table we need
+to use function approximation. Approximate Q-learning
+\GithubURL{capstone/rl/learners/qlearning_approx.py} consists in parameterizing an approximate
+action-value function, $Q(s,a;\theta_i) \approx Q(s,a)$, in which $\theta_i$ are the parameters
+(weights) of the action-value function at iteration $i$. Usually the number of parameters of a
+function approximator is much less than the state space, which means that a change in one parameter
+can change many Q-values, as opposed to just one as in the tabular case.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Experience Replay}
@@ -580,11 +583,12 @@ action-value function at iteration $i$.
 
 Reinforcement learning is known to be unstable or even to diverge when a nonlinear function
 approximator such as a neural network is used to represent the action-value function. One trick to
-make it work is to use \emph{experience replay}, which consists in storing the experiences $(s_t,
-a_t, r_t, s_{t+1})$ at each time step $t$ in a data set $D_t=\{e_1,\dots,e_t\}$. During the training
-of approximate Q-learning random minibatches from the replay memory are used instead of the most
-recent transition. This breaks the similarity of subsequent training samples, which otherwise might
-drive the network into a local minimum.
+make it work is to use \emph{experience replay}~\citep{LIn1993ExpReplay}
+\GithubURL{capstone/rl/learners/qlearning_approx.py\#L41}, which consists in storing the experiences
+$(s_t, a_t, r_t, s_{t+1})$ at each time step $t$ in a data set $D_t=\{e_1,\dots,e_t\}$. During the
+training of approximate Q-learning random minibatches from the replay memory are used instead of the
+most recent transition~\citep{Mnih2015AtariNature}. This breaks the similarity of subsequent
+training samples, which otherwise might drive the network into a local minimum.
 
 \begin{equation}
 L_i(\theta_i) = \mathbb{E}_{(s, a, r, s') \sim U(D)} \\
@@ -597,13 +601,13 @@ L_i(\theta_i) = \mathbb{E}_{(s, a, r, s') \sim U(D)} \\
 
 % \GithubURL{capstone/rl/learners/qlearning_selfplay.py}{Implementation}
 
-Self-play is by far the most popular training method. It is a single policy $\pi(s,a)$ that is used
-by both players in a two-player game, $\pi_1(s,a) = \pi_2(s,a) = \pi(s,a)$. The first reason for its
-popularity is that training is quickest if the learner's opponent is roughly equally strong, and
-that definitely holds for self-play. As a second reason for popularity, there is no need to
-implement or access a different agent with roughly equal playing strength. However, self-play has
-several drawbacks, with the main one being that a single opponent does not provide sufficient
-exploration~\citep{Szita2011RLGames}.
+Self-play \GithubURL{capstone/rl/learners/qlearning_approx.py\#L24} is by far the most popular
+training method. It is a single policy $\pi(s,a)$ that is used by both players in a two-player game,
+$\pi_1(s,a) = \pi_2(s,a) = \pi(s,a)$. The first reason for its popularity is that training is
+quickest if the learner's opponent is roughly equally strong, and that definitely holds for
+self-play. As a second reason for popularity, there is no need to implement or access a different
+agent with roughly equal playing strength. However, self-play has several drawbacks, with the main
+one being that a single opponent does not provide sufficient exploration~\citep{Szita2011RLGames}.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Benchmark}
@@ -1210,7 +1214,6 @@ This experiment consisted in using approximate Q-learning
 
 % Experience replay
 
-% ~\citep{LIn1993ExpReplay}
 
 % In this example we did not use self-play.
 
