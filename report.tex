@@ -1035,6 +1035,98 @@ class ApproximateQLearning(EpisodicLearnerMixin):
                 self.qfunction.update(state, action, update)
 \end{python}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Connect 4 Convolutional Neural Network}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We implemented the convolutional neural network for Connect 4
+\GithubURL{capstone/rl/value_functions/c4deepnetwork.py\#L42} using Keras~\citep{chollet2015keras}.
+We create the Keras model in the constructor.  The Keras model takes the board as an input by
+vectorizing the board as:
+
+\begin{python}
+def mapper(t):
+    if t == 'X':
+        return np.array([1.0])
+    elif t == 'O':
+        return np.array([-1.0])
+    else:
+        return np.array([0.0])
+x = np.vectorize(mapper)(np.array(board))
+x = x.reshape(C4.ROWS, C4.COLS, -1)
+\end{python}
+
+After the input layer, we used convolutions with 4 layers of 64 filters of size $3\times3$ and
+rectified linear non-linearities. In addition to the convolutions, we added a densely-connected
+layer with 256 units. Finally, the output layer has only one unit that fires the value of the given
+board with a $tanh$ activation function to keep it in the range $[-1, +1]$.
+
+\begin{python}
+    def __init__(self):
+        model = Sequential()
+        model.add(Conv2D(64, kernel_size=(3, 3), input_shape=(C4.ROWS, C4.COLS, 1)))
+        model.add(Activation('relu'))
+        model.add(Conv2D(64, kernel_size=(3, 3), padding='same'))
+        model.add(Activation('relu'))
+        model.add(Conv2D(64, kernel_size=(3, 3), padding='same'))
+        model.add(Activation('relu'))
+        model.add(Conv2D(64, kernel_size=(3, 3), padding='same'))
+        model.add(Activation('relu'))
+        model.add(Flatten())
+        model.add(Dense(256))
+        model.add(Dense(1))
+        model.add(Activation('tanh'))
+        model.compile(loss='mse', optimizer=SGD(lr=0.001))
+        self.model = model
+
+    def minibatch_update(self, experiences):
+        xlist = []
+        ylist = []
+        for _, _, reward, next_state in experiences:
+            x = normalize_board(next_state.board)
+            if next_state.is_over():
+                update = reward
+            else:
+                output = self.model.predict(np.array([x]))
+                update = reward + (0.99 * output[0][0])
+            y = np.array([update])
+            xlist.append(x)
+            ylist.append(y)
+        x = np.array(xlist)
+        y = np.array(ylist)
+        self.model.train_on_batch(x, y)
+
+    def __getitem__(self, state_action):
+        state, action = state_action
+        next_state = state.copy().make_move(action)
+        x = normalize_board(next_state.board)
+        value = self.model.predict(np.array([x]), batch_size=1)
+        return value[0]
+\end{python}
+
+The convolutional netowork allows minibatch updates from the experience memory pool used in the
+Q-learning algorithm:
+
+\begin{python}
+
+    def minibatch_update(self, experiences):
+        xlist = []
+        ylist = []
+        for _, _, reward, next_state in experiences:
+            x = normalize_board(next_state.board)
+            if next_state.is_over():
+                update = reward
+            else:
+                output = self.model.predict(np.array([x]))
+                update = reward + (0.99 * output[0][0])
+            y = np.array([update])
+            xlist.append(x)
+            ylist.append(y)
+        x = np.array(xlist)
+        y = np.array(ylist)
+        self.model.train_on_batch(x, y)
+\end{python}
+
 \pagebreak[4]
 
 %%%%%%%%%%%%%%%%%%%%%%%%
