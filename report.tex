@@ -610,11 +610,16 @@ self-play. As a second reason for popularity, there is no need to implement or a
 agent with roughly equal playing strength. However, self-play has several drawbacks, with the main
 one being that a single opponent does not provide sufficient exploration~\citep{Szita2011RLGames}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Deep Neural Networks}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Convolutional Neural Networks}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-testing
+Convolutional Neural Networks~\citep{LeCun1989}, or CNNs, are a special type of neural network that
+has a known grid-like topology. Like most other neural networks they are trained with a variant of
+the backpropagation algorithm. CNNs strengh is pattern recognition directly from pixels of images
+with minimal processing. We use a convolutional network as a function approximator for the board of
+Connect 4 \GithubURL{capstone/rl/value_functions/c4deepnetwork.py\#L42}, since they can be thought
+of as a 2-D grid of pixels (discs in this case).
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Benchmark}
