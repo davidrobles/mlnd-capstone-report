@@ -589,8 +589,9 @@ make it work is to use \emph{experience replay}~\citep{LIn1993ExpReplay}
 \GithubURL{capstone/rl/learners/qlearning_approx.py\#L41}, which consists in storing the experiences
 $(s_t, a_t, r_t, s_{t+1})$ at each time step $t$ in a data set $D_t=\{e_1,\dots,e_t\}$. During the
 training of approximate Q-learning random minibatches from the replay memory are used instead of the
-most recent transition~\citep{Mnih2015AtariNature}. This breaks the similarity of subsequent
-training samples, which otherwise might drive the network into a local minimum.
+most recent transition. This breaks the similarity of subsequent training samples, which otherwise
+might drive the network into a local minimum. The \mbox{Q-learning} update at iteration $i$ uses the
+following loss function~\citep{Mnih2015AtariNature}:
 
 \begin{equation}
 L_i(\theta_i) = \mathbb{E}_{(s, a, r, s') \sim U(D)} \\
@@ -601,8 +602,6 @@ L_i(\theta_i) = \mathbb{E}_{(s, a, r, s') \sim U(D)} \\
 \subsubsection{Self-play}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \GithubURL{capstone/rl/learners/qlearning_selfplay.py}{Implementation}
-
 Self-play \GithubURL{capstone/rl/learners/qlearning_approx.py\#L24} is by far the most popular
 training method. It is a single policy $\pi(s,a)$ that is used by both players in a two-player game,
 $\pi_1(s,a) = \pi_2(s,a) = \pi(s,a)$. The first reason for its popularity is that training is
@@ -610,6 +609,12 @@ quickest if the learner's opponent is roughly equally strong, and that definitel
 self-play. As a second reason for popularity, there is no need to implement or access a different
 agent with roughly equal playing strength. However, self-play has several drawbacks, with the main
 one being that a single opponent does not provide sufficient exploration~\citep{Szita2011RLGames}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Deep Neural Networks}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+testing
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Benchmark}
