@@ -582,18 +582,21 @@ following loss function~\citep{Mnih2015AtariNature}:
 L_i(\theta_i) = \mathbb{E}_{(s, a, r, s') \sim U(D)} \\
                 \left[\left(r + \gamma \max_{a'} Q(s',a', \theta^-_i) - Q(s,a;\theta)\right)^2\right]
 \end{equation}
+where $(s, a, r, s') \sim U(D)$ is a sample minibatch of experience drawn uniformly at random from
+the memory pool of stores experiences.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Self-play}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 Self-play \GithubURL{capstone/rl/learners/qlearning_approx.py\#L24} is by far the most popular
-training method. It is a single policy $\pi(s,a)$ that is used by both players in a two-player game,
-$\pi_1(s,a) = \pi_2(s,a) = \pi(s,a)$. The first reason for its popularity is that training is
-quickest if the learner's opponent is roughly equally strong, and that definitely holds for
-self-play. As a second reason for popularity, there is no need to implement or access a different
-agent with roughly equal playing strength. However, self-play has several drawbacks, with the main
-one being that a single opponent does not provide sufficient exploration~\citep{Szita2011RLGames}.
+training method for games. It is a single policy $\pi(s,a)$ that is used by both players in a
+two-player game, $\pi_1(s,a) = \pi_2(s,a) = \pi(s,a)$. The first reason for its popularity is that
+training is quickest if the learner's opponent is roughly equally strong, and that definitely holds
+for self-play. As a second reason for popularity, there is no need to implement or access a
+different agent with roughly equal playing strength. However, self-play has several drawbacks, with
+the main one being that a single opponent does not provide sufficient
+exploration~\citep{Szita2011RLGames}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Convolutional Neural Networks}
