@@ -123,9 +123,9 @@
 \definecolor{header}{RGB}{128,169,188}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Learning to Play Board Games With Deep Reinforcement Learning}
+\title{Learning to Play Board Games With Reinforcement Learning}
 \author{David A. Robles}
-\date{May 5, 2017}
+\date{May 4, 2017}
 \begin{document}
 \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -564,7 +564,8 @@ Q(s_t,a_t) \gets Q(s_t,a_t) + \alpha \left[r_{t+1} + \gamma \max_a Q(s_{t+1},a) 
 The agent makes a step in the environment from state $s_t$ to $s_{t+1}$ using action $a_t$ while
 receiving reward $r_t$. The update takes place on the action-value $a_t$ in the state $s_t$ from
 which this action was executed. This version of Q-learning works well for tasks with a small a
-state-space, since it uses arrays or tables with one entry for each state-action pair.
+state-space, since it uses arrays or tables \GithubURL{capstone/rl/value_functions/tabular.py} with
+one entry for each state-action pair.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Approximate Q-learning}
