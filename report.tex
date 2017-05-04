@@ -461,11 +461,10 @@ performance.
 \subsubsection{Policy}
 %%%%%%%%%%%%%%%%%%%%%%
 
-% \GithubURL{capstone/policy/policy.py}{Implementation}
-
-In an MDP, the agent acts according to a policy $\pi$, which maps each state $s \in \mathcal{S}$ to
-an action $a \in \mathcal{A}(s)$. A policy that specifies a unique action to be performed is called
-a \emph{deterministic} policy, and is defined as $\pi : \mathcal{S} \rightarrow \mathcal{A}$.
+In an MDP, the agent acts according to a policy $\pi$ \GithubURL{capstone/rl/policy.py}, which maps
+each state $s \in \mathcal{S}$ to an action $a \in \mathcal{A}(s)$. A policy that specifies a unique
+action to be performed is called a \emph{deterministic} policy, and is defined as $\pi : \mathcal{S}
+\rightarrow \mathcal{A}$.
 
 The interaction between the policy used by the agent and the environment works as follows. First, it
 starts at an \emph{initial state} $s_0$. Then, the policy $\pi$ selects an action $a_0 = \pi(s_0)$
@@ -479,10 +478,11 @@ We use three types of policies in this project:
 
 \begin{itemize}
 
-    \item \textbf{Random.} Selects actions uniformly at random.
+    \item \textbf{Random.} Selects actions uniformly at random
+        \GithubURL{capstone/rl/policies/random_policy.py}.
 
     \item \textbf{Greedy.} Selects the \emph{max action}, which is the greedy
-                           action with the highest value,
+                           action with the highest value \GithubURL{capstone/rl/policies/greedy.py},
 
         \begin{equation}
             \pi_{\textrm{greedy}}(s) = \argmax_{a \in \mathcal{A}(s)} Q(s, a)
@@ -490,7 +490,7 @@ We use three types of policies in this project:
 
     \item \textbf{$\epsilon$-greedy.} Selects the best action for a proportion
         $1 - \epsilon$ of the trials, and another action is randomly selected (with
-        uniform probability) for a proportion,
+        uniform probability) for a proportion \GithubURL{capstone/rl/policies/egreedy.py},
 
         \begin{equation}
             \pi_{\epsilon}(s) = \left\{
@@ -511,9 +511,10 @@ We use three types of policies in this project:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Most of the algorithms for solving MDPs (computing optimal policies) do it by learning a \emph{value
-function}. A value function estimates what is good for an agent over the long run. It estimates the
-expected outcome from any given state, by summarising the total amount of reward that an agent can
-expect to accumulate into a single number. Value functions are defined for particular policies.
+function} \GithubURL{capstone/rl/value_function.py}. A value function estimates what is good for an
+agent over the long run. It estimates the expected outcome from any given state, by summarising the
+total amount of reward that an agent can expect to accumulate into a single number. Value functions
+are defined for particular policies.
 
 The \emph{state value function} (or V-function), is the expected return when starting in state $s$
 and following policy $\pi$ thereafter~\citep{Sutton1998RL},
