@@ -620,12 +620,10 @@ thought of as a 2-D grid of pixels (discs in this case).
         our learned evaluation function can play better than a random agent before moving into a
         harder benchmark. Also, this will help us to detect bugs in the code and algorithms: if a
         learned value function does not play significantly better than a random agent, is not
-        learning. The idea is to test against this benchmark using Alpha-beta pruning at 1, 2 and
-        4-ply search.
+        learning.
 
-    \item \textbf{Connect 4 Data Set}. This dataset will be used as the main benchmark. The learned
-        value function will be used to predict the game-theoretic outcomes (win, loss or draw) for
-        the first player in the 67,557 instances of the dataset.
+    \item \textbf{Connect 4 Data Set}. The board configurations in this dataset will be used as
+        starting positions to play games against the random agent.
 
 \end{itemize}
 
