@@ -1095,21 +1095,18 @@ Q-learning algorithm:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Estimate Tic-Tac-Toe Q-values using tabular Q-learning versus fixed opponent}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:tic-ql-tab-simple-fixed}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% run this experiment for two players: rand and alpha-beta.
-
-The goal of the first experiment \GithubURL{experiments/tic_ql_tab_simple.py} is to verify that the
-implementation of the Q-learning algorithm is correct. It consisted in using tabular Q-learning to
-estimate the Q-values of a simple Tic-Tac-Toe board position, shown in \hyperref[fig:tic-ql-tab-cur]
-{Figure~\ref*{fig:tic-ql-tab-cur}}. We modeled this scenario as an MDP in which a move by nature is
-made for the second player using a fixed Alpha-Beta agent that makes optimal moves. The position is
-set as the initial state, $s_0$, and it has five available actions, $\mathcal{A}(s_0) =
-\{\texttt{1}, \texttt{2}, \texttt{4}, \texttt{6}, \texttt{9}\}$. This position is very close to the
-end of the game, which allows us to develop intuition of the expected Q-values from the
-game-theoretic point of view. For instance, we can clearly identify that the best available action
-is \texttt{9}, which leads to an eventual win for the first player assuming optimal actions
+The first experiment \GithubURL{experiments/01_tic_ql_tab_simple.py} consisted in using tabular
+Q-learning to estimate the Q-values of a simple Tic-Tac-Toe board position, shown in
+\hyperref[fig:tic-ql-tab-cur] {Figure~\ref*{fig:tic-ql-tab-cur}}. We modeled this scenario as an MDP
+in which a move by nature is made for the second player using a fixed Alpha-Beta agent that makes
+optimal moves. The position is set as the initial state, $s_0$, and it has five available actions,
+$\mathcal{A}(s_0) = \{\texttt{1}, \texttt{2}, \texttt{4}, \texttt{6}, \texttt{9}\}$. This position
+is very close to the end of the game, which allows us to develop intuition of the expected Q-values
+from the game-theoretic point of view. For instance, we can clearly identify that the best available
+action is \texttt{9}, which leads to an eventual win for the first player assuming optimal actions
 thereafter. On the other hand, any other action (i.e.  \texttt{1}, \texttt{2}, \texttt{4} or
 \texttt{6}) would lead to a loss, assuming perfect play from the opponent.  The rewards given by the
 MDP are $+1$ for a win for the first player, $-1$ for a win for the second player, and $0$ for a
@@ -1192,7 +1189,7 @@ simple $\pi_{\textrm{rand}}$ policy is effective.
 \subsubsection{Estimate Tic-Tac-Toe Q-values using tabular Q-learning via self-play}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this experiment \GithubURL{experiments/tic_ql_tab_simple_selfplay.py} we also used tabular
+In this experiment \GithubURL{experiments/02_tic_ql_tab_simple_selfplay.py} we also used tabular
 Q-learning to estimate the Q-values of the same position described in
 \hyperref[sec:tic-ql-tab-simple-fixed] {Section~\ref*{sec:tic-ql-tab-simple-fixed}}. This time,
 however, we used self-play, which consists in playing games against itself. Self-play is a good
@@ -1223,15 +1220,13 @@ makes uniformly random moves and provides less direct feedback.
     \label{fig:tic-ql-tab-simple-selfplay-progress}
 \end{figure}
 
-% Try this with e-greedy
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Use Q-function to Play Tic-Tac-Toe versus a Random agent}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this experiment \GithubURL{experiments/tic_ql_tab_full_selfplay.py} we used tabular Q-learning via
-self-play to learn the Q-values of all game states of Tic-Tac-Toe, and used them to play the game
-against a random player. In order to do that we set the starting state of the MDP as the empty
+In this experiment \GithubURL{experiments/03_tic_ql_tab_full_selfplay.py} we used tabular Q-learning
+via self-play to learn the Q-values of all game states of Tic-Tac-Toe, and used them to play the
+game against a random player. In order to do that we set the starting state of the MDP as the empty
 board. We evaluated the performance as training progressed by having a $\pi_{greedy}$ policy (using
 the Q-function being learned) play 1,000 matches every 1,000 episodes against a player that makes
 uniformly random moves.
@@ -1260,8 +1255,8 @@ Q-values to play the game.
 \subsubsection{Learning to Play Connect 4 using Q-learning with a Deep Neural Network}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Once that we validated that our implementation of Q-learning is working and showed that it can learn
-a tabular value function to play Tic-Tac-Toe we moved into the more complex Connect 4. In this game,
+Once we validated that our implementation of Q-learning is working and showed that it can learn a
+tabular value function to play Tic-Tac-Toe we moved into the more complex Connect 4. In this game,
 storing the Q-values for every board position in a lookup table is not feasible because of its huge
 state space. Instead of using tabular Q-learning, we used approximate
 Q-learning~\GithubURL{capstone/rl/learners/qlearning_approx.py} with a deep neural network
@@ -1292,86 +1287,13 @@ range $[-1, +1]$.
     \label{fig:c4-dnn-input}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Training and Evaluation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-In this experiment \GithubURL{experiments/c4_dvn_uci.py} our goal was to learn to play Connect 4
+In this experiment \GithubURL{experiments/04_c4_ql_uci.py} our goal was to learn to play Connect 4
 starting from 8-ply positions from the UCI Connect 4 dataset (\hyperref[sec:uci-c4]
 {Section~\ref*{sec:uci-c4}}). In these positions we already know the game-theoretical outcome of the
 game assuming perfect play from both players, however, we did not use the outcome for training (no
 supervised learning), only for evaluation. This helped us to start every episode of Q-learning
 training from different board positions, which is helpful to learn to generalize by seeing all kinds
 of board positions.
-
-This experiment consisted in using approximate Q-learning
-\GithubURL{capstone/rl/learners/qlearning_approx.py} with a deep neural network
-\GithubURL{capstone/rl/value_functions/c4deepnetwork.py}.
-
-% the output layer was 
-
-% The neural network was trained 
-
-% This Q-Network is a multi-layer perceptron as we can see in FIGURE. The one input layer has 42
-% output units, the hidden layer 100 units, and the output layer has 7 output units (one for each
-% column of the board.
-
-% Using Q-learning with non-linear function approximators, like neural networks, is not very stable.
-% One trick to address this issue is to use \emph{experience replay}. During training we store each
-% experience $(s, a, r, s')$ in replay memory $\mathcal{D}$.
-
-% We used experience replay with minibatches of 32, and a memory size of 10,000.
-
-
-% Experience replay
-
-
-% In this example we did not use self-play.
-
-% Three different board positions: easy, medium and hard.
-
-% These positions are from CITE.
-
-% ~\citep{Allen2010C4}
-
-
-%%%%%%%%%%
-% Figure %
-%%%%%%%%%%
-
-% \begin{figure}[!h]
-%     \centering
-%     \subfloat[$Q(s_0, \texttt{1}) = -1.0$]{
-%         \label{fig:c4-ql-tab-move-1}
-%         \includegraphics[width=0.48\textwidth]{figures/c4_dqn_easy_board.pdf}
-%     }
-%     \subfloat[$Q(s_0, \texttt{2}) = -1.0$]{
-%         \label{fig:c4-dqn-medium}
-%         \includegraphics[width=0.48\textwidth]{figures/c4_dqn_easy_board.pdf}
-%     } \hspace{0.1in}
-%     \subfloat[$Q(s_0, \texttt{9}) = 1.0$]{
-%         \label{fig:c4-dqn-hard}
-%         \includegraphics[width=0.48\textwidth]{figures/c4_dqn_easy_board.pdf}
-%     }
-%     \caption{}
-%     \label{fig:c4-dqn}
-% \end{figure}
-
-% Figure of the neural network
-
-% Try the experiments with more layers?
-
-% Try self-play
-
-% - Test against different boards from the connect 4 book
-
-% - Check if i can predict the outcomes of wins loss draws using my keras model with 1-ply search
-
-% - And done, write report and wrap up the project code
-
-% These figures consist in running Q-learning to train a Deep Neural Network to play Connect 4. We
-% used the UCI Connect 4 dataset only to get the initial positions to train the algorithm.
-
 
 In \hyperref[fig:c4-ql-dn-uci] {Figure~\ref*{fig:c4-ql-dn-uci}} we can see how the quality of the
 target policy improved during training. The policy was evaluated during training every 500 episodes
@@ -1389,9 +1311,6 @@ favorable positions. Finally, the last 1,000 games (\hyperref[fig:c4-ql-dn-uci-l
 for the second player under optimal play from both sides. In this case the win rate before the
 policy begins learning is 45\%, but then it went up to a 90\% win rate. This was also expected,
 since we started at a disadvantage.
-
-While the previous evaluation was made against a weak random player, we can see that the Q-learning
-is learning a value function for Connect 4 using a deep neural network as a function approximator.
 
 %%%%%%%%%%
 % Figure %
@@ -1412,50 +1331,19 @@ is learning a value function for Connect 4 using a deep neural network as a func
         \includegraphics[width=0.49\textwidth]{figures/c4dn_uci_losses.pdf}
     }
 
-    \caption{Performance of the policy during training learned during trained evaluated starting from winning,
-    draws, and loss positions assuming perfect play.}
+    \caption{Evaluated of the policy during trainingstarting from winning, draws, and loss positions
+    assuming perfect play.}
 
     \label{fig:c4-ql-dn-uci}
 \end{figure}
-\pagebreak[4]
-
-
-Content
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Justification}
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Content.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Free-Form Visualization}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Content.
-
 %%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reflection}
 %%%%%%%%%%%%%%%%%%%%%%%
-
-% I chose this project because I had interest in learning more about reinforcement learning using
-% function approximators, more specifically, with deep learning. I had some experience using
-% reinforcemnt learning in the tabular case, but using it with function approximators is way more
-% complex. I don't regret choosing this project because I learned a lot and I had fun, and that is the point of
-% choosing a hard project. However, compared to the reinforcement learning
-
-% \emph{Robot Motion Planning Capstone Project}
-
-% I think my mistake was trying to more than what it was necessary, and that is why it took me so much
-% time (plus lack of time as well). I started creating my games framework, my reinforcement learning
-% framework, I even wrote unit tests to validate some of the mdps and game environments. While all of
-% that is great, if I could go back in time I wouldn't do it again. I would focus in getting my
-% task/goal done, and working in the rest as a side project after the capstone project (which I'm
-% planning to do).
 
 The most difficult aspect of this project was that is extremely hard to stabilize reinforcement
 learning with non-linear function approximators via self-play. There are plenty of tricks that can
@@ -1500,8 +1388,6 @@ three most important are:
     \item \textbf{Incorporate other RL techniques:} The field of RL has been advancing fast in
         recent years. There are a few new and old techniques that I would like to try, such as
         asynchronous RL, double Q-learning, prioritized experience replay.
-
-    \item \textbf{Benchmark:} dsfasdfas.
 
 \end{enumerate}
 
