@@ -653,9 +653,8 @@ games randomly, or by specific game-theoretic outcome \GithubURL{capstone/datase
 \subsubsection{Game}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The first part of the implementation was to implement both two games: Tic-Tac-Toe and Connect 4. The
-idea was to design them first in a way that is independent of reinforcement learning. The following
-is the abstract Game interface for both \GithubURL{capstone/game/game.py}.
+The first part of the implementation was to define a \texttt{Game} interface
+\GithubURL{capstone/game/game.py} to be used by both games: Tic-Tac-Toe and Connect 4.
 
 \begin{python}
 class Game(object):
@@ -692,7 +691,7 @@ class Game(object):
         pass
 \end{python}
 
-Once we had the Game interface well defined we implemented both Tic-Tac-toe
+Once we had the \texttt{Game} interface well defined we implemented Tic-Tac-toe
 \GithubURL{capstone/game/games/tictactoe.py} and \mbox{Connect 4}
 \GithubURL{capstone/game/games/connect4.py}.
 
@@ -826,7 +825,7 @@ class FixedGameMDP(GameMDP):
 
 A reinforcement learning environment \GithubURL{capstone/rl/environment.py} serves as a middleman
 between the policies and the MDP. The main idea is that when a learning agent interacts with an
-environment it does not have access to the transition and reward functions.
+environment it does not have access to the transition and reward functions. It wraps the MDP.
 
 \begin{python}
 class Environment(object):
