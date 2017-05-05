@@ -866,9 +866,9 @@ class Environment(object):
 \subsubsection{EpisodicLearnerMixin}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Both Q-learning and Approximate Q-learning algorithms are episodic learners. They include the mixin
-\texttt{EpisodicLearnerMixin} to share functionality for running episodes and calling the callbacks
-that are used for generating plots and evaluations.
+Q-learning and Approximate Q-learning algorithms are episodic learners. Their implementation
+includes the mixin \texttt{EpisodicLearnerMixin} to reuse functionality for running episodes and
+calling the callbacks that are used for generating plots and evaluations.
 
 \begin{python}
 class EpisodicLearnerMixin(object):
@@ -903,8 +903,7 @@ class EpisodicLearnerMixin(object):
 We created a generic tabular value function \GithubURL{capstone/rl/value_functions/tabular.py} that
 can be used for both state $V(s)$ and state-action $Q(s, a)$ values. In many algorithms such as in
 Q-learning is helpful to initialize the values in the lookup table to random values when they do not
-exist. This is allowed with the \texttt{init} parameter in the constructor. More details on its
-functionality can be found in the comments of the source code.
+exist. This is supported with the \texttt{init} parameter in the constructor.
 
 \begin{python}
 _MEAN = 0.0
@@ -934,9 +933,9 @@ class TabularVF(ValueFunction):
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Tabular Q-learning \GithubURL{capstone/rl/learners/qlearning.py} includes the
-\texttt{EpisodicLearnerMixin} run the training interaction with the environment. As we can see in
-the code, the constructor allows the \texttt{selfplay} parameter, which is used when using the same
-policy to maximize/minimize the best Q-value.
+\texttt{EpisodicLearnerMixin} to reuse the code for learning in episodes. The constructor allows the
+\texttt{selfplay} parameter, which is used with a self-play policy to maximize/minimize the best
+Q-value.
 
 \begin{python}
 class QLearning(EpisodicLearnerMixin):
@@ -972,10 +971,9 @@ class QLearning(EpisodicLearnerMixin):
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The implementation of Approximate Q-learning \GithubURL{capstone/rl/learners/qlearning_approx.py} is
-very similar to the one for tabular Q-learning. The main difference is that we add experience replay
-to call the function approximator in batches from sampling old experiences. Experience replay is
-optional and when enabled it can be configured by specifying the \texttt{batch\_size} and the
-\texttt{replay\_memory\_size}.
+very similar to the one for tabular \mbox{Q-learning}. The main difference is that it supports
+experience replay. When experience replay is enabled it can be configured by specifying the
+\texttt{batch\_size} and the \texttt{replay\_memory\_size}.
 
 \begin{python}
 class ApproximateQLearning(EpisodicLearnerMixin):
@@ -1024,8 +1022,8 @@ class ApproximateQLearning(EpisodicLearnerMixin):
 
 We implemented the convolutional neural network for Connect 4
 \GithubURL{capstone/rl/value_functions/c4deepnetwork.py\#L42} using Keras~\citep{chollet2015keras}.
-We create the Keras model in the constructor.  The Keras model takes the board as an input by
-vectorizing the board as:
+The Keras model is compiled in the constructor, and it takes the board as an input by vectorizing
+the board as:
 
 \begin{python}
 def mapper(t):
@@ -1061,37 +1059,12 @@ board with a $tanh$ activation function to keep it in the range $[-1, +1]$.
         model.add(Activation('tanh'))
         model.compile(loss='mse', optimizer=SGD(lr=0.001))
         self.model = model
-
-    def minibatch_update(self, experiences):
-        xlist = []
-        ylist = []
-        for _, _, reward, next_state in experiences:
-            x = normalize_board(next_state.board)
-            if next_state.is_over():
-                update = reward
-            else:
-                output = self.model.predict(np.array([x]))
-                update = reward + (0.99 * output[0][0])
-            y = np.array([update])
-            xlist.append(x)
-            ylist.append(y)
-        x = np.array(xlist)
-        y = np.array(ylist)
-        self.model.train_on_batch(x, y)
-
-    def __getitem__(self, state_action):
-        state, action = state_action
-        next_state = state.copy().make_move(action)
-        x = normalize_board(next_state.board)
-        value = self.model.predict(np.array([x]), batch_size=1)
-        return value[0]
 \end{python}
 
 The convolutional netowork allows minibatch updates from the experience memory pool used in the
 Q-learning algorithm:
 
 \begin{python}
-
     def minibatch_update(self, experiences):
         xlist = []
         ylist = []
