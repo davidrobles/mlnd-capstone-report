@@ -616,14 +616,13 @@ thought of as a 2-D grid of pixels (discs in this case).
 \begin{itemize}
 
     \item \textbf{Random agent}. This benchmark consists in playing against an agent that takes
-        uniformly random moves. This is the most basic benchmark, but first we have to be sure that
-        our learned evaluation function can play better than a random agent before moving into a
-        harder benchmark. Also, this will help us to detect bugs in the code and algorithms: if a
-        learned value function does not play significantly better than a random agent, is not
+        uniformly random moves. Also, this will help us to detect bugs in the code and algorithms:
+        if a learned value function does not play significantly better than a random agent, is not
         learning.
 
     \item \textbf{Connect 4 Data Set}. The board configurations in this dataset will be used as
-        starting positions to play games against the random agent.
+        starting positions to play games against the random agent. Starting from positions where we
+        known the game-theoretic outcome is helpful to know how good the learning agent can get.
 
 \end{itemize}
 
@@ -640,11 +639,11 @@ thought of as a 2-D grid of pixels (discs in this case).
 The only data preprocessing done in this project was for the Connect 4 UCI dataset. As mentioned
 before, the dataset was used only for the testing phase. All the learning came from the two
 reinforcement learning simulators for Tic-Tac-Toe and Connect 4. We loaded the Connect 4 UCI dataset
-into a Pandas DataFrame for analysis \GithubURL{capstone/datasets/ucic4.py\#6}. A helper function
-was created to convert a DataFrame row into a Connect 4 game
-\GithubURL{capstone/datasets/ucic4.py\#L24}. Another three helper functions were created load games
-starting from the board in the dataset depending on the outcome
-\GithubURL{capstone/datasets/ucic4.py\#L49}.
+into a Pandas DataFrame for simple data analysis using \texttt{load\_dataframe}
+\GithubURL{capstone/datasets/ucic4.py\#L6}. Also, a \texttt{series\_to\_game} helper function was
+created to convert a DataFrame row into a \mbox{Connect 4} game
+\GithubURL{capstone/datasets/ucic4.py\#L24}, and another three helper functions were created to load
+games randomly, or by specific game-theoretic outcome \GithubURL{capstone/datasets/ucic4.py\#L49}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementation}
